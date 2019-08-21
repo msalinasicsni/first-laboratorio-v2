@@ -36,7 +36,7 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String init() {
-        logger.info("Starting project");
+        logger.info("Starting project");//prueba commit desde idea
         return "home";
     }
 
