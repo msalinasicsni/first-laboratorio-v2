@@ -1,0 +1,2185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="laboratorio:war" />
+      <artifact name="laboratorio:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list id="bc47ddd1-92ba-4a03-a6c2-2457983b6864" name="no subir" comment="es por configuración de git" />
+    <list default="true" id="2f7162e5-8c47-4f1d-9719-7c201a3e705d" name="subir" comment="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)" />
+    <list id="f6e4a3ff-c2f5-4208-9ea0-6bdee4e9ccc7" name="ambienteminsa" comment="- Corrección de bug&gt; traslado interno de una dx con menor prioridad a otro con mayor prioridad&#10;- Corrección de bug&gt; usuario podia trasladar (interno) muestras que no habia recibido en su area (laboratorio que procesa).&#10; -Corrección de bub&gt; en recepción masiva general estaba sustituyendo codigo_lab de muestra de traslado externo." />
+    <list id="86de9f9a-be2f-4d64-83d4-9251eee20718" name="minsa" comment="minsa" />
+    <ignored path="laboratorio.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="laboratorio" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="ReportesService.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.32394367" vertical-offset="18901" max-vertical-offset="20111">
+              <caret line="1155" column="108" selection-start-line="1155" selection-start-column="108" selection-end-line="1155" selection-end-column="108" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DaTomaMx.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/DaTomaMx.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2357" max-vertical-offset="4573">
+              <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CallRestServices.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2608" max-vertical-offset="7140">
+              <caret line="191" column="13" selection-start-line="191" selection-start-column="13" selection-end-line="191" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Persona.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/entidades/Persona.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6205">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PersonaTmp.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/persona/PersonaTmp.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5525">
+              <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MinsaServices.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/MinsaServices.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="742" max-vertical-offset="1479">
+              <caret line="67" column="55" selection-start-line="67" selection-start-column="55" selection-end-line="67" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExamenesService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2734" max-vertical-offset="3417">
+              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReporteConsolExamenService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReporteConsolExamenService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2010" max-vertical-offset="3740">
+              <caret line="207" column="39" selection-start-line="207" selection-start-column="39" selection-end-line="207" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrdenExamenMxService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/OrdenExamenMxService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11747">
+              <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TomaMxService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="17983" max-vertical-offset="18666">
+              <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="true" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="u" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="SecurityAjaxRequest" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/OrdenExamenMxService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ResultadoFinalService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ResultadoVigilancia.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/consolidatedExams.js" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ConsolidadoExamen.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/LaboratoriosController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/administracion/catalogos/laboratorios.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/muestras/enter-form.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/gestion/searchNoti.js" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReporteConsolExamenService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/DaTomaMx.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/concepto/Concepto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/TipoMx_TipoNotificacion.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/notificacion/DaNotificacion.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/Alicuota.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/RecepcionMxLab.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/RecepcionMx.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/catalogos/Semanas.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/catalogos/Anios.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaVacunasIrag.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/TipoTubo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/CausaRechazoMx.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vigilanciaSindFebril/DaSindFebril.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaIrag.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/estructura/BaseEntidadCatalogo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/constantes/CatalogoConstantes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/entidades/Catalogo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AssociationSamplesRequestController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/CatalogoService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/constantes/CatalogConstants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AprobacionResultadoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ConceptosController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/PersonaController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RespuestasSolicitudController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RespuestasExamenController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SeparacionMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadosController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SearchMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/VisualizarNotificacionController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SendMxReceiptController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java" />
+      </list>
+    </option>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="true" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="laboratorio" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="laboratorio" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="laboratorio" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="1.7" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1616" />
+    <option name="height" value="876" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Invalid elementsCSS</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>CssInvalidElement</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="Undo Check Out" />
+    <OptionsSetting value="true" id="Get Latest Version" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="project.propDebugger" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.34334415" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../laboratorio - minsa - CEU - Copy/first-laboratorio" />
+    <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="FullScreen" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="169" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="172" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="177" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="833" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="230" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="236" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="239" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="646" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ni.gob.minsa.laboratorio.domain.estructura" />
+      <recent name="ni.gob.minsa.laboratorio.domain.persona" />
+      <recent name="ni.gob.minsa.laboratorio.restServices.entidades" />
+      <recent name="ni.gob.minsa.laboratorio.domain.poblacion" />
+      <recent name="ni.gob.minsa.laboratorio.utilities.reportes" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MSalinas\Repositorio\GIT\laboratorio - minsa - CEU\first-laboratorio\laboratorio\src\main\java\ni\gob\minsa\laboratorio\utilities\reportes" />
+      <recent name="C:\MSalinas\Repositorio\GIT\laboratorio - minsa - CEU\first-laboratorio\laboratorio\src\main\webapp\resources\scripts\utilidades" />
+      <recent name="C:\MSalinas\Repositorio\GIT\laboratorio - minsa\first-laboratorio\laboratorio\src\main\webapp\resources\scripts\reportes" />
+      <recent name="C:\MSalinas\Repositorio\GIT\laboratorio - minsa\first-laboratorio\laboratorio\src\main\webapp\WEB-INF\views\reportes" />
+      <recent name="C:\MSalinas\Repositorio\GIT\laboratorio - minsa\first-laboratorio\laboratorio\src\main\webapp\resources\scripts\gestion" />
+    </key>
+  </component>
+  <component name="RunManager" selected="GlassFish Server.GlassfishLocal">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
+      <module name="" />
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="depsClasspath" value="false" />
+      <setting name="passParentEnv" value="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings />
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="Tomcat Catalina" enabled="true" />
+      <predefined_log_file id="Tomcat Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Host Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="FlashPlayerDebugger.exe" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings>
+        <option name="DOMAIN" value="" />
+        <option name="PRESERVE" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+        <option name="PASSWORD" value="" />
+      </server-settings>
+      <predefined_log_file id="GlassFish" enabled="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="FlashPlayerDebugger.exe" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
+      <option name="VM_PARAMETERS" value="" />
+      <option name="USER_CFG_CLASS" />
+      <option name="CONTEXT_PROVIDER" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GlassfishLocal" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 3.1.1" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="laboratorio:war">
+          <settings>
+            <option name="contextRoot" value="/laboratorio" />
+            <option name="defaultContextRoot" value="false" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="DOMAIN" value="domain1" />
+        <option name="PRESERVE" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+        <option name="PASSWORD" value="12345678" />
+      </server-settings>
+      <predefined_log_file id="GlassFish" enabled="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <RunnerSettings RunnerId="Cover" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9013" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method>
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="laboratorio:war" />
+        </option>
+      </method>
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="GlassFish Server.GlassfishLocal" />
+    </list>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\FIRSTICT\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bc47ddd1-92ba-4a03-a6c2-2457983b6864" name="no subir" comment="es por configuración de git" />
+      <changelist id="2f7162e5-8c47-4f1d-9719-7c201a3e705d" name="subir" comment="" />
+      <changelist id="f6e4a3ff-c2f5-4208-9ea0-6bdee4e9ccc7" name="ambienteminsa" comment="" />
+      <changelist id="86de9f9a-be2f-4d64-83d4-9251eee20718" name="minsa" comment="" />
+      <created>1439934498620</created>
+      <updated>1439934498620</updated>
+      <workItem from="1439934504770" duration="15000" />
+      <workItem from="1439934522104" duration="2147000" />
+      <workItem from="1439993503574" duration="1815000" />
+      <workItem from="1440193898049" duration="2447000" />
+      <workItem from="1440427665153" duration="4505000" />
+      <workItem from="1440515172868" duration="13953000" />
+      <workItem from="1440604719474" duration="1202000" />
+      <workItem from="1440609639871" duration="4141000" />
+      <workItem from="1440682752578" duration="4187000" />
+      <workItem from="1440791628771" duration="1191000" />
+      <workItem from="1440802089763" duration="776000" />
+      <workItem from="1441034109018" duration="5477000" />
+      <workItem from="1441119205970" duration="4281000" />
+      <workItem from="1441131360811" duration="2984000" />
+      <workItem from="1441207899791" duration="10467000" />
+      <workItem from="1441288511747" duration="12697000" />
+      <workItem from="1441308265263" duration="8873000" />
+      <workItem from="1441375482408" duration="3538000" />
+      <workItem from="1441634854575" duration="3716000" />
+      <workItem from="1441719873630" duration="13888000" />
+      <workItem from="1441807448744" duration="11549000" />
+      <workItem from="1441896266340" duration="1285000" />
+      <workItem from="1441900819593" duration="1505000" />
+      <workItem from="1441981186983" duration="5969000" />
+      <workItem from="1442425235348" duration="1586000" />
+      <workItem from="1442589231856" duration="9114000" />
+      <workItem from="1442851002516" duration="7661000" />
+      <workItem from="1442934150727" duration="1738000" />
+      <workItem from="1443124758145" duration="8526000" />
+      <workItem from="1443190109361" duration="3539000" />
+      <workItem from="1443449063155" duration="4096000" />
+      <workItem from="1443534711128" duration="3700000" />
+      <workItem from="1443709647890" duration="813000" />
+      <workItem from="1443794565055" duration="5760000" />
+      <workItem from="1444150502772" duration="1678000" />
+      <workItem from="1444226526017" duration="3072000" />
+      <workItem from="1444313332514" duration="680000" />
+      <workItem from="1444316460704" duration="1080000" />
+      <workItem from="1448290170986" duration="1944000" />
+      <workItem from="1448385696067" duration="4238000" />
+      <workItem from="1448461790733" duration="2524000" />
+      <workItem from="1448563775315" duration="1191000" />
+      <workItem from="1448634035826" duration="12232000" />
+      <workItem from="1448906058269" duration="3260000" />
+      <workItem from="1448979374659" duration="6428000" />
+      <workItem from="1449066115279" duration="20802000" />
+      <workItem from="1449151314010" duration="6349000" />
+      <workItem from="1449238716584" duration="13402000" />
+      <workItem from="1449690313574" duration="7907000" />
+      <workItem from="1449761192172" duration="10941000" />
+      <workItem from="1449845314037" duration="10880000" />
+      <workItem from="1450103692568" duration="22313000" />
+      <workItem from="1450193527952" duration="44062000" />
+      <workItem from="1450390497329" duration="3351000" />
+      <workItem from="1451925564691" duration="52384000" />
+      <workItem from="1452524279927" duration="10406000" />
+      <workItem from="1452723928322" duration="1058000" />
+      <workItem from="1452781927330" duration="6806000" />
+      <workItem from="1453128366962" duration="6543000" />
+      <workItem from="1453223939041" duration="2972000" />
+      <workItem from="1453817138450" duration="46963000" />
+      <workItem from="1454335920606" duration="19597000" />
+      <workItem from="1454693272857" duration="7225000" />
+      <workItem from="1454943135876" duration="29368000" />
+      <workItem from="1455201375314" duration="1858000" />
+      <workItem from="1455209187918" duration="1549000" />
+      <workItem from="1455211463258" duration="837000" />
+      <workItem from="1455214795042" duration="2624000" />
+      <workItem from="1456157630735" duration="44612000" />
+      <workItem from="1456759820700" duration="1193000" />
+      <workItem from="1456931935093" duration="3823000" />
+      <workItem from="1457385006090" duration="9651000" />
+      <workItem from="1457541378600" duration="5921000" />
+      <workItem from="1457714046609" duration="1214000" />
+      <workItem from="1457966028656" duration="843000" />
+      <workItem from="1459530081449" duration="1449000" />
+      <workItem from="1459780736714" duration="2997000" />
+      <workItem from="1459866836098" duration="709000" />
+      <workItem from="1460047333472" duration="252000" />
+      <workItem from="1460048730913" duration="1583000" />
+      <workItem from="1460498645089" duration="3641000" />
+      <workItem from="1460557821736" duration="2800000" />
+      <workItem from="1460587893994" duration="614000" />
+      <workItem from="1460643955779" duration="4652000" />
+      <workItem from="1460740938091" duration="2477000" />
+      <workItem from="1461185270763" duration="2090000" />
+      <workItem from="1461596490867" duration="766000" />
+      <workItem from="1461776331732" duration="1760000" />
+      <workItem from="1462329234145" duration="1483000" />
+      <workItem from="1462477455702" duration="7315000" />
+      <workItem from="1462563932567" duration="2236000" />
+      <workItem from="1462824170429" duration="111000" />
+      <workItem from="1464371176738" duration="1265000" />
+      <workItem from="1465243890974" duration="1667000" />
+      <workItem from="1465249122149" duration="110000" />
+      <workItem from="1465495761329" duration="1943000" />
+      <workItem from="1465507736730" duration="1252000" />
+      <workItem from="1470761379908" duration="4037000" />
+      <workItem from="1479856120946" duration="27000" />
+      <workItem from="1480614309122" duration="43000" />
+      <workItem from="1484162307131" duration="161000" />
+      <workItem from="1484173084684" duration="5664000" />
+      <workItem from="1484258792571" duration="1289000" />
+      <workItem from="1485788507965" duration="1031000" />
+      <workItem from="1485811755975" duration="66000" />
+      <workItem from="1487712870753" duration="70000" />
+      <workItem from="1488819375444" duration="6000" />
+      <workItem from="1488819398983" duration="2292000" />
+      <workItem from="1488829834926" duration="866000" />
+      <workItem from="1488830801630" duration="1771000" />
+      <workItem from="1488837877054" duration="426000" />
+      <workItem from="1488892747985" duration="7433000" />
+      <workItem from="1488915165546" duration="289000" />
+      <workItem from="1488915658823" duration="622000" />
+      <workItem from="1491410611565" duration="2858000" />
+      <workItem from="1491511053760" duration="2211000" />
+      <workItem from="1493048072084" duration="239000" />
+      <workItem from="1493129095765" duration="16906000" />
+      <workItem from="1493314760930" duration="7044000" />
+      <workItem from="1493329739434" duration="212000" />
+      <workItem from="1493331550240" duration="1064000" />
+      <workItem from="1496258742932" duration="4409000" />
+      <workItem from="1496335813127" duration="3864000" />
+      <workItem from="1496942775465" duration="2356000" />
+      <workItem from="1497379082375" duration="22000" />
+      <workItem from="1497386056284" duration="388000" />
+      <workItem from="1497458810336" duration="85000" />
+      <workItem from="1497546206385" duration="165000" />
+      <workItem from="1497967433807" duration="2273000" />
+      <workItem from="1497995858004" duration="2118000" />
+      <workItem from="1498053065586" duration="314000" />
+      <workItem from="1498585787422" duration="3846000" />
+      <workItem from="1498669988264" duration="3360000" />
+      <workItem from="1498745811675" duration="3243000" />
+      <workItem from="1498755313831" duration="432000" />
+      <workItem from="1499113846523" duration="2493000" />
+      <workItem from="1499700898099" duration="2263000" />
+      <workItem from="1499725090311" duration="3913000" />
+      <workItem from="1500068976274" duration="4016000" />
+      <workItem from="1500300989997" duration="25615000" />
+      <workItem from="1500406295542" duration="8655000" />
+      <workItem from="1500558354313" duration="36143000" />
+      <workItem from="1500742828685" duration="80000" />
+      <workItem from="1500914239779" duration="1797000" />
+      <workItem from="1500918842996" duration="7096000" />
+      <workItem from="1501261095275" duration="8696000" />
+      <workItem from="1501514818995" duration="3685000" />
+      <workItem from="1501533983441" duration="2183000" />
+      <workItem from="1501539089491" duration="168000" />
+      <workItem from="1501539259661" duration="1207000" />
+      <workItem from="1501684980752" duration="5197000" />
+      <workItem from="1501695672964" duration="1920000" />
+      <workItem from="1501859338241" duration="2205000" />
+      <workItem from="1501887091033" duration="518000" />
+      <workItem from="1502113906555" duration="31680000" />
+      <workItem from="1502893754648" duration="5207000" />
+      <workItem from="1502923084063" duration="5634000" />
+      <workItem from="1503438498412" duration="2801000" />
+      <workItem from="1503517470790" duration="5206000" />
+      <workItem from="1503525618995" duration="71000" />
+      <workItem from="1503696911305" duration="5180000" />
+      <workItem from="1503928537159" duration="15232000" />
+      <workItem from="1503956953435" duration="29000" />
+      <workItem from="1504545340519" duration="17655000" />
+      <workItem from="1504650852881" duration="604000" />
+      <workItem from="1504797954130" duration="1540000" />
+      <workItem from="1504812627337" duration="13356000" />
+      <workItem from="1506437602517" duration="3571000" />
+      <workItem from="1506466073261" duration="11426000" />
+      <workItem from="1507570478894" duration="11000" />
+      <workItem from="1507921995117" duration="7368000" />
+      <workItem from="1509135613838" duration="24000" />
+      <workItem from="1509457677736" duration="14709000" />
+      <workItem from="1509571405994" duration="1490000" />
+      <workItem from="1509719593018" duration="13762000" />
+      <workItem from="1509742309972" duration="5159000" />
+      <workItem from="1509983038520" duration="143000" />
+      <workItem from="1509995468053" duration="614000" />
+      <workItem from="1509996205299" duration="3231000" />
+      <workItem from="1510606217279" duration="3610000" />
+      <workItem from="1510694621252" duration="509000" />
+      <workItem from="1511371186331" duration="4726000" />
+      <workItem from="1511455008405" duration="16640000" />
+      <workItem from="1511559968672" duration="1519000" />
+      <workItem from="1513189624123" duration="385000" />
+      <workItem from="1513615830129" duration="2040000" />
+      <workItem from="1513691208605" duration="1223000" />
+      <workItem from="1513778261283" duration="1944000" />
+      <workItem from="1514015599519" duration="5356000" />
+      <workItem from="1514900600061" duration="1185000" />
+      <workItem from="1514986947681" duration="2104000" />
+      <workItem from="1515084506989" duration="3029000" />
+      <workItem from="1515514820475" duration="13981000" />
+      <workItem from="1515619904919" duration="56000" />
+      <workItem from="1515686770979" duration="4000000" />
+      <workItem from="1515695445875" duration="3651000" />
+      <workItem from="1516024156408" duration="24282000" />
+      <workItem from="1516110249269" duration="82000" />
+      <workItem from="1516202171424" duration="4325000" />
+      <workItem from="1516210831436" duration="5353000" />
+      <workItem from="1516248025409" duration="145000" />
+      <workItem from="1516289557575" duration="11692000" />
+      <workItem from="1516312913398" duration="2138000" />
+      <workItem from="1516372341758" duration="987000" />
+      <workItem from="1516375685008" duration="4825000" />
+      <workItem from="1516394884964" duration="55000" />
+      <workItem from="1516397736959" duration="3330000" />
+      <workItem from="1516637427441" duration="4036000" />
+      <workItem from="1516715253055" duration="4787000" />
+      <workItem from="1516722891084" duration="4122000" />
+      <workItem from="1516745481215" duration="1542000" />
+      <workItem from="1516894084912" duration="819000" />
+      <workItem from="1516980417494" duration="157000" />
+      <workItem from="1516980605661" duration="255000" />
+      <workItem from="1517254042438" duration="522000" />
+      <workItem from="1517521566224" duration="530000" />
+      <workItem from="1518727295071" duration="465000" />
+      <workItem from="1519754790546" duration="275000" />
+      <workItem from="1519911970101" duration="2927000" />
+      <workItem from="1519942778358" duration="6217000" />
+      <workItem from="1519998544715" duration="17071000" />
+      <workItem from="1520258368312" duration="10043000" />
+      <workItem from="1520345912052" duration="26079000" />
+      <workItem from="1520430686472" duration="26679000" />
+      <workItem from="1520516888662" duration="15723000" />
+      <workItem from="1520604594684" duration="5040000" />
+      <workItem from="1520626606299" duration="1959000" />
+      <workItem from="1521053358343" duration="1140000" />
+      <workItem from="1521560753112" duration="4060000" />
+      <workItem from="1521565462266" duration="10979000" />
+      <workItem from="1521639282976" duration="258000" />
+      <workItem from="1521726937945" duration="17629000" />
+      <workItem from="1521817386439" duration="58000" />
+      <workItem from="1521820434098" duration="15848000" />
+      <workItem from="1522676164530" duration="23250000" />
+      <workItem from="1522763581839" duration="289000" />
+      <workItem from="1522765989585" duration="28672000" />
+      <workItem from="1522849748556" duration="26388000" />
+      <workItem from="1522936963892" duration="11386000" />
+      <workItem from="1523022717896" duration="1198000" />
+      <workItem from="1523992293924" duration="789000" />
+      <workItem from="1524004116207" duration="1413000" />
+      <workItem from="1524238412138" duration="1285000" />
+      <workItem from="1524768841994" duration="2539000" />
+      <workItem from="1525271171356" duration="265000" />
+      <workItem from="1525376336461" duration="709000" />
+      <workItem from="1525381121214" duration="2277000" />
+      <workItem from="1525456152809" duration="5340000" />
+      <workItem from="1525711341414" duration="7898000" />
+      <workItem from="1525798854281" duration="5645000" />
+      <workItem from="1525814097593" duration="3322000" />
+      <workItem from="1525881579540" duration="34000" />
+      <workItem from="1528301192198" duration="4191000" />
+      <workItem from="1528380580070" duration="1764000" />
+      <workItem from="1528400151702" duration="37000" />
+      <workItem from="1529332130233" duration="2358000" />
+      <workItem from="1530108014329" duration="8485000" />
+      <workItem from="1530129758624" duration="1416000" />
+      <workItem from="1534874027426" duration="1876000" />
+      <workItem from="1534957749035" duration="1397000" />
+      <workItem from="1535040701239" duration="1057000" />
+      <workItem from="1535379188813" duration="1651000" />
+      <workItem from="1535475864424" duration="1151000" />
+      <workItem from="1535556197936" duration="30000" />
+      <workItem from="1535556340432" duration="476000" />
+      <workItem from="1535563079545" duration="3717000" />
+      <workItem from="1535642452165" duration="847000" />
+      <workItem from="1535646828400" duration="800000" />
+      <workItem from="1536096874103" duration="5049000" />
+      <workItem from="1536165758633" duration="245000" />
+      <workItem from="1536171241823" duration="303000" />
+      <workItem from="1536254678817" duration="341000" />
+      <workItem from="1536338555808" duration="5868000" />
+      <workItem from="1536352341260" duration="2186000" />
+      <workItem from="1537890534782" duration="17000" />
+      <workItem from="1538158058484" duration="1050000" />
+      <workItem from="1538159143875" duration="317000" />
+      <workItem from="1538159836524" duration="4898000" />
+      <workItem from="1539961684149" duration="2068000" />
+      <workItem from="1539970849331" duration="4346000" />
+      <workItem from="1540231329612" duration="1592000" />
+      <workItem from="1540317028706" duration="648000" />
+      <workItem from="1540318181871" duration="2184000" />
+      <workItem from="1540320509675" duration="3651000" />
+      <workItem from="1540570535113" duration="5704000" />
+      <workItem from="1540933856214" duration="371000" />
+      <workItem from="1540935299430" duration="5000" />
+      <workItem from="1540935324673" duration="6710000" />
+      <workItem from="1544820864596" duration="2368000" />
+      <workItem from="1546893731977" duration="1256000" />
+      <workItem from="1553804293058" duration="966000" />
+      <workItem from="1553805460743" duration="1334000" />
+      <workItem from="1553807140103" duration="3111000" />
+      <workItem from="1553876705924" duration="1533000" />
+      <workItem from="1553881592956" duration="1172000" />
+      <workItem from="1554227997881" duration="2188000" />
+      <workItem from="1554311649043" duration="57000" />
+      <workItem from="1554474566894" duration="12144000" />
+      <workItem from="1554500306134" duration="2067000" />
+      <workItem from="1554753797764" duration="83000" />
+      <workItem from="1554915052142" duration="9859000" />
+      <workItem from="1554995443167" duration="18488000" />
+      <workItem from="1555079342656" duration="2077000" />
+      <workItem from="1555082206773" duration="5155000" />
+      <workItem from="1555954831498" duration="3762000" />
+      <workItem from="1555967314653" duration="344000" />
+      <workItem from="1555967661612" duration="6820000" />
+      <workItem from="1556820389847" duration="81000" />
+      <workItem from="1557240151437" duration="6529000" />
+      <workItem from="1558474356716" duration="4748000" />
+      <workItem from="1558534934462" duration="26000" />
+      <workItem from="1558536477691" duration="15483000" />
+      <workItem from="1559064694514" duration="2339000" />
+      <workItem from="1559140439648" duration="214000" />
+      <workItem from="1560810523942" duration="2320000" />
+      <workItem from="1560880295739" duration="23305000" />
+      <workItem from="1561135153788" duration="6415000" />
+      <workItem from="1561386368485" duration="1746000" />
+      <workItem from="1561389559327" duration="18345000" />
+      <workItem from="1561472215016" duration="29263000" />
+      <workItem from="1561657320425" duration="7477000" />
+      <workItem from="1561991975670" duration="768000" />
+      <workItem from="1561993036317" duration="6338000" />
+      <workItem from="1562165016001" duration="6486000" />
+      <workItem from="1562193326014" duration="759000" />
+      <workItem from="1562269137234" duration="1027000" />
+      <workItem from="1562339336919" duration="16708000" />
+      <workItem from="1562597308615" duration="606000" />
+      <workItem from="1562600151697" duration="3555000" />
+      <workItem from="1562625948275" duration="12000" />
+      <workItem from="1562693626738" duration="13629000" />
+      <workItem from="1562768590330" duration="23449000" />
+      <workItem from="1562854049725" duration="17199000" />
+      <workItem from="1562941243258" duration="3777000" />
+      <workItem from="1562955423940" duration="11325000" />
+      <workItem from="1563200545415" duration="5028000" />
+      <workItem from="1563286387879" duration="9862000" />
+      <workItem from="1563309078758" duration="7176000" />
+      <workItem from="1563390685582" duration="72000" />
+      <workItem from="1563400033051" duration="3815000" />
+      <workItem from="1563459797867" duration="4621000" />
+      <workItem from="1563466943156" duration="3595000" />
+      <workItem from="1563471301798" duration="6184000" />
+      <workItem from="1563985227380" duration="1000000" />
+      <workItem from="1563987910933" duration="845000" />
+      <workItem from="1564005114595" duration="1298000" />
+      <workItem from="1566406949970" duration="3961000" />
+    </task>
+    <task id="LOCAL-00001" summary="probando commit">
+      <created>1440195752227</created>
+      <updated>1440195752227</updated>
+    </task>
+    <task id="LOCAL-00002" summary="//Se eliminan librerias agregadas manualmente&#10;//Correción en recepción de paciente cuando dx no tiene datos de recepción asociados">
+      <created>1440529293214</created>
+      <updated>1440529293214</updated>
+    </task>
+    <task id="LOCAL-00003" summary="//Correción en recepción de paciente cuando dx no tiene datos de recepción asociados">
+      <created>1440529536609</created>
+      <updated>1440529536609</updated>
+    </task>
+    <task id="LOCAL-00004" summary="- Quitar palabra &quot;Cantidad&quot; de los titulos de los gráficos &quot;Home&quot;&#10;- Se agrega tooltip a gráficos en &quot;Home&quot;&#10;-  Corrección de encabezados tabla de lista de notificaciones previas otras muestras">
+      <created>1441129001014</created>
+      <updated>1441129001014</updated>
+    </task>
+    <task id="LOCAL-00005" summary="//En peticiones Ajax (.ajax, .getJson) enviaba error cuando la sesión habia finalizado (spring security), se agrega manejador de seguridad que valida si la petición ajax falla por timeout de sesión o sesión inválida.">
+      <created>1441301229048</created>
+      <updated>1441301229048</updated>
+    </task>
+    <task id="LOCAL-00006" summary="//En peticiones Ajax (.ajax, .getJson) enviaba error cuando la sesión habia finalizado (spring security), se agrega manejador de seguridad que valida si la petición ajax falla por timeout de sesión o sesión inválida.">
+      <created>1441301523500</created>
+      <updated>1441301523500</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Continuación... //En peticiones Ajax (.ajax, .getJson) enviaba error cuando la sesión habia finalizado (spring security), se agrega manejador de seguridad que valida si la petición ajax falla por timeout de sesión o sesión inválida.">
+      <created>1441316769417</created>
+      <updated>1441316769417</updated>
+    </task>
+    <task id="LOCAL-00008" summary="// Corrección de bugs encontrados en pruebas de flujo incluyendo traslados">
+      <created>1441900798715</created>
+      <updated>1441900798715</updated>
+    </task>
+    <task id="LOCAL-00009" summary="// Corrección de bugs encontrados en pruebas de recepción otras muestras">
+      <created>1442013425946</created>
+      <updated>1442013425946</updated>
+    </task>
+    <task id="LOCAL-00010" summary="// Recepción laboratorio: Mostrar información de datos de recepción para muestras que no son procedentes de alerta">
+      <created>1442615621477</created>
+      <updated>1442615621477</updated>
+    </task>
+    <task id="LOCAL-00011" summary="//Modificación de colores gráficos">
+      <created>1443200508463</created>
+      <updated>1443200508463</updated>
+    </task>
+    <task id="LOCAL-00012" summary="//Corrección al mostrar menú y enlace en el breadcrumb&#10;//En autoridad laboratorio se modifica nombre de la relación, pues era muy grande">
+      <created>1448406654269</created>
+      <updated>1448406654269</updated>
+    </task>
+    <task id="LOCAL-00013" summary="//Corrección de label y bugs encontrados en pruebas">
+      <created>1448661954018</created>
+      <updated>1448661954018</updated>
+    </task>
+    <task id="LOCAL-00014" summary="//En recepción de paciente al tomar muestra, se solicita tipo de notificación, silais atención, unidad de salud.&#10;//En notificaciones previas de recepción de pacientes, se muestran todas las notificaciones de la persona.&#10;//En recepción en laboratorio, al anular examen se solicita causa de anulación, por lo que también se agregan los campos causa de anulación y usuario anulación en OrdenExamen.java&#10;//En la toma de muestra se agregan procediemientos para hacer rollback de las operaciones previas que se hayan realizado a un fallo (eliminar tomas de muestra, envios,diganósticos y datos de recepción)&#10;//Cuando se anula una notificación, se anulan tambien todas las tomas de muestras asociadas">
+      <created>1449255425573</created>
+      <updated>1449255425573</updated>
+    </task>
+    <task id="LOCAL-00015" summary="-- En recepción a paciente se puede cambiar el tipo de notificación, sólo cuando se esta registrando la notificación, si ya existe y sólo se esta tomando muestra no es editable el tipo de notificación.&#10;-- Se modifica pdf de hoja de trabajo">
+      <created>1449853074221</created>
+      <updated>1449853074221</updated>
+    </task>
+    <task id="LOCAL-00016" summary="-- Modificaciones para cargar imagenes de encabezado y pie de los reportes a la base de datos., y de esta manera hacerlo dinámico">
+      <created>1450307804660</created>
+      <updated>1450307804660</updated>
+    </task>
+    <task id="LOCAL-00017" summary="-- Modificaciones para cargar imagenes de encabezado y pie de los reportes a la base de datos., y de esta manera hacerlo dinámico">
+      <created>1450390793271</created>
+      <updated>1450390793271</updated>
+    </task>
+    <task id="LOCAL-00018" summary="- Mantenedor de reglas de examenes&#10;- Mostrar reglas de examenes en recepción laboratorio">
+      <created>1452181488878</created>
+      <updated>1452181488878</updated>
+    </task>
+    <task id="LOCAL-00019" summary="- Modificaciones por validación de hibernate al iniciar aplicación">
+      <created>1452533586282</created>
+      <updated>1452533586282</updated>
+    </task>
+    <task id="LOCAL-00020" summary="- Estos catalogos se deben registrar con usuarios de laboratorio.">
+      <created>1453135127985</created>
+      <updated>1453135127985</updated>
+    </task>
+    <task id="LOCAL-00021" summary="- Modificaciones por ambientación en MINSA">
+      <created>1454084804799</created>
+      <updated>1454084804799</updated>
+    </task>
+    <task id="LOCAL-00022" summary="- Mejoras por casos observados en ambiente MINSA">
+      <created>1454357411300</created>
+      <updated>1454357411300</updated>
+    </task>
+    <task id="LOCAL-00023" summary="- para datos de ingreso mostrar conceptos tipo fecha">
+      <created>1454698715491</created>
+      <updated>1454698715491</updated>
+    </task>
+    <task id="LOCAL-00024" summary="- registrar fecha de inicio de síntomas en toma mx paciente..&#10;- corrección accesos de spring security&#10;- homologación con cambios en alerta">
+      <created>1455058372371</created>
+      <updated>1455058372371</updated>
+    </task>
+    <task id="LOCAL-00025" summary="- es necesario crear ficha correspondiente según tipo de notificación">
+      <created>1455125475223</created>
+      <updated>1455125475223</updated>
+    </task>
+    <task id="LOCAL-00026" summary="- nuevas revisiones generales al 25/02/2016">
+      <created>1456435487484</created>
+      <updated>1456435487484</updated>
+    </task>
+    <task id="LOCAL-00027" summary="- nuevas revisiones generales">
+      <created>1456527400970</created>
+      <updated>1456527400970</updated>
+    </task>
+    <task id="LOCAL-00028" summary="- corrección bugs encontrados en nuevas revisiones generales">
+      <created>1457473841918</created>
+      <updated>1457473841918</updated>
+    </task>
+    <task id="LOCAL-00029" summary="-Modificar mensaje si usuario no está autorizado a consultar url">
+      <created>1460501993741</created>
+      <updated>1460501993741</updated>
+    </task>
+    <task id="LOCAL-00030" summary="- Corrección bug en administración de usuarios, mostraba registros duplicados">
+      <created>1460646830913</created>
+      <updated>1460646830913</updated>
+    </task>
+    <task id="LOCAL-00031" summary="- Corrección bug en administración de usuarios, mostraba registros duplicados">
+      <created>1461361453977</created>
+      <updated>1461361453977</updated>
+    </task>
+    <task id="LOCAL-00032" summary="- Pistas de auditoria">
+      <created>1462562181805</created>
+      <updated>1462562181805</updated>
+    </task>
+    <task id="LOCAL-00033" summary="- Corrección de consulta que da error en ambiente de pruebas al momento de recuperar catálogo de muestras">
+      <created>1484235609461</created>
+      <updated>1484235609461</updated>
+    </task>
+    <task id="LOCAL-00034" summary="-- Modificaciones solicitadas por CNDR">
+      <created>1493155219471</created>
+      <updated>1493155219471</updated>
+    </task>
+    <task id="LOCAL-00035" summary="//mas cambios por cancelación de solicitud dx o estudio">
+      <created>1493328082985</created>
+      <updated>1493328082985</updated>
+    </task>
+    <task id="LOCAL-00036" summary="tabs">
+      <created>1496327396667</created>
+      <updated>1496327396667</updated>
+    </task>
+    <task id="LOCAL-00037" summary=". Búsqueda de personas que tienen nombres o apellidos con  vocales acentuadas o ñ">
+      <created>1496351127007</created>
+      <updated>1496351127007</updated>
+    </task>
+    <task id="LOCAL-00038" summary="- Buscar muestra por fecha de recepción y no fecha de toma">
+      <created>1500072787183</created>
+      <updated>1500072787183</updated>
+    </task>
+    <task id="LOCAL-00039" summary="- Cambios y mejoras&#10;- Imprimir resultado por paciente">
+      <created>1500914830533</created>
+      <updated>1500914830533</updated>
+    </task>
+    <task id="LOCAL-00040" summary="-TimeOut con BD y web">
+      <created>1500929150191</created>
+      <updated>1500929150191</updated>
+    </task>
+    <task id="LOCAL-00041" summary="-En resultado final mostrar detalle resultado si ya fue ingresado y examenes pendientes si los hay">
+      <created>1500934897807</created>
+      <updated>1500934897807</updated>
+    </task>
+    <task id="LOCAL-00042" summary="-Mejora al mostrar ficha pdf febril&#10;-Mejoras y correcciones bugs en editar mx">
+      <created>1501276002865</created>
+      <updated>1501276002865</updated>
+    </task>
+    <task id="LOCAL-00043" summary="- Corrección bug se podia realizar traslado hacia el mismo area.">
+      <created>1501518524642</created>
+      <updated>1501518524642</updated>
+    </task>
+    <task id="LOCAL-00044" summary="-- Reporte consolidado de recepción sólo para recepcion general y analista">
+      <created>1501535479532</created>
+      <updated>1501535479532</updated>
+    </task>
+    <task id="LOCAL-00045" summary="-- Librería para enviar correo&#10;-- Mejoras por bug que deja muestra son solicitudes">
+      <created>1501690600650</created>
+      <updated>1501690600651</updated>
+    </task>
+    <task id="LOCAL-00046" summary="- Mejoras en reporte resultados dx (rendimiento y presentación)">
+      <created>1502140235283</created>
+      <updated>1502140235283</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Mejoras y correcciones procesos&#10;Inclusión de observaciones por capacitación nacional a SILAIS y Laboratorios">
+      <created>1503954870341</created>
+      <updated>1503954870341</updated>
+    </task>
+    <task id="LOCAL-00048" summary="--Correcciones reporte resultado dx para vigilancia">
+      <created>1504561187700</created>
+      <updated>1504561187700</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Correcciones traslado externo">
+      <created>1504820798548</created>
+      <updated>1504820798548</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Correcciones traslado externo">
+      <created>1504881825160</created>
+      <updated>1504881825160</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Deshacer rececepcionar que habra en nueva pestaña">
+      <created>1506442512252</created>
+      <updated>1506442512252</updated>
+    </task>
+    <task id="LOCAL-00052" summary="--Se modifican reportes para que tomen resultados de leptospira (reactor, no reactor)&#10;-- Conexión a base de datos se realiza mendiante pool del servidor de aplicaciones&#10;--Resultados rechazados se buscan mediante fecha de rechazo&#10;Parte 1">
+      <created>1506714770817</created>
+      <updated>1506714770817</updated>
+    </task>
+    <task id="LOCAL-00053" summary="--Se modifican reportes para que tomen resultados de leptospira (reactor, no reactor)&#10;-- Conexión a base de datos se realiza mendiante pool del servidor de aplicaciones&#10;--Resultados rechazados se buscan mediante fecha de rechazo&#10;Parte 2">
+      <created>1506715353584</created>
+      <updated>1506715353584</updated>
+    </task>
+    <task id="LOCAL-00054" summary="--Faltaba mostrar popup de códigos de muestras generados en recepción mx alerta(individual)">
+      <created>1507928321465</created>
+      <updated>1507928321465</updated>
+    </task>
+    <task id="LOCAL-00055" summary="- Corrección de bug&gt; traslado interno de una dx con menor prioridad a otro con mayor prioridad">
+      <created>1509463799781</created>
+      <updated>1509463799781</updated>
+    </task>
+    <task id="LOCAL-00056" summary="- Corrección de bug&gt; usuario podia trasladar (interno) muestras que no habia recibido en su area (laboratorio que procesa).&#10; -Corrección de bub&gt; en recepción masiva general estaba sustituyendo codigo_lab de muestra de traslado externo.">
+      <created>1509476962662</created>
+      <updated>1509476962662</updated>
+    </task>
+    <task id="LOCAL-00057" summary="- En búsqueda de persona se realiza de 50 en 50. &#10;- Mostrar edad en grid de resultados personas">
+      <created>1509572860218</created>
+      <updated>1509572860218</updated>
+    </task>
+    <task id="LOCAL-00058" summary="- Se valida si ya existe muestra con la misma fecha de toma para los dx solicitados. En caso de existir no se permite registrar toma&#10;- Corrección de bug al obtener area a la que tiene autorización un usuario según prioridad de los diagnósticos">
+      <created>1509747319327</created>
+      <updated>1509747319327</updated>
+    </task>
+    <task id="LOCAL-00059" summary="- Bug: el usuario puede agregar los dx de otras áreas que no las tenga asociadas actualmente, pero son los dx de áreas que estuvieron asociadas en algún momento y ahorita están de baja.">
+      <created>1509999792469</created>
+      <updated>1509999792469</updated>
+    </task>
+    <task id="LOCAL-00060" summary="- Mejoras en la búsqueda de persona: Si hubo error notificar al usuario y no mostrar mensaje que indica que no se encontraron resultados.">
+      <created>1510694836746</created>
+      <updated>1510694836746</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Se agrega laboratorio que procesa en reporte &quot;Resultado Diagnóstico&quot;&#10;Se cambia de menu la opción para imprimir resultados por paciente. Además ahora también los analistas pueden imprimir los resultados&#10;&#10;">
+      <created>1511561394175</created>
+      <updated>1511561394176</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Se agrega laboratorio que procesa en reporte &quot;Resultado Diagnóstico&quot;&#10;Se cambia de menu la opción para imprimir resultados por paciente. Además ahora también los analistas pueden imprimir los resultados&#10;&#10;">
+      <created>1511561434380</created>
+      <updated>1511561434380</updated>
+    </task>
+    <task id="LOCAL-00063" summary="- La validación que si existe muestra, sólo se realiza por fecha de toma, ya no se toman en cuenta los diagnósticos. Acuerdo con Andrea, para evitar duplicidad.&#10;- Corrección Reporte resultado Dx: Estaba contando mal el total de notificaciones, se modifica consulta para contar correctamente.&#10;- Se agrega funcionalidad para anular muestras, sólo a nivel central desde la opción &quot;Editar Solicitudes Mx&quot;&#10;- En los reportes se agrega filtro de &quot;Laboratorio que procesa&quot;.&#10;- Reporte resultado diagnóstico, se agrega nivel de municipio.&#10;- Reporte resultado dx para vigilancia. Ya no muestra la absorbancia.">
+      <created>1517521867982</created>
+      <updated>1517521867982</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Parte2&#10;- La validación que si existe muestra, sólo se realiza por fecha de toma, ya no se toman en cuenta los diagnósticos. Acuerdo con Andrea, para evitar duplicidad.&#10;- Corrección Reporte resultado Dx: Estaba contando mal el total de notificaciones, se modifica consulta para contar correctamente.&#10;- Se agrega funcionalidad para anular muestras, sólo a nivel central desde la opción &quot;Editar Solicitudes Mx&quot;&#10;- En los reportes se agrega filtro de &quot;Laboratorio que procesa&quot;.&#10;- Reporte resultado diagnóstico, se agrega nivel de municipio.&#10;- Reporte resultado dx para vigilancia. Ya no muestra la absorbancia.">
+      <created>1517522084692</created>
+      <updated>1517522084692</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Menu de gestión para notificaciones y muestras&#10;Reporte de consolidado por exámenes.">
+      <created>1524005378087</created>
+      <updated>1524005378087</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Corrección bug en reporte consolidad exámen. NO estaba tomando el anio del filtro">
+      <created>1525382432654</created>
+      <updated>1525382432655</updated>
+    </task>
+    <task id="LOCAL-00067" summary="se pone en min para mantener igual que los demas dominios">
+      <created>1525817434426</created>
+      <updated>1525817434426</updated>
+    </task>
+    <task id="LOCAL-00068" summary="-Corrección pequeños bugs">
+      <created>1530130080925</created>
+      <updated>1530130080925</updated>
+    </task>
+    <task id="LOCAL-00069" summary="En reporte resultado diagnósticos y reporte resultado diagnóstico vigilancia se agrega filtro para indicar si los datos de salida van por FIS o fecha aprobacion. Solicitado por Andrea&#10;-Corrección bug traslado externo">
+      <created>1536254973316</created>
+      <updated>1536254973316</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)">
+      <created>1540996919757</created>
+      <updated>1540996919757</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2022388000" />
+  </component>
+  <component name="TodoView" selected-index="3">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7749648" sideWeight="0.67395943" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884398" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884398" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.325477" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49382716" sideWeight="0.73159015" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49382716" sideWeight="0.26840982" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8484849" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26779124" sideWeight="0.5005612" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40021345" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20277481" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34427285" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7160494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46352413" sideWeight="0.74226254" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.63075197" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7755331" sideWeight="0.67395943" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32630098" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7755331" sideWeight="0.32604057" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8484849" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2913554" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7160494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46689114" sideWeight="0.74226254" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4949495" sideWeight="0.8909613" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8305275" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26779124" sideWeight="0.5005612" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20277481" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40021345" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <MESSAGE value="- Mejoras en reporte resultados dx (rendimiento y presentación)" />
+    <MESSAGE value="Mejoras y correcciones procesos&#10;Inclusión de observaciones por capacitación nacional a SILAIS y Laboratorios" />
+    <MESSAGE value="--Correcciones reporte resultado dx para vigilancia" />
+    <MESSAGE value="Correcciones traslado externo" />
+    <MESSAGE value="Deshacer rececepcionar que habra en nueva pestaña" />
+    <MESSAGE value="--Se modifican reportes para que tomen resultados de leptospira (reactor, no reactor)&#10;-- Conexión a base de datos se realiza mendiante pool del servidor de aplicaciones&#10;--Resultados rechazados se buscan mediante fecha de rechazo" />
+    <MESSAGE value="--Se modifican reportes para que tomen resultados de leptospira (reactor, no reactor)&#10;-- Conexión a base de datos se realiza mendiante pool del servidor de aplicaciones&#10;--Resultados rechazados se buscan mediante fecha de rechazo&#10;Parte 1" />
+    <MESSAGE value="--Se modifican reportes para que tomen resultados de leptospira (reactor, no reactor)&#10;-- Conexión a base de datos se realiza mendiante pool del servidor de aplicaciones&#10;--Resultados rechazados se buscan mediante fecha de rechazo&#10;Parte 2" />
+    <MESSAGE value="--Faltaba mostrar popup de códigos de muestras generados en recepción mx alerta(individual)" />
+    <MESSAGE value="- Corrección de bug&gt; traslado interno de una dx con menor prioridad a otro con mayor prioridad" />
+    <MESSAGE value="- Corrección de bug&gt; usuario podia trasladar (interno) muestras que no habia recibido en su area (laboratorio que procesa).&#10; -Corrección de bub&gt; en recepción masiva general estaba sustituyendo codigo_lab de muestra de traslado externo." />
+    <MESSAGE value="- En búsqueda de persona se realiza de 50 en 50. &#10;- Mostrar edad en grid de resultados personas" />
+    <MESSAGE value="- Se valida si ya existe muestra con la misma fecha de toma para los dx solicitados. En caso de existir no se permite registrar toma&#10;- Corrección de bug al obtener area a la que tiene autorización un usuario según prioridad de los diagnósticos" />
+    <MESSAGE value="- Bug: el usuario puede agregar los dx de otras áreas que no las tenga asociadas actualmente, pero son los dx de áreas que estuvieron asociadas en algún momento y ahorita están de baja." />
+    <MESSAGE value="- Mejoras en la búsqueda de persona: Si hubo error notificar al usuario y no mostrar mensaje que indica que no se encontraron resultados." />
+    <MESSAGE value="Se agrega laboratorio que procesa en reporte &quot;Resultado Diagnóstico&quot;&#10;Se cambia de menu la opción para imprimir resultados por paciente. Además ahora también los analistas pueden imprimir los resultados&#10;&#10;" />
+    <MESSAGE value="- La validación que si existe muestra, sólo se realiza por fecha de toma, ya no se toman en cuenta los diagnósticos. Acuerdo con Andrea, para evitar duplicidad.&#10;- Corrección Reporte resultado Dx: Estaba contando mal el total de notificaciones, se modifica consulta para contar correctamente.&#10;- Se agrega funcionalidad para anular muestras, sólo a nivel central desde la opción &quot;Editar Solicitudes Mx&quot;&#10;- En los reportes se agrega filtro de &quot;Laboratorio que procesa&quot;.&#10;- Reporte resultado diagnóstico, se agrega nivel de municipio.&#10;- Reporte resultado dx para vigilancia. Ya no muestra la absorbancia." />
+    <MESSAGE value="Parte2&#10;- La validación que si existe muestra, sólo se realiza por fecha de toma, ya no se toman en cuenta los diagnósticos. Acuerdo con Andrea, para evitar duplicidad.&#10;- Corrección Reporte resultado Dx: Estaba contando mal el total de notificaciones, se modifica consulta para contar correctamente.&#10;- Se agrega funcionalidad para anular muestras, sólo a nivel central desde la opción &quot;Editar Solicitudes Mx&quot;&#10;- En los reportes se agrega filtro de &quot;Laboratorio que procesa&quot;.&#10;- Reporte resultado diagnóstico, se agrega nivel de municipio.&#10;- Reporte resultado dx para vigilancia. Ya no muestra la absorbancia." />
+    <MESSAGE value="Menu de gestión para notificaciones y muestras&#10;Reporte de consolidado por exámenes." />
+    <MESSAGE value="Corrección bug en reporte consolidad exámen. NO estaba tomando el anio del filtro" />
+    <MESSAGE value="se pone en min para mantener igual que los demas dominios" />
+    <MESSAGE value="-Corrección pequeños bugs" />
+    <MESSAGE value="En reporte resultado diagnósticos y reporte resultado diagnóstico vigilancia se agrega filtro para indicar si los datos de salida van por FIS o fecha aprobacion&#10;-Corrección bug traslado externo" />
+    <MESSAGE value="En reporte resultado diagnósticos y reporte resultado diagnóstico vigilancia se agrega filtro para indicar si los datos de salida van por FIS o fecha aprobacion. Solicitado por Andrea&#10;-Corrección bug traslado externo" />
+    <MESSAGE value="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)" />
+  </component>
+  <component name="VssConfiguration">
+    <option name="CLIENT_PATH" value="" />
+    <option name="SRCSAFEINI_PATH" value="" />
+    <option name="USER_NAME" value="" />
+    <option name="PWD" value="" />
+    <CheckoutOptions>
+      <option name="COMMENT" value="" />
+      <option name="DO_NOT_GET_LATEST_VERSION" value="false" />
+      <option name="REPLACE_WRITABLE" value="false" />
+      <option name="RECURSIVE" value="false" />
+    </CheckoutOptions>
+    <CheckinOptions>
+      <option name="COMMENT" value="" />
+      <option name="KEEP_CHECKED_OUT" value="false" />
+      <option name="RECURSIVE" value="false" />
+    </CheckinOptions>
+    <AddOptions>
+      <option name="STORE_ONLY_LATEST_VERSION" value="false" />
+      <option name="CHECK_OUT_IMMEDIATELY" value="false" />
+    </AddOptions>
+    <UndocheckoutOptions>
+      <option name="MAKE_WRITABLE" value="false" />
+      <option name="REPLACE_LOCAL_COPY" value="2" />
+      <option name="RECURSIVE" value="false" />
+    </UndocheckoutOptions>
+    <GetOptions>
+      <option name="REPLACE_WRITABLE" value="0" />
+      <option name="MAKE_WRITABLE" value="false" />
+      <option name="ANSWER_NEGATIVELY" value="false" />
+      <option name="ANSWER_POSITIVELY" value="false" />
+      <option name="RECURSIVE" value="false" />
+      <option name="VERSION" />
+    </GetOptions>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/FileUploadController.java</url>
+          <line>156</line>
+          <properties />
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java</url>
+          <line>880</line>
+          <properties />
+          <option name="timeStamp" value="532" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java</url>
+          <line>763</line>
+          <properties />
+          <option name="timeStamp" value="536" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java</url>
+          <line>767</line>
+          <properties />
+          <option name="timeStamp" value="537" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java</url>
+          <line>774</line>
+          <properties />
+          <option name="timeStamp" value="538" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java</url>
+          <line>777</line>
+          <properties />
+          <option name="timeStamp" value="539" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java</url>
+          <line>1100</line>
+          <properties />
+          <option name="timeStamp" value="540" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="543" />
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/AlicuotaRegistro.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1428">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/EtiquetaMx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/TipoMx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19790454" vertical-offset="0" max-vertical-offset="1513">
+          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/persona/GrupoOcupacion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13853317" vertical-offset="51" max-vertical-offset="2312">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/persona/Ocupacion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1658654" vertical-offset="1293" max-vertical-offset="2125">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/resultados/RespuestaExamen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17811409" vertical-offset="0" max-vertical-offset="2329">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vih/DaDatosVIH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="2346">
+          <caret line="28" column="34" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vigilanciaSindFebril/DaSindFebril.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3476" max-vertical-offset="5304">
+          <caret line="8" column="66" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaIrag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6885">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaVacunasIrag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="2091">
+          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/estructura/BaseEntidadCatalogo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1343">
+          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/ConstantsSecurity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.102163464" vertical-offset="0" max-vertical-offset="832">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AdmonSolicitudesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5304">
+          <caret line="48" column="46" selection-start-line="48" selection-start-column="46" selection-end-line="48" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/entidades/Catalogo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1207">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AssociationSamplesRequestController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4302" max-vertical-offset="5950">
+          <caret line="216" column="56" selection-start-line="216" selection-start-column="56" selection-end-line="216" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RespuestasExamenService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1446" max-vertical-offset="2380">
+          <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ResultadosService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1905" max-vertical-offset="2737">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.964286" vertical-offset="2180" max-vertical-offset="8874">
+          <caret line="165" column="61" selection-start-line="165" selection-start-column="61" selection-end-line="165" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/CatalogoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="731" max-vertical-offset="18088">
+          <caret line="80" column="53" selection-start-line="80" selection-start-column="53" selection-end-line="80" selection-end-column="53" />
+          <folding>
+            <element signature="e#2949#3139#0" expanded="false" />
+            <element signature="e#3128#3129#0" expanded="false" />
+            <element signature="e#11366#11396#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/CausaRechazoMx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="16" column="49" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4845" max-vertical-offset="40902">
+          <caret line="285" column="0" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1507" max-vertical-offset="13498">
+          <caret line="107" column="7" selection-start-line="107" selection-start-column="7" selection-end-line="107" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AprobacionResultadoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13969" max-vertical-offset="15708">
+          <caret line="877" column="97" selection-start-line="877" selection-start-column="97" selection-end-line="877" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ConceptosController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="4743">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9534" max-vertical-offset="10353">
+          <caret line="632" column="13" selection-start-line="632" selection-start-column="13" selection-end-line="632" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/PersonaController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4029" max-vertical-offset="5831">
+          <caret line="256" column="14" selection-start-line="256" selection-start-column="14" selection-end-line="256" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RespuestasSolicitudController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1445" max-vertical-offset="7123">
+          <caret line="90" column="111" selection-start-line="90" selection-start-column="46" selection-end-line="90" selection-end-column="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RespuestasExamenController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="4590">
+          <caret line="93" column="25" selection-start-line="93" selection-start-column="25" selection-end-line="93" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10503" max-vertical-offset="11322">
+          <caret line="674" column="57" selection-start-line="674" selection-start-column="57" selection-end-line="674" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SeparacionMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10265" max-vertical-offset="20757">
+          <caret line="621" column="124" selection-start-line="621" selection-start-column="124" selection-end-line="621" selection-end-column="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5830" max-vertical-offset="10523">
+          <caret line="394" column="5" selection-start-line="394" selection-start-column="5" selection-end-line="394" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="40834" max-vertical-offset="46682">
+          <caret line="2402" column="8" selection-start-line="2402" selection-start-column="8" selection-end-line="2402" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadosController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="12033" max-vertical-offset="12852">
+          <caret line="754" column="125" selection-start-line="754" selection-start-column="125" selection-end-line="754" selection-end-column="125" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/WorkSheetController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7259">
+          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2231" max-vertical-offset="16864">
+          <caret line="147" column="112" selection-start-line="147" selection-start-column="12" selection-end-line="147" selection-end-column="112" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SearchMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3314" max-vertical-offset="19805">
+          <caret line="265" column="76" selection-start-line="265" selection-start-column="76" selection-end-line="265" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/VisualizarNotificacionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="29749" max-vertical-offset="59160">
+          <caret line="1818" column="0" selection-start-line="1818" selection-start-column="0" selection-end-line="1818" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SendMxReceiptController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3293" max-vertical-offset="6069">
+          <caret line="251" column="13" selection-start-line="251" selection-start-column="13" selection-end-line="251" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="46929" max-vertical-offset="60520">
+          <caret line="2834" column="86" selection-start-line="2834" selection-start-column="86" selection-end-line="2834" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/notificacion/DaNotificacion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="5100">
+          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/constantes/CatalogConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="341" max-vertical-offset="1105">
+          <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/entidades/Persona.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6205">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/persona/PersonaTmp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5525">
+          <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/MinsaServices.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="742" max-vertical-offset="1479">
+          <caret line="67" column="55" selection-start-line="67" selection-start-column="55" selection-end-line="67" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReporteConsolExamenService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2010" max-vertical-offset="3740">
+          <caret line="207" column="39" selection-start-line="207" selection-start-column="39" selection-end-line="207" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/DaTomaMx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2357" max-vertical-offset="4573">
+          <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2608" max-vertical-offset="7140">
+          <caret line="191" column="13" selection-start-line="191" selection-start-column="13" selection-end-line="191" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17983" max-vertical-offset="18666">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/OrdenExamenMxService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11747">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2734" max-vertical-offset="3417">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32394367" vertical-offset="18901" max-vertical-offset="20111">
+          <caret line="1155" column="108" selection-start-line="1155" selection-start-column="108" selection-end-line="1155" selection-end-column="108" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>laboratorio:war</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.34334415" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>AspectJ</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.34334415" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>sass-stdlib</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.34334415" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.34334415" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>laboratorio</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.34334415" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>SDK</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: org.springframework:spring-webmvc:3.2.10.RELEASE</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.34334415" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="" />
+  </component>
+</project>
+

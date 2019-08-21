@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <global-method-security secured-annotations="enabled" />
+    <beans:bean id="customAuthenticationEntryPoint" class="ni.gob.minsa.laboratorio.security.CustomAuthenticationEntryPoint">
+    <beans:property name="loginFormUrl" value="/login"/>
+    </beans:bean>
+
+    <http auto-config="true" entry-point-ref="customAuthenticationEntryPoint">
+        <!-- Restrict URLs based on role -->
+        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/logout" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/resources/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/usuarios/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/sendMxReceipt/**" access="ROLE_RECEPCION" />
+        <intercept-url pattern="/recepcionMx/initLab" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/createLab/*" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/searchOrdersLab" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/getOrdenesExamen" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/getSolicitudes" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/agregarSolicitud" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/agregarOrdenExamen" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/anularExamen" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/anularSolicitud" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/receiptLaboratory" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/recepcionMasivaLab" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/printResults" access="ROLE_RECEPCION,ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/searchResults" access="ROLE_RECEPCION,ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/resultsPDF" access="ROLE_RECEPCION,ROLE_ANALISTA" />
+        <intercept-url pattern="/recepcionMx/**" access="ROLE_RECEPCION" />
+        <intercept-url pattern="/generacionAlicuota/**" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/administracion/respuestas/getRespuestasActivasExamen" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/administracion/respuestasSolicitud/getRespuestasActivas" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/administracion/examenes/obtenerReglasExamenes" access="ROLE_ADMIN,ROLE_ANALISTA,ROLE_JEFE,ROLE_DIR" />
+        <intercept-url pattern="/elisaResult/save" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/administracion/associationSR/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/administracion/sampleTypes/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/administracion/direccion/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/administracion/departamento/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/administracion/datosSolicitud/*" access="ROLE_ADMIN,ROLE_RECEPCION,ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/reception/**" access="ROLE_RECEPCION" />
+        <intercept-url pattern="/reports/positiveResults/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/posNegResults/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/consolidated/**" access="ROLE_RECEPCION,ROLE_ANALISTA" />
+        <intercept-url pattern="/reports/reportResultDx/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/reportResultDxVig/**" access="ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/downloadExcel/**" access="ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/consolidatedexams/**" access="ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/consolidadoTecnica/**" access="ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/searchMx/*" access="ROLE_RECEPCION" />
+        <intercept-url pattern="/administracion/request/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/solicitante/**" access="ROLE_ADMIN,ROLE_RECEPCION" />
+        <intercept-url pattern="/viewNoti/*" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/general/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/reports/qualityControl/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/administracion/file/**" access="ROLE_ADMIN" />
+        <intercept-url pattern="/aprobacion/**" access="ROLE_DIR,ROLE_ANALISTA" />
+        <intercept-url pattern="/administracion/**" access="ROLE_ADMIN" />
+        <intercept-url pattern="/separacionMx/**" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/resultados/**" access="ROLE_RECEPCION,ROLE_ANALISTA,ROLE_DIR" />
+        <intercept-url pattern="/resultadoFinal/**" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/aprobacion/**" access="ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/tomaMx/**" access="ROLE_RECEPCION" />
+        <intercept-url pattern="/reprint/**" access="ROLE_RECEPCION,ROLE_ANALISTA" />
+        <intercept-url pattern="/personas/persons" access="ROLE_RECEPCION,ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/personas/**" access="ROLE_ADMIN,ROLE_RECEPCION" />
+        <intercept-url pattern="/workSheet/**" access="ROLE_RECEPCION" />
+        <intercept-url pattern="/trasladoMx/**" access="ROLE_ANALISTA" />
+        <intercept-url pattern="/usuarios/**" access="ROLE_ADMIN" />
+        <intercept-url pattern="/print/**" access="ROLE_ADMIN,ROLE_RECEPCION,ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/editarMx/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+        <intercept-url pattern="/gestion/**" access="ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+
+        <!--<intercept-url pattern="/**" access="ROLE_ADMIN,ROLE_USER" />-->
+        <!--<intercept-url pattern="/.*" access="ROLE_ADMIN,ROLE_USER" />-->
+        <intercept-url pattern="/" access="ROLE_ADMIN,ROLE_RECEPCION,ROLE_ANALISTA,ROLE_DIR,ROLE_JEFE" />
+
+        <form-login login-page="/login" default-target-url="/"
+                    authentication-failure-url="/loginfailed" />
+        <logout logout-url="/logout" invalidate-session="true" delete-cookies="true" />
+        <access-denied-handler error-page="/403"/>
+    </http>
+
+    <beans:bean id="encoder"
+                class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+
+    <authentication-manager alias="autmanager">
+        <authentication-provider >
+           <!-- <security:jdbc-user-service data-source-ref="dataSource" />-->
+            <!--<user-service>
+                <user name="miguel" password="123456" authorities="ROLE_USER, ROLE_ADMIN" />
+                <user name="souyen" password="456789" authorities="ROLE_USER" />
+            </user-service>
+            -->
+            <password-encoder ref="encoder" />
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="select username, password, enabled from usuarios_sistema  where username=?"
+                               authorities-by-username-query="select u.username username, ur.authority authority from usuarios_sistema u, usuarios_roles ur where u.username = ur.username and u.username = ?" />
+
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>
