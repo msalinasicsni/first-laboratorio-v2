@@ -8,7 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list id="bc47ddd1-92ba-4a03-a6c2-2457983b6864" name="no subir" comment="es por configuración de git" />
-    <list default="true" id="2f7162e5-8c47-4f1d-9719-7c201a3e705d" name="subir" comment="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)" />
+    <list default="true" id="2f7162e5-8c47-4f1d-9719-7c201a3e705d" name="subir" comment="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <list id="f6e4a3ff-c2f5-4208-9ea0-6bdee4e9ccc7" name="ambienteminsa" comment="- Corrección de bug&gt; traslado interno de una dx con menor prioridad a otro con mayor prioridad&#10;- Corrección de bug&gt; usuario podia trasladar (interno) muestras que no habia recibido en su area (laboratorio que procesa).&#10; -Corrección de bub&gt; en recepción masiva general estaba sustituyendo codigo_lab de muestra de traslado externo." />
     <list id="86de9f9a-be2f-4d64-83d4-9251eee20718" name="minsa" comment="minsa" />
     <ignored path="laboratorio.iws" />
@@ -40,8 +42,8 @@
       <file leaf-file-name="ReportesService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32394367" vertical-offset="18901" max-vertical-offset="20111">
-              <caret line="1155" column="108" selection-start-line="1155" selection-start-column="108" selection-end-line="1155" selection-end-column="108" />
+            <state vertical-scroll-proportion="0.45241582" vertical-offset="18901" max-vertical-offset="20111">
+              <caret line="1161" column="65" selection-start-line="1161" selection-start-column="65" selection-end-line="1161" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -50,7 +52,7 @@
       <file leaf-file-name="DaTomaMx.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/DaTomaMx.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2357" max-vertical-offset="4573">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3876" max-vertical-offset="6681">
               <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
               <folding />
             </state>
@@ -60,11 +62,9 @@
       <file leaf-file-name="CallRestServices.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2608" max-vertical-offset="7140">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3247" max-vertical-offset="7191">
               <caret line="191" column="13" selection-start-line="191" selection-start-column="13" selection-end-line="191" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,7 +72,7 @@
       <file leaf-file-name="Persona.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/entidades/Persona.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6205">
+            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="9333">
               <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
               <folding />
             </state>
@@ -82,7 +82,7 @@
       <file leaf-file-name="PersonaTmp.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/persona/PersonaTmp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5525">
+            <state vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="7752">
               <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
               <folding />
             </state>
@@ -92,7 +92,7 @@
       <file leaf-file-name="MinsaServices.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/MinsaServices.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="742" max-vertical-offset="1479">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="1547">
               <caret line="67" column="55" selection-start-line="67" selection-start-column="55" selection-end-line="67" selection-end-column="55" />
               <folding />
             </state>
@@ -102,7 +102,7 @@
       <file leaf-file-name="ExamenesService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2734" max-vertical-offset="3417">
+            <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="3621">
               <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
               <folding />
             </state>
@@ -112,7 +112,7 @@
       <file leaf-file-name="ReporteConsolExamenService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReporteConsolExamenService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2010" max-vertical-offset="3740">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3519" max-vertical-offset="4114">
               <caret line="207" column="39" selection-start-line="207" selection-start-column="39" selection-end-line="207" selection-end-column="39" />
               <folding />
             </state>
@@ -122,7 +122,7 @@
       <file leaf-file-name="OrdenExamenMxService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/OrdenExamenMxService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11747">
+            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="12104">
               <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
               <folding />
             </state>
@@ -132,7 +132,7 @@
       <file leaf-file-name="TomaMxService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="17983" max-vertical-offset="18666">
+            <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="18955">
               <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
               <folding />
             </state>
@@ -271,8 +271,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1616" />
-    <option name="height" value="876" />
+    <option name="width" value="1620" />
+    <option name="height" value="920" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -324,7 +324,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -409,9 +408,66 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -430,7 +486,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.34334415" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../laboratorio - minsa - CEU - Copy/first-laboratorio" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
@@ -1179,7 +1235,9 @@
       <workItem from="1563985227380" duration="1000000" />
       <workItem from="1563987910933" duration="845000" />
       <workItem from="1564005114595" duration="1298000" />
-      <workItem from="1566406949970" duration="3961000" />
+      <workItem from="1566406949970" duration="3163000" />
+      <workItem from="1566414123345" duration="45000" />
+      <workItem from="1566414219843" duration="10000" />
     </task>
     <task id="LOCAL-00001" summary="probando commit">
       <created>1440195752227</created>
@@ -1465,7 +1523,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2022388000" />
+    <option name="totallyTimeSpent" value="2021645000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1488,11 +1546,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1620" height="920" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7749648" sideWeight="0.67395943" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7755331" sideWeight="0.67395943" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1514,7 +1572,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40021345" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20277481" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34427285" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34338897" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7160494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1918,7 +1976,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="40834" max-vertical-offset="46682">
           <caret line="2402" column="8" selection-start-line="2402" selection-start-column="8" selection-end-line="2402" selection-end-column="119" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1926,7 +1983,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="12033" max-vertical-offset="12852">
           <caret line="754" column="125" selection-start-line="754" selection-start-column="125" selection-end-line="754" selection-end-column="125" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1934,7 +1990,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7259">
           <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1950,7 +2005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3314" max-vertical-offset="19805">
           <caret line="265" column="76" selection-start-line="265" selection-start-column="76" selection-end-line="265" selection-end-column="76" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1958,7 +2012,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="29749" max-vertical-offset="59160">
           <caret line="1818" column="0" selection-start-line="1818" selection-start-column="0" selection-end-line="1818" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1966,7 +2019,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3293" max-vertical-offset="6069">
           <caret line="251" column="13" selection-start-line="251" selection-start-column="13" selection-end-line="251" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1974,7 +2026,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="46929" max-vertical-offset="60520">
           <caret line="2834" column="86" selection-start-line="2834" selection-start-column="86" selection-end-line="2834" selection-end-column="86" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1982,7 +2033,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="5100">
           <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1990,7 +2040,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="341" max-vertical-offset="1105">
           <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2038,9 +2087,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2608" max-vertical-offset="7140">
           <caret line="191" column="13" selection-start-line="191" selection-start-column="13" selection-end-line="191" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2070,8 +2117,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32394367" vertical-offset="18901" max-vertical-offset="20111">
-          <caret line="1155" column="108" selection-start-line="1155" selection-start-column="108" selection-end-line="1155" selection-end-column="108" />
+        <state vertical-scroll-proportion="0.45241582" vertical-offset="18901" max-vertical-offset="20111">
+          <caret line="1161" column="65" selection-start-line="1161" selection-start-column="65" selection-end-line="1161" selection-end-column="65" />
           <folding />
         </state>
       </provider>
