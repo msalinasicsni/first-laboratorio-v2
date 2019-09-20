@@ -93,7 +93,7 @@ public class TomaMxService {
         Session session = sessionFactory.getCurrentSession();
         Soundex varSoundex = new Soundex();
         Criteria crit = session.createCriteria(DaTomaMx.class, "tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "notifi");
         if (!filtro.getIncluirAnuladas()) {
             //siempre se tomam las muestras que no estan anuladas
@@ -105,12 +105,15 @@ public class TomaMxService {
         if (filtro.getCodEstado()!=null) {
             if (filtro.getIncluirTraslados()){
                 crit.add(Restrictions.or(
-                        Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()).
+                        //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()).
+                        Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()).
                         add(Restrictions.or(
-                                Restrictions.eq("estado.codigo", "ESTDMX|TRAS"))));
+                                //Restrictions.eq("estado.codigo", "ESTDMX|TRAS"))));
+                                Restrictions.eq("tomaMx.estadoMx", "ESTDMX|TRAS"))));
             }else {
                 crit.add(Restrictions.and(
-                        Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                        //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                        Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
             }
         }
         if(filtro.getCodigoUnicoMx()!=null){
@@ -186,7 +189,8 @@ public class TomaMxService {
         if (filtro.getTipoNotificacion()!=null){
             crit.createAlias("notifi.codTipoNotificacion","tipoNoti");
             crit.add( Restrictions.and(
-                            Restrictions.eq("tipoNoti.codigo", filtro.getTipoNotificacion()))
+                            //Restrictions.eq("tipoNoti.codigo", filtro.getTipoNotificacion()))
+                    Restrictions.eq("tipoNoti", filtro.getTipoNotificacion()))
             );
         }
         // se filtra por tipo de muestra
@@ -442,7 +446,8 @@ public class TomaMxService {
     public List<Dx_TipoMx_TipoNoti> getDx(String codMx, String tipoNoti, String userName) throws Exception {
         String query = "select dx from Dx_TipoMx_TipoNoti dx " +
                 "where dx.tipoMx_tipoNotificacion.tipoMx.idTipoMx = :codMx " +
-                "and dx.tipoMx_tipoNotificacion.tipoNotificacion.codigo = :tipoNoti and dx.diagnostico.pasivo = false";
+                //"and dx.tipoMx_tipoNotificacion.tipoNotificacion.codigo = :tipoNoti and dx.diagnostico.pasivo = false";
+                "and dx.tipoMx_tipoNotificacion.tipoNotificacion = :tipoNoti and dx.diagnostico.pasivo = false";
         if (userName!=null) {
           query +=  " and dx.diagnostico.area.idArea in (select a.idArea from AutoridadArea as aa inner join aa.area as a where aa.pasivo = false and aa.user.username = :userName)";
         }

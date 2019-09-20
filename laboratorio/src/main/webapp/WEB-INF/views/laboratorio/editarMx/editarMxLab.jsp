@@ -320,7 +320,7 @@
                                                     <div class="">
                                                         <label class="input">
                                                             <i class="icon-prepend fa fa-pencil fa-fw"></i><i class="icon-append fa fa-sort-alpha-asc fa-fw"></i>
-                                                            <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${tomaMx.idNotificacion.codTipoNotificacion.valor}" placeholder=" <spring:message code="lbl.sample.type" />">
+                                                            <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${tomaMx.idNotificacion.codTipoNotificacion}" placeholder=" <spring:message code="lbl.sample.type" />">
                                                             <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="lbl.sample.type"/>
                                                             </b>
                                                         </label>
@@ -441,7 +441,7 @@
                                         </fieldset>
                                         <footer>
                                             <input id="idTipoMx" type="hidden" value="${tomaMx.codTipoMx.idTipoMx}"/>
-                                            <input id="codTipoNoti" type="hidden" value="${tomaMx.idNotificacion.codTipoNotificacion.codigo}"/>
+                                            <input id="codTipoNoti" type="hidden" value="${tomaMx.idNotificacion.codTipoNotificacion}"/>
                                             <input id="idTomaMx" type="hidden" value="${tomaMx.idTomaMx}"/>
                                             <input id="esEstudio" type="hidden" value="${esEstudio}"/>
                                         </footer>

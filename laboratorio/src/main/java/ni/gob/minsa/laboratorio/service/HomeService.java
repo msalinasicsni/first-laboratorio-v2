@@ -23,7 +23,7 @@ public class HomeService {
         Session session = sessionFactory.getCurrentSession();
         String sQuery = "select count(mx.idTomaMx) as total, mx.idSilaisAtencion, mx.nombreSilaisAtencion " +
                 "from DaTomaMx as mx " +
-                "where mx.envio.laboratorioDestino.codigo = :laboratorio and (mx.estadoMx.codigo = 'ESTDMX|ENV' or mx.estadoMx.codigo = 'ESTDMX|TRAS')" +
+                "where mx.envio.laboratorioDestino.codigo = :laboratorio and (mx.estadoMx = 'ESTDMX|ENV' or mx.estadoMx = 'ESTDMX|TRAS')" +
                 "group by mx.idSilaisAtencion, mx.nombreSilaisAtencion";
 
 
@@ -40,13 +40,13 @@ public class HomeService {
         String sQuery = "select count(mx.idTomaMx) as total, dx.idDiagnostico, dx.nombre " +
                 "from DaSolicitudDx as sdx inner join sdx.idTomaMx as mx " +
                 "inner join sdx.codDx as dx " +
-                "where sdx.anulado = false and sdx.labProcesa.codigo = :laboratorio and (mx.estadoMx.codigo = 'ESTDMX|ENV' or mx.estadoMx.codigo = 'ESTDMX|TRAS')" +
+                "where sdx.anulado = false and sdx.labProcesa.codigo = :laboratorio and (mx.estadoMx = 'ESTDMX|ENV' or mx.estadoMx = 'ESTDMX|TRAS')" +
                 "group by dx.idDiagnostico, dx.nombre";
 
         String sQuery2 = "select count(mx.idTomaMx) as total, es.idEstudio, es.nombre " +
                 "from DaSolicitudEstudio as sde inner join sde.idTomaMx as mx " +
                 "inner join sde.tipoEstudio as es " +
-                "where sde.anulado = false and mx.envio.laboratorioDestino.codigo = :laboratorio and mx.estadoMx.codigo = 'ESTDMX|ENV'" +
+                "where sde.anulado = false and mx.envio.laboratorioDestino.codigo = :laboratorio and mx.estadoMx = 'ESTDMX|ENV'" +
                 "group by es.idEstudio, es.nombre";
 
 

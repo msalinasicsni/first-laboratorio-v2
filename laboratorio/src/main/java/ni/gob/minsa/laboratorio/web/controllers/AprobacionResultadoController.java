@@ -216,7 +216,7 @@ public class AprobacionResultadoController {
                 map.put("codUnidadSalud","");
             }
             map.put("tipoMuestra", diagnostico.getIdTomaMx().getCodTipoMx().getNombre());
-            //ABRIL2019map.put("tipoNotificacion", diagnostico.getIdTomaMx().getIdNotificacion().getCodTipoNotificacion().getValor());
+            map.put("tipoNotificacion", diagnostico.getIdTomaMx().getIdNotificacion().getDesTipoNotificacion());
             //Si hay fecha de inicio de sintomas se muestra
             Date fechaInicioSintomas = diagnostico.getIdTomaMx().getIdNotificacion().getFechaInicioSintomas();
             if (fechaInicioSintomas!=null)

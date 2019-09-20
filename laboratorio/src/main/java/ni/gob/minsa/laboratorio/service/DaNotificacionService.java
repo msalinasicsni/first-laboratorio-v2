@@ -64,7 +64,8 @@ public class DaNotificacionService {
                     .createAlias("noti.persona", "persona")
                     .add(Restrictions.and(
                                     Restrictions.eq("persona.personaId", idPersona),
-                                    Restrictions.eq("codTipoNotificacion.codigo", tipoNotificacion))
+                            Restrictions.eq("codTipoNotificacion", tipoNotificacion))
+                                    //Restrictions.eq("codTipoNotificacion.codigo", tipoNotificacion))
                     )
                     .list();
 
@@ -108,7 +109,8 @@ public class DaNotificacionService {
                 .createAlias("noti.solicitante", "solicitante")
                 .add(Restrictions.and(
                                 Restrictions.eq("solicitante.idSolicitante", idSolicitante),
-                                Restrictions.eq("codTipoNotificacion.codigo", tipoNotificacion))
+                                Restrictions.eq("codTipoNotificacion", tipoNotificacion))
+                                //Restrictions.eq("codTipoNotificacion.codigo", tipoNotificacion))
                 )
                 .list();
 
@@ -149,9 +151,11 @@ public class DaNotificacionService {
         );
         //no mostrar las muestras de notificaciones 'OTRAS MUESTRAS' pues son de laboratorio, ni CASOS ESPECIALES
         crit.add( Restrictions.and(
-                Restrictions.ne("notifi.codTipoNotificacion.codigo", "TPNOTI|OMX").ignoreCase()));
+                //Restrictions.ne("notifi.codTipoNotificacion.codigo", "TPNOTI|OMX").ignoreCase()));
+                Restrictions.ne("notifi.codTipoNotificacion", "TPNOTI|OMX").ignoreCase()));
         crit.add( Restrictions.and(
-                Restrictions.ne("notifi.codTipoNotificacion.codigo", "TPNOTI|CAESP").ignoreCase()));
+                Restrictions.ne("notifi.codTipoNotificacion", "TPNOTI|CAESP").ignoreCase()));
+                //Restrictions.ne("notifi.codTipoNotificacion.codigo", "TPNOTI|CAESP").ignoreCase()));
         // se filtra por nombre y apellido persona
         if (filtro.getNombreApellido()!=null) {
             //crit.createAlias("notifi.persona", "person");

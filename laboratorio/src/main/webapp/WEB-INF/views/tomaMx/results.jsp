@@ -101,7 +101,7 @@
 												<td><c:out value="${noti.persona.primerNombre}" /></td>
 												<td><c:out value="${noti.persona.primerApellido}" /></td>
 												<td><c:out value="${noti.persona.segundoApellido}" /></td>
-                                                <td><c:out value="${noti.codTipoNotificacion.valor}"/></td>
+                                                <td><c:out value="${noti.codTipoNotificacion}"/></td>
                                                 <td><fmt:formatDate value="${noti.fechaRegistro}" pattern="dd/MM/yyyy" /></td>
                                                 <td><fmt:formatDate value="${noti.fechaAnulacion}" pattern="dd/MM/yyyy" /></td>
                                                 <td>${noti.nombreSilaisAtencion}</td>

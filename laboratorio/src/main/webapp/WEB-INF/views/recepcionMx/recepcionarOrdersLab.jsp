@@ -315,7 +315,7 @@
                                                     <div class="">
                                                         <label class="input">
                                                             <i class="icon-prepend fa fa-pencil fa-fw"></i><i class="icon-append fa fa-sort-alpha-asc fa-fw"></i>
-                                                            <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${recepcionMx.tomaMx.idNotificacion.codTipoNotificacion.valor}" placeholder=" <spring:message code="lbl.sample.type" />">
+                                                            <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${recepcionMx.tomaMx.idNotificacion.codTipoNotificacion}" placeholder=" <spring:message code="lbl.sample.type" />">
                                                             <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="lbl.sample.type"/>
                                                             </b>
                                                         </label>
@@ -514,7 +514,7 @@
                                         <footer>
                                             <input id="idRecepcion" type="hidden" value="${recepcionMx.idRecepcion}"/>
                                             <input id="idTipoMx" type="hidden" value="${recepcionMx.tomaMx.codTipoMx.idTipoMx}"/>
-                                            <input id="codTipoNoti" type="hidden" value="${recepcionMx.tomaMx.idNotificacion.codTipoNotificacion.codigo}"/>
+                                            <input id="codTipoNoti" type="hidden" value="${recepcionMx.tomaMx.idNotificacion.codTipoNotificacion}"/>
                                             <input id="idTomaMx" type="hidden" value="${recepcionMx.tomaMx.idTomaMx}"/>
                                             <input id="esEstudio" type="hidden" value="${esEstudio}"/>
                                             <button type="submit" id="receipt-orders-lab" class="btn btn-success btn-lg pull-right header-btn"><i class="fa fa-check"></i> <spring:message code="act.receipt" /></button>

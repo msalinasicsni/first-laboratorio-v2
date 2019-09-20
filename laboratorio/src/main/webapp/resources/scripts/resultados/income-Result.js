@@ -172,7 +172,7 @@ var IncomeResult = function () {
                         for (var i = 0; i < len; i++) {
                             var idControlRespuesta;
                             var valorControlRespuesta;
-                            switch (dataToLoad[i].concepto.tipo.codigo) {
+                            switch (dataToLoad[i].concepto.tipo) {
                                 case 'TPDATO|LOG':
                                     idControlRespuesta = dataToLoad[i].idRespuesta;
                                     valorControlRespuesta = $('#' + idControlRespuesta).is(':checked');
@@ -430,7 +430,7 @@ var IncomeResult = function () {
                                             }
                                         }
                                     }
-                                    switch (dataToLoad[i].concepto.tipo.codigo) {
+                                    switch (dataToLoad[i].concepto.tipo) {
                                         case 'TPDATO|LOG':
                                             idControlRespuesta = dataToLoad[i].idRespuesta;
                                             contenidoControl = '<div class="row">' +

@@ -211,7 +211,7 @@ var Concepts  = function () {
                     var len = data.length;
                     for (var i = 0; i < len; i++) {
 
-                        var btnEditC = '<button type="button" title="Editar" class="btn btn-default btn-xs btn-primary" data-id="'+data[i].idConcepto+ "," + data[i].nombre + "," + data[i].tipo.codigo+''+
+                        var btnEditC = '<button type="button" title="Editar" class="btn btn-default btn-xs btn-primary" data-id="'+data[i].idConcepto+ "," + data[i].nombre + "," + data[i].tipo +''+
                             '"> <i class="fa fa-edit"></i>' ;
 
                         var btnAddList = ' <button type="button" title="Valores de lista" class="btn btn-primary btn-xs " data-id="'+data[i].idConcepto + "," + data[i].nombre +
@@ -226,12 +226,12 @@ var Concepts  = function () {
                             '"> <i class="fa fa-times"></i>';
 
 
-                        if(data[i].tipo.valor == "Lista"){
+                        if(data[i].tipo === "TPDATO|LIST"){
                             conceptsTable.fnAddData(
-                                [data[i].nombre, data[i].tipo.valor,btnEditC , btnAddList , btnOverrideC ]);
+                                [data[i].nombre, data[i].tipo,btnEditC , btnAddList , btnOverrideC ]);
                         }else{
                             conceptsTable.fnAddData(
-                                [data[i].nombre, data[i].tipo.valor, btnEditC, btnAddListDisabled  ,  btnOverrideC ]);
+                                [data[i].nombre, data[i].tipo, btnEditC, btnAddListDisabled  ,  btnOverrideC ]);
                         }
 
                     }

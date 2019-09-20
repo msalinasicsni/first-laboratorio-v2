@@ -50,7 +50,7 @@ public class ResultadoFinalService {
         Soundex varSoundex = new Soundex();
         Criteria crit = session.createCriteria(DaSolicitudDx.class, "diagnostico");
         crit.createAlias("diagnostico.idTomaMx","tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "noti");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -61,12 +61,15 @@ public class ResultadoFinalService {
         if (filtro.getCodEstado()!=null) {
             if (filtro.getIncluirTraslados()){
                 crit.add(Restrictions.or(
-                        Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()).
+                        //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()).
+                        Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()).
                         add(Restrictions.or(
-                                Restrictions.eq("estado.codigo", "ESTDMX|TRAS"))));
+                                //Restrictions.eq("estado.codigo", "ESTDMX|TRAS"))));
+                                Restrictions.eq("tomaMx.estadoMx", "ESTDMX|TRAS"))));
             }else {
                 crit.add(Restrictions.and(
-                        Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                        //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                        Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
             }
         }
         // se filtra por nombre y apellido persona
@@ -139,8 +142,10 @@ public class ResultadoFinalService {
         if(filtro.getIncluirMxInadecuada()!=null && filtro.getIncluirMxInadecuada()){
 
             crit.add(Subqueries.propertyIn("idTomaMx.idTomaMx", DetachedCriteria.forClass(RecepcionMx.class)
-                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
-                    .add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    //.createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
+                    //.add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx"))
+                    .add(Restrictions.or(Restrictions.ne("calidadMx", "CALIDMX|IDC")))
                     .setProjection(Property.forName("toma.idTomaMx"))));
 
         }
@@ -346,7 +351,7 @@ public class ResultadoFinalService {
         Soundex varSoundex = new Soundex();
         Criteria crit = session.createCriteria(DaSolicitudEstudio.class, "estudio");
         crit.createAlias("estudio.idTomaMx","tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "noti");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -354,7 +359,8 @@ public class ResultadoFinalService {
         );//y las ordenes en estado seg�n filtro
         if (filtro.getCodEstado()!=null) {
             crit.add(Restrictions.and(
-                    Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
         }
         // se filtra por nombre y apellido persona
         if (filtro.getNombreApellido()!=null) {
@@ -418,8 +424,10 @@ public class ResultadoFinalService {
         if(filtro.getIncluirMxInadecuada()!=null && filtro.getIncluirMxInadecuada()){
 
             crit.add(Subqueries.propertyIn("idTomaMx.idTomaMx", DetachedCriteria.forClass(RecepcionMx.class)
-                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
-                    .add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    //.createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
+                    //.add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx"))
+                    .add(Restrictions.or(Restrictions.ne("calidadMx", "CALIDMX|IDC")))
                     .setProjection(Property.forName("toma.idTomaMx"))));
 
         }
@@ -818,7 +826,7 @@ public class ResultadoFinalService {
         Criteria crit = session.createCriteria(RechazoResultadoFinalSolicitud.class, "rechazo");
         crit.createAlias("rechazo.solicitudEstudio","estudio");
         crit.createAlias("estudio.idTomaMx","tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "noti");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -827,7 +835,7 @@ public class ResultadoFinalService {
         Criteria crit2 = session.createCriteria(RechazoResultadoFinalSolicitud.class, "rechazo");
         crit2.createAlias("rechazo.solicitudDx","rutina");
         crit2.createAlias("rutina.idTomaMx","tomaMx");
-        crit2.createAlias("tomaMx.estadoMx","estado");
+        //crit2.createAlias("tomaMx.estadoMx","estado");
         crit2.createAlias("tomaMx.idNotificacion", "noti");
         //siempre se tomam las muestras que no estan anuladas
         crit2.add( Restrictions.and(
@@ -835,9 +843,11 @@ public class ResultadoFinalService {
         );//y las ordenes en estado seg�n filtro
         if (filtro.getCodEstado()!=null) {
             crit.add(Restrictions.and(
-                    Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
             crit2.add(Restrictions.and(
-                    Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
         }
         // se filtra por nombre y apellido persona
         if (filtro.getNombreApellido()!=null) {
@@ -938,12 +948,16 @@ public class ResultadoFinalService {
         if(filtro.getIncluirMxInadecuada()!=null && filtro.getIncluirMxInadecuada()){
 
             crit.add(Subqueries.propertyIn("idTomaMx.idTomaMx", DetachedCriteria.forClass(RecepcionMx.class)
-                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
-                    .add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    //.createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
+                    //.add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx"))
+                    .add(Restrictions.or(Restrictions.ne("calidadMx", "CALIDMX|IDC")))
                     .setProjection(Property.forName("toma.idTomaMx"))));
             crit2.add(Subqueries.propertyIn("idTomaMx.idTomaMx", DetachedCriteria.forClass(RecepcionMx.class)
-                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
-                    .add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    //.createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx.codigo"))
+                    //.add(Restrictions.or(Restrictions.ne("calidadMx.codigo", "CALIDMX|IDC")))
+                    .createAlias("tomaMx", "toma").add(Restrictions.isNull("calidadMx"))
+                    .add(Restrictions.or(Restrictions.ne("calidadMx", "CALIDMX|IDC")))
                     .setProjection(Property.forName("toma.idTomaMx"))));
 
         }

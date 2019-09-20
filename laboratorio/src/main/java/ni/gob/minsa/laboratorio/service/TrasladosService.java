@@ -103,7 +103,7 @@ public class TrasladosService {
         Session session = sessionFactory.getCurrentSession();
         Soundex varSoundex = new Soundex();
         Criteria crit = session.createCriteria(DaTomaMx.class, "tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "notifi");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -111,7 +111,8 @@ public class TrasladosService {
         );//y las ordenes en estado según filtro
         if (filtro.getCodEstado()!=null) {
             crit.add(Restrictions.and(
-                    Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
         }
         // se filtra por nombre y apellido persona
         if (filtro.getNombreApellido()!=null) {
@@ -251,7 +252,7 @@ public class TrasladosService {
         Session session = sessionFactory.getCurrentSession();
         Soundex varSoundex = new Soundex();
         Criteria crit = session.createCriteria(DaTomaMx.class, "tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "notifi");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -259,7 +260,8 @@ public class TrasladosService {
         );//y las ordenes en estado según filtro
         if (filtro.getCodEstado()!=null) {
             crit.add(Restrictions.and(
-                    Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
         }
         // se filtra por nombre y apellido persona
         if (filtro.getNombreApellido()!=null) {

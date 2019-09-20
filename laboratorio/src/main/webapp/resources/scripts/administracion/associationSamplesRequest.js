@@ -242,10 +242,10 @@ var AssociationSamplesReq  = function () {
                         var btnAdd1 = '<button type="button" title="Solicitudes asociadas" class="btn btn-primary btn-xs" data-id="'+data[i].id +
                             '" > <i class="fa fa-list"></i>' ;
 
-                        var btnOverride = '<button type="button" title="Anular" class="btn btn-danger btn-xs" data-id="'+data[i].id + "," + data[i].tipoNotificacion.codigo +
+                        var btnOverride = '<button type="button" title="Anular" class="btn btn-danger btn-xs" data-id="'+data[i].id + "," + data[i].tipoNotificacion +
                             '" > <i class="fa fa-times"></i>' ;
                         mxNotiTable.fnAddData(
-                            [data[i].tipoMx.nombre, data[i].tipoNotificacion.valor, btnAdd1, btnOverride]);
+                            [data[i].tipoMx.nombre, data[i].tipoNotificacion, btnAdd1, btnOverride]);
                     }
                 }).fail(function(jqXHR) {
                     unBlockUI();

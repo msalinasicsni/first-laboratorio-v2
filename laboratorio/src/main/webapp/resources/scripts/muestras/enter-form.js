@@ -238,11 +238,17 @@ var EnterFormTomaMx = function () {
             function save() {
                 bloquearUI(parametros.blockMess);
                 var valSilais =$('#codSilaisAtencion').val();
-                var elemValSilais = valSilais.split(",");
+                if (valSilais != null) {
+                    var elemValSilais = valSilais.split(",");
+                }
                 var valMuni =$('#codMunicipio').val();
-                var elemValMuni = valMuni.split(",");
+                if (valMuni != null) {
+                    var elemValMuni = valMuni.split(",");
+                }
                 var valUni =$('#codUnidadAtencion').val();
-                var elemValUni = valUni.split(",");
+                if (valUni != null) {
+                    var elemValUni = valUni.split(",");
+                }
 
                 var objetoTomaMx = {};
                 objetoTomaMx['idNotificacion'] = $("#idNotificacion").val();

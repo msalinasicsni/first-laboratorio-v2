@@ -229,7 +229,7 @@ var enterFinalResult = function () {
                                         }
                                     }
                                 }
-                                switch (dataToLoad[i].concepto.tipo.codigo) {
+                                switch (dataToLoad[i].concepto.tipo) {
                                     case 'TPDATO|LOG':
                                         idControlRespuesta = dataToLoad[i].idRespuesta;
                                         contenidoControl = '<div class="row">' +
@@ -388,7 +388,7 @@ var enterFinalResult = function () {
                             var idControlRespuesta;
                             var valorControlRespuesta;
                             var idConcepto = dataToLoad[i].concepto.idConcepto;
-                            switch (dataToLoad[i].concepto.tipo.codigo) {
+                            switch (dataToLoad[i].concepto.tipo) {
                                 case 'TPDATO|LOG':
                                     idControlRespuesta = dataToLoad[i].idRespuesta;
                                     valorControlRespuesta = $('#' + idControlRespuesta).is(':checked');

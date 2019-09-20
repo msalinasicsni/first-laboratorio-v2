@@ -34,8 +34,9 @@ public class AssociationSamplesRequestService {
     public List<TipoMx_TipoNotificacion> getMxNoti(String code){
         Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(TipoMx_TipoNotificacion.class, "mxNoti");
-        cr.createAlias("mxNoti.tipoNotificacion", "noti");
-        cr.add(Restrictions.eq("noti.codigo", code));
+        //cr.createAlias("mxNoti.tipoNotificacion", "noti");
+        //cr.add(Restrictions.eq("noti.codigo", code));
+        cr.add(Restrictions.eq("mxNoti.tipoNotificacion", code));
         cr.add(Restrictions.eq("mxNoti.pasivo", false));
         return cr.list();
     }

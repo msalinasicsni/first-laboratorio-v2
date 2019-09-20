@@ -240,7 +240,7 @@
                                                     <div class="">
                                                         <label class="input">
                                                             <i class="icon-prepend fa fa-pencil fa-fw"></i><i class="icon-append fa fa-sort-alpha-asc fa-fw"></i>
-                                                            <input class="form-control" type="text" disabled id="codSilais" name="codSilais" value="${tomaMx.idNotificacion.codSilaisAtencion.nombre}" placeholder=" <spring:message code="lbl.silais" />">
+                                                            <input class="form-control" type="text" disabled id="codSilais" name="codSilais" value="${tomaMx.idNotificacion.codSilaisAtencion}" placeholder=" <spring:message code="lbl.silais" />">
                                                             <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="lbl.silais"/>
                                                             </b>
                                                         </label>
@@ -252,7 +252,7 @@
                                                     <div class="">
                                                         <label class="input">
                                                             <i class="icon-prepend fa fa-pencil fa-fw"></i><i class="icon-append fa fa-sort-alpha-asc fa-fw"></i>
-                                                            <input class="form-control" type="text" disabled id="codUnidadSalud" name="codUnidadSalud" value="${tomaMx.idNotificacion.codUnidadAtencion.nombre}" placeholder=" <spring:message code="lbl.health.unit" />">
+                                                            <input class="form-control" type="text" disabled id="codUnidadSalud" name="codUnidadSalud" value="${tomaMx.idNotificacion.codUnidadAtencion}" placeholder=" <spring:message code="lbl.health.unit" />">
                                                             <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="lbl.health.unit"/>
                                                             </b>
                                                         </label>

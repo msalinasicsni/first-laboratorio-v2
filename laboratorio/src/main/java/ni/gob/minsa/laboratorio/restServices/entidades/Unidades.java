@@ -13,7 +13,7 @@ public class Unidades implements Comparable<Unidades> {
     public String codigo;
     public float latitud;
     public float longitud;
-    public long pasivo;
+    public boolean pasivo;
     public String usuarioregistro;
     public String fecharegistro;
     public String direccion;
@@ -21,7 +21,7 @@ public class Unidades implements Comparable<Unidades> {
     public Municipio municipio;
     private TipoEstablecimiento tipoestablecimiento;
 
-    public Unidades(long id, String nombre, String codigo, float latitud, float longitud, long pasivo, String usuarioregistro, String fecharegistro, String direccion, EntidadesAdtvas entidadesadtvas, Municipio municipio, TipoEstablecimiento tipoestablecimiento) {
+    public Unidades(long id, String nombre, String codigo, float latitud, float longitud, boolean pasivo, String usuarioregistro, String fecharegistro, String direccion, EntidadesAdtvas entidadesadtvas, Municipio municipio, TipoEstablecimiento tipoestablecimiento) {
         this.id = id;
         this.nombre = nombre;
         this.codigo = codigo;
@@ -56,7 +56,7 @@ public class Unidades implements Comparable<Unidades> {
         return longitud;
     }
 
-    public long getPasivo() {
+    public boolean getPasivo() {
         return pasivo;
     }
 

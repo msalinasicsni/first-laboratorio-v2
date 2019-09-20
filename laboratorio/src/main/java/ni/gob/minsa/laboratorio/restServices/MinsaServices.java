@@ -36,17 +36,18 @@ public interface MinsaServices {
             @Path("municipioid") long municipioid
     );
 
-    @GET("wscatalogosminsa/v2/catalogos/red-servicios/entidadadmin/{entidadid}")
+    @GET("wscatalogosminsa/v2/catalogos/red-servicios/entidadesadmin/{entidadid}")
     Call<ResponseBody> entidadesAdtvas(
             @Path("entidadid") long entidadid
     );
 
-    @GET("wscatalogosminsa/v2/catalogos/red-servicios/unidades/redservicio/{unidadid}")
+    //@GET("wscatalogosminsa/v2/catalogos/red-servicios/unidades/redservicio/{unidadid}")
+    @GET("wscatalogosminsa/v2/catalogos/red-servicios/unidadessalud/{unidadid}")
     Call<ResponseBody> unidad(
             @Path("unidadid") long unidadid
     );
 
-    @GET("wscatalogosminsa/v2/catalogos/red-servicios/unidades/{entidadid}")
+    @GET("wscatalogosminsa/v2/catalogos/red-servicios/redservicios/unidades/{entidadid}")
     Call<ResponseBody> unidadesEntidad(
             @Path("entidadid") long entidadAdtvaId
     );
@@ -81,5 +82,4 @@ public interface MinsaServices {
             @Path("id") String id,
             @Path("identificada") String identificada
     );
-
 }

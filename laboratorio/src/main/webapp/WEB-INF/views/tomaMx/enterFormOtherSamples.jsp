@@ -75,11 +75,11 @@
 								<!-- end widget edit box -->
 								<!-- widget content -->
 								<div class="widget-body no-padding">
-                                <input value="${noti.codTipoNotificacion.codigo}" hidden="hidden" type="text" id="tipoNoti" name="tipoNoti"/>
+                                <input value="${noti.codTipoNotificacion}" hidden="hidden" type="text" id="tipoNoti" name="tipoNoti"/>
                                 <form id="datos-noti" class="smart-form"  autocomplete="off">
                                 <fieldset >
                                     <legend class="text-left txt-color-blue font-md"> <spring:message code="lbl.notification.data"/>
-                                        ${noti.codTipoNotificacion.valor}
+                                        ${noti.codTipoNotificacion}
                                    </legend>
                                     <div class="row">
                                         <section class="col col-sm-6 col-md-6 col-lg-4">
@@ -92,7 +92,7 @@
                                                             <option value=""><spring:message code="lbl.select" />...</option>
                                                             <c:forEach items="${notificaciones}" var="tipoNoti">
                                                                 <c:choose>
-                                                                    <c:when test="${tipoNoti.codigo eq noti.codTipoNotificacion.codigo}">
+                                                                    <c:when test="${tipoNoti.codigo eq noti.codTipoNotificacion}">
                                                                         <option selected value="${tipoNoti.codigo}">${tipoNoti.valor}</option>
                                                                     </c:when>
                                                                     <c:otherwise>

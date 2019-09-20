@@ -164,7 +164,7 @@ public class OrdenExamenMxService {
         Criteria crit = session.createCriteria(OrdenExamen.class, "ordenEx");
         crit.createAlias("ordenEx.solicitudDx","solicitudDx");
         crit.createAlias("solicitudDx.idTomaMx","tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "notifi");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -364,7 +364,7 @@ public class OrdenExamenMxService {
         Criteria crit = session.createCriteria(OrdenExamen.class, "ordenEx");
         crit.createAlias("ordenEx.solicitudEstudio","solicitudEstudio");
         crit.createAlias("solicitudEstudio.idTomaMx","tomaMx");
-        crit.createAlias("tomaMx.estadoMx","estado");
+        //crit.createAlias("tomaMx.estadoMx","estado");
         crit.createAlias("tomaMx.idNotificacion", "notifi");
         //siempre se tomam las muestras que no estan anuladas
         crit.add( Restrictions.and(
@@ -382,7 +382,8 @@ public class OrdenExamenMxService {
         //y las ordenes en estado según filtro
         if (filtro.getCodEstado()!=null) {
             crit.add(Restrictions.and(
-                    Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    //Restrictions.eq("estado.codigo", filtro.getCodEstado()).ignoreCase()));
+                    Restrictions.eq("tomaMx.estadoMx", filtro.getCodEstado()).ignoreCase()));
         }
         // se filtra por nombre y apellido persona
         if (filtro.getNombreApellido()!=null) {
