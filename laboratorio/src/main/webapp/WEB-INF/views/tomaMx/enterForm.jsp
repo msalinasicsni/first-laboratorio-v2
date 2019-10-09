@@ -92,7 +92,7 @@
                                 <form id="datos-noti" class="smart-form"  autocomplete="off">
                                     <fieldset >
                                         <legend class="text-left txt-color-blue font-md"> <spring:message code="lbl.notification.data"/>
-                                            ${noti.codTipoNotificacion}
+                                            ${noti.desTipoNotificacion}
                                         </legend>
                                         <div class="row">
                                             <section class="col col-sm-6 col-md-6 col-lg-4">

@@ -146,12 +146,15 @@ public class TomaMxController {
             }
             //ABRIL2019
             List<Catalogo> tiposNotificacion = CallRestServices.getCatalogos(CatalogConstants.TipoNotificacion);
-            //ABRIL2019
-            /*tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|PCNT"));
-            tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|SINFEB"));
-            tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|IRAG"));
-            tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|VIH"));
-*/
+            List<Catalogo> tiposNotificacionValidas = new ArrayList<Catalogo>();
+            for(Catalogo catalogo : tiposNotificacion){
+                if (catalogo.getCodigo().equalsIgnoreCase("TPNOTI|PCNT")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|SINFEB")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|IRAG")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|VIH")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|TB"))
+                    tiposNotificacionValidas.add(catalogo);
+            }
             List<Catalogo> catResp =CallRestServices.getCatalogos(CatalogConstants.Respuesta);//ABRIL2019
             Laboratorio labUser = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
 
@@ -161,7 +164,7 @@ public class TomaMxController {
             mav.addObject("entidades",entidadesAdtvases);
             mav.addObject("municipios",municipios);
             mav.addObject("unidades",unidades);
-            mav.addObject("notificaciones",tiposNotificacion);
+            mav.addObject("notificaciones",tiposNotificacionValidas);
             mav.addObject("catResp", catResp);
             mav.addObject("esNuevaNoti",true);
             mav.addObject("mostrarPopUpMx",(labUser!=null?labUser.getPopUpCodigoMx():false));
@@ -202,12 +205,15 @@ public class TomaMxController {
             }
             //ABRIL2019
             List<Catalogo> tiposNotificacion = CallRestServices.getCatalogos(CatalogConstants.TipoNotificacion);
-            //ABRIL2019
-            /*tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|PCNT"));
-            tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|SINFEB"));
-            tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|IRAG"));
-            tiposNotificacion.add(catalogoService.getTipoNotificacion("TPNOTI|VIH"));
-*/
+            List<Catalogo> tiposNotificacionValidas = new ArrayList<Catalogo>();
+            for(Catalogo catalogo : tiposNotificacion){
+                if (catalogo.getCodigo().equalsIgnoreCase("TPNOTI|PCNT")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|SINFEB")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|IRAG")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|VIH")
+                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|TB"))
+                    tiposNotificacionValidas.add(catalogo);
+            }
             List<Catalogo> catResp =CallRestServices.getCatalogos(CatalogConstants.Respuesta);//ABRIL2019
             Laboratorio labUser = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
 
@@ -217,7 +223,7 @@ public class TomaMxController {
             mav.addObject("entidades",entidadesAdtvases);
             mav.addObject("municipios",municipios);
             mav.addObject("unidades",unidades);
-            mav.addObject("notificaciones",tiposNotificacion);
+            mav.addObject("notificaciones",tiposNotificacionValidas);
             mav.addObject("catResp", catResp);
             mav.addObject("esNuevaNoti",false);
             mav.addObject("mostrarPopUpMx",labUser.getPopUpCodigoMx());

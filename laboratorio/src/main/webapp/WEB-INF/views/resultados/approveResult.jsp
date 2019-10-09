@@ -197,10 +197,10 @@
                                         <i class="icon-prepend fa fa-pencil fa-fw"></i><i class="icon-append fa fa-sort-alpha-asc fa-fw"></i>
                                         <c:choose>
                                             <c:when test="${not empty solicitudDx}">
-                                                <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${solicitudDx.idTomaMx.idNotificacion.codTipoNotificacion}" placeholder=" <spring:message code="lbl.sample.type" />">
+                                                <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${solicitudDx.idTomaMx.idNotificacion.desTipoNotificacion}" placeholder=" <spring:message code="lbl.sample.type" />">
                                             </c:when>
                                             <c:otherwise>
-                                                <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${solicitudEstudio.idTomaMx.idNotificacion.codTipoNotificacion}" placeholder=" <spring:message code="lbl.sample.type" />">
+                                                <input class="form-control" type="text" disabled id="TipoNoti" name="TipoNoti" value="${solicitudEstudio.idTomaMx.idNotificacion.desTipoNotificacion}" placeholder=" <spring:message code="lbl.sample.type" />">
                                             </c:otherwise>
                                         </c:choose>
                                         <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="lbl.sample.type"/>
