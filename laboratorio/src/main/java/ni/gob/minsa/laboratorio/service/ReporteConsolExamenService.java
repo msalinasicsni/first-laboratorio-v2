@@ -69,11 +69,15 @@ public class ReporteConsolExamenService {
 
         //se sacan todas las respuesta(un examen puede tener n respuestas) para cada orden de examen según los filtros indicados
         queryRespuestaExamenes = session.createQuery(" select oe.idOrdenExamen, " +
-                "re.idRespuesta, c.idConcepto, c.tipo.codigo, (select cl.valor from Catalogo_Lista cl " +
-                "where cl.idCatalogoLista = cast(dr.valor as integer ) and cl.idConcepto.idConcepto = c.idConcepto and tp.codigo = 'TPDATO|LIST'), dr.valor  " +
-                "from DaNotificacion  noti, DaTomaMx mx, DaSolicitudDx  dx, OrdenExamen oe , DetalleResultado dr, RespuestaExamen re, Concepto c, TipoDatoCatalogo tp, CalendarioEpi cal "+
+                //"re.idRespuesta, c.idConcepto, c.tipo.codigo, (select cl.valor from Catalogo_Lista cl " +
+                "re.idRespuesta, c.idConcepto, c.tipo, (select cl.valor from Catalogo_Lista cl " +
+                //"where cl.idCatalogoLista = cast(dr.valor as integer ) and cl.idConcepto.idConcepto = c.idConcepto and tp.codigo = 'TPDATO|LIST'), dr.valor  " +
+                "where cl.idCatalogoLista = cast(dr.valor as integer ) and cl.idConcepto.idConcepto = c.idConcepto and c.tipo = 'TPDATO|LIST'), dr.valor  " +
+                //"from DaNotificacion  noti, DaTomaMx mx, DaSolicitudDx  dx, OrdenExamen oe , DetalleResultado dr, RespuestaExamen re, Concepto c, TipoDatoCatalogo tp, CalendarioEpi cal "+
+                "from DaNotificacion  noti, DaTomaMx mx, DaSolicitudDx  dx, OrdenExamen oe , DetalleResultado dr, RespuestaExamen re, Concepto c, CalendarioEpi cal "+
                 "where noti.idNotificacion = mx.idNotificacion and mx.idTomaMx = dx.idTomaMx and dx.idSolicitudDx = oe.solicitudDx " +
-                "and oe.idOrdenExamen = dr.examen and re.idRespuesta = dr.respuesta.idRespuesta and c.idConcepto = re.concepto.idConcepto and c.tipo.catalogoId = tp.catalogoId " +
+                //"and oe.idOrdenExamen = dr.examen and re.idRespuesta = dr.respuesta.idRespuesta and c.idConcepto = re.concepto.idConcepto and c.tipo.catalogoId = tp.catalogoId " +
+                "and oe.idOrdenExamen = dr.examen and re.idRespuesta = dr.respuesta.idRespuesta and c.idConcepto = re.concepto.idConcepto " +
                 "and noti.pasivo = false and mx.anulada = false " +
                 (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")?sqlLab:"") +
                 "and dx.anulado = false and dx.aprobada = true " +
@@ -167,11 +171,15 @@ public class ReporteConsolExamenService {
 
         //se sacan todas las respuesta(un examen puede tener n respuestas) para cada orden de examen según los filtros indicados
         queryRespuestaExamenes = session.createQuery(" select oe.idOrdenExamen, " +
-                "re.idRespuesta, c.idConcepto, c.tipo.codigo, (select cl.valor from Catalogo_Lista cl " +
-                "where cl.idCatalogoLista = cast(dr.valor as integer ) and cl.idConcepto.idConcepto = c.idConcepto and tp.codigo = 'TPDATO|LIST'), dr.valor  " +
-                "from DaNotificacion  noti, DaTomaMx mx, DaSolicitudEstudio dx, OrdenExamen oe , DetalleResultado dr, RespuestaExamen re, Concepto c, TipoDatoCatalogo tp, CalendarioEpi cal "+
+                //"re.idRespuesta, c.idConcepto, c.tipo.codigo, (select cl.valor from Catalogo_Lista cl " +
+                "re.idRespuesta, c.idConcepto, c.tipo, (select cl.valor from Catalogo_Lista cl " +
+                //"where cl.idCatalogoLista = cast(dr.valor as integer ) and cl.idConcepto.idConcepto = c.idConcepto and tp.codigo = 'TPDATO|LIST'), dr.valor  " +
+                "where cl.idCatalogoLista = cast(dr.valor as integer ) and cl.idConcepto.idConcepto = c.idConcepto and c.tipo = 'TPDATO|LIST'), dr.valor  " +
+                //"from DaNotificacion  noti, DaTomaMx mx, DaSolicitudEstudio dx, OrdenExamen oe , DetalleResultado dr, RespuestaExamen re, Concepto c, TipoDatoCatalogo tp, CalendarioEpi cal "+
+                "from DaNotificacion  noti, DaTomaMx mx, DaSolicitudEstudio dx, OrdenExamen oe , DetalleResultado dr, RespuestaExamen re, Concepto c, CalendarioEpi cal "+
                 "where noti.idNotificacion = mx.idNotificacion and mx.idTomaMx = dx.idTomaMx and dx.idSolicitudEstudio = oe.solicitudEstudio " +
-                "and oe.idOrdenExamen = dr.examen and re.idRespuesta = dr.respuesta.idRespuesta and c.idConcepto = re.concepto.idConcepto and c.tipo.catalogoId = tp.catalogoId " +
+                //"and oe.idOrdenExamen = dr.examen and re.idRespuesta = dr.respuesta.idRespuesta and c.idConcepto = re.concepto.idConcepto and c.tipo.catalogoId = tp.catalogoId " +
+                "and oe.idOrdenExamen = dr.examen and re.idRespuesta = dr.respuesta.idRespuesta and c.idConcepto = re.concepto.idConcepto " +
                 "and noti.pasivo = false and mx.anulada = false " +
                 "and dx.anulado = false and dx.aprobada = true " +
                 "and oe.anulado = false and dr.pasivo = false " +

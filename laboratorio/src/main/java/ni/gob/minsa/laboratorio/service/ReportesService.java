@@ -591,7 +591,7 @@ public class ReportesService {
         if (filtro.getCodArea().equals("AREAREP|PAIS")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
                     " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
-                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, coalesce((select r.valor from Respuesta r where r.codigo = noti.urgente.codigo), null) as urgente,  coalesce((select r.valor from Respuesta r where r.codigo = noti.embarazada.codigo), null) as embarazada, " +
+                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente, noti.desEmbarazada as embarazada, " +
                     " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
                     " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
                     " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +
@@ -607,7 +607,7 @@ public class ReportesService {
         }else if (filtro.getCodArea().equals("AREAREP|SILAIS")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
                     " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
-                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, coalesce((select r.valor from Respuesta r where r.codigo = noti.urgente.codigo), null) as urgente,  coalesce((select r.valor from Respuesta r where r.codigo = noti.embarazada.codigo), null) as embarazada, " +
+                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente, noti.desEmbarazada as embarazada, " +
                     " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
                     " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
                     " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +
@@ -625,7 +625,7 @@ public class ReportesService {
         } else if (filtro.getCodArea().equals("AREAREP|UNI")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
                     " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
-                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, coalesce((select r.valor from Respuesta r where r.codigo = noti.urgente.codigo), null) as urgente,  coalesce((select r.valor from Respuesta r where r.codigo = noti.embarazada.codigo), null) as embarazada, " +
+                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente, noti.desEmbarazada as embarazada, " +
                     " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
                     " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
                     " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +
@@ -701,8 +701,10 @@ public class ReportesService {
                         " order by ent.codSilaisAtencion ");
 
                 queryIdNoti = session.createQuery(" select noti.codSilaisAtencion, dx.idSolicitudDx, r.valor " +
-                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
-                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        //", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        //", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        ", coalesce((select rr.concepto.tipo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
                         " from DaNotificacion noti, DaTomaMx mx, DaSolicitudDx dx, DetalleResultadoFinal r " +
                         " where noti.idNotificacion = mx.idNotificacion " +
                         sqlRutina + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) + (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")?sqlLab:"") +
@@ -745,8 +747,10 @@ public class ReportesService {
                         " order by div.divisionpoliticaId ");
 
                 queryIdNoti = session.createQuery(" select noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId, dx.idSolicitudDx, r.valor " +
-                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
-                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        //", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        //", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        ", coalesce((select rr.concepto.tipo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
                         " from DaNotificacion noti, DaTomaMx mx, DaSolicitudDx dx, DetalleResultadoFinal r " +
                         " where noti.idNotificacion = mx.idNotificacion " +
                         sqlRutina + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) + (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")?sqlLab:"") +
@@ -807,8 +811,10 @@ public class ReportesService {
                     " order by uni.idMuniUnidadAtencion ");
 
             queryIdNoti = session.createQuery(" select coalesce(noti.idMuniUnidadAtencion,0) , dx.idSolicitudDx, r.valor " +
-                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
-                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    //", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    //", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    ", coalesce((select rr.concepto.tipo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
                     " from DaNotificacion noti, DaTomaMx mx, DaSolicitudDx dx, DetalleResultadoFinal r " +
                     " where noti.idNotificacion = mx.idNotificacion " +
                     sqlRutina +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) + (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")?sqlLab:"") +
@@ -867,8 +873,10 @@ public class ReportesService {
 
 
             queryIdNoti = session.createQuery(" select noti.idUnidadAtencion, dx.idSolicitudDx, r.valor " +
-                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
-                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    //", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    //", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    ", coalesce((select rr.concepto.tipo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
                     " from DaNotificacion noti, DaTomaMx mx, DaSolicitudDx dx, DetalleResultadoFinal r  " +
                     " where noti.idNotificacion = mx.idNotificacion " +
                     sqlRutina +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) + (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")?sqlLab:"") +
@@ -978,8 +986,10 @@ public class ReportesService {
                     " order by uni.idUnidadAtencion ");
 
             queryIdNoti = session.createQuery(" select noti.idUnidadAtencion, dx.idSolicitudDx, r.valor " +
-                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
-                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    //", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    //", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    ", coalesce((select rr.concepto.tipo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
                     " from DaNotificacion noti, DaTomaMx mx, DaSolicitudDx dx, DetalleResultadoFinal r " +
                     " where noti.idNotificacion = mx.idNotificacion " +
                     sqlRutina +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) + (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")?sqlLab:"") +
@@ -1146,7 +1156,7 @@ public class ReportesService {
         if (filtro.getCodArea().equals("AREAREP|PAIS")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
                     " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
-                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, coalesce((select r.valor from Respuesta r where r.codigo = noti.urgente.codigo), null) as urgente,  coalesce((select r.valor from Respuesta r where r.codigo = noti.embarazada.codigo), null) as embarazada, " +
+                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente, noti.desEmbarazada as embarazada, " +
                     " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
                     " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
                     " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +
@@ -1162,7 +1172,7 @@ public class ReportesService {
         }else if (filtro.getCodArea().equals("AREAREP|SILAIS")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
                     " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
-                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, coalesce((select r.valor from Respuesta r where r.codigo = noti.urgente.codigo), null) as urgente,  coalesce((select r.valor from Respuesta r where r.codigo = noti.embarazada.codigo), null) as embarazada, " +
+                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente, noti.desEmbarazada as embarazada, " +
                     " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
                     " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
                     " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +
@@ -1180,7 +1190,7 @@ public class ReportesService {
         } else if (filtro.getCodArea().equals("AREAREP|UNI")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
                     " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
-                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, coalesce((select r.valor from Respuesta r where r.codigo = noti.urgente.codigo), null) as urgente,  coalesce((select r.valor from Respuesta r where r.codigo = noti.embarazada.codigo), null) as embarazada, " +
+                    " noti.idNotificacion as idNotificacion, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente, noti.desEmbarazada as embarazada, " +
                     " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
                     " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
                     " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +

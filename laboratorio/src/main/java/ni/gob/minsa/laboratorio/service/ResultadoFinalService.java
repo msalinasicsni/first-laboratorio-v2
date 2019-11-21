@@ -681,8 +681,13 @@ public class ResultadoFinalService {
     public List<ResultadoSolicitud> getDetResActivosBySolicitudV2(String idSolicitud){
         List<ResultadoSolicitud> resultadoFinals = new ArrayList<ResultadoSolicitud>();
         Session session = sessionFactory.getCurrentSession();
-        String query = "select a.idDetalle as idDetalle, coalesce((select rs.nombre from RespuestaSolicitud rs where rs.idRespuesta = a.respuesta.idRespuesta), null) as respuesta, coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuesta.concepto.tipo.codigo), null) as tipo, a.valor as valor," +
-                " coalesce((select rs.nombre from RespuestaExamen rs where rs.idRespuesta = a.respuestaExamen.idRespuesta), null) as respuestaExamen, coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuestaExamen.concepto.tipo.codigo), null) as tipoExamen " +
+        String query = "select a.idDetalle as idDetalle, " +
+                " coalesce((select rs.nombre from RespuestaSolicitud rs where rs.idRespuesta = a.respuesta.idRespuesta), null) as respuesta, " +
+                //" coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuesta.concepto.tipo.codigo), null) as tipo, a.valor as valor," +
+                " coalesce((select rs.concepto.tipo from RespuestaSolicitud rs where rs.idRespuesta = a.respuesta.idRespuesta), null) as tipo, a.valor as valor, " +
+                " coalesce((select rs.nombre from RespuestaExamen rs where rs.idRespuesta = a.respuestaExamen.idRespuesta), null) as respuestaExamen, " +
+                //" coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuestaExamen.concepto.tipo.codigo), null) as tipoExamen " +
+                " coalesce((select rs.concepto.tipo from RespuestaExamen rs where rs.idRespuesta = a.respuestaExamen.idRespuesta), null) as tipoExamen " +
                 "from DetalleResultadoFinal as a inner join a.solicitudDx as r where a.pasivo = false and r.idSolicitudDx = :idSolicitud ";
 
         Query q = session.createQuery(query);
@@ -690,8 +695,13 @@ public class ResultadoFinalService {
         q.setResultTransformer(Transformers.aliasToBean(ResultadoSolicitud.class));
         resultadoFinals = q.list();
         if (resultadoFinals.size()<=0) {
-            String query2 = "select a.idDetalle as idDetalle, coalesce((select rs.nombre from RespuestaSolicitud rs where rs.idRespuesta = a.respuesta.idRespuesta), null) as respuesta, coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuesta.concepto.tipo.codigo), null) as tipo, a.valor as valor," +
-                    " coalesce((select rs.nombre from RespuestaExamen rs where rs.idRespuesta = a.respuestaExamen.idRespuesta), null) as respuestaExamen, coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuestaExamen.concepto.tipo.codigo), null) as tipoExamen " +
+            String query2 = "select a.idDetalle as idDetalle, " +
+                    " coalesce((select rs.nombre from RespuestaSolicitud rs where rs.idRespuesta = a.respuesta.idRespuesta), null) as respuesta, " +
+                    //" coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuesta.concepto.tipo.codigo), null) as tipo, a.valor as valor," +
+                    " coalesce((select rs.concepto.tipo from RespuestaSolicitud rs where rs.idRespuesta = a.respuesta.idRespuesta), null) as tipo, a.valor as valor, " +
+                    " coalesce((select rs.nombre from RespuestaExamen rs where rs.idRespuesta = a.respuestaExamen.idRespuesta), null) as respuestaExamen, " +
+                    //" coalesce((select rs.codigo from Catalogo rs where rs.codigo = a.respuestaExamen.concepto.tipo.codigo), null) as tipoExamen " +
+                    " coalesce((select rs.concepto.tipo from RespuestaExamen rs where rs.idRespuesta = a.respuestaExamen.idRespuesta), null) as tipoExamen " +
                     "from DetalleResultadoFinal as a inner join a.solicitudEstudio as r where a.pasivo = false and r.idSolicitudEstudio = :idSolicitud ";
             Query q2 = session.createQuery(query2);
             q2.setParameter("idSolicitud", idSolicitud);
