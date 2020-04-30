@@ -41,7 +41,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("administracion/examenes")
 public class ExamenesController {
-    private static final Logger logger = LoggerFactory.getLogger(UsuariosController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExamenesController.class);
 
     @Autowired
     @Qualifier(value = "seguridadService")

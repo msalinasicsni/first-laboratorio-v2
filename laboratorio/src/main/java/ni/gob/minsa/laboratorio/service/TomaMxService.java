@@ -4,6 +4,7 @@ import ni.gob.minsa.laboratorio.domain.examen.Area;
 import ni.gob.minsa.laboratorio.domain.muestra.*;
 import ni.gob.minsa.laboratorio.domain.muestra.traslado.HistoricoEnvioMx;
 import ni.gob.minsa.laboratorio.domain.persona.PersonaTmp;
+import ni.gob.minsa.laboratorio.domain.resultados.DetalleResultadoFinal;
 import ni.gob.minsa.laboratorio.domain.seguridadlocal.AutoridadLaboratorio;
 import ni.gob.minsa.laboratorio.domain.solicitante.Solicitante;
 import ni.gob.minsa.laboratorio.utilities.reportes.Solicitud;
@@ -300,23 +301,47 @@ public class TomaMxService {
 
         //filtro para solicitudes aprobadas
         if (filtro.getSolicitudAprobada() != null) {
-           Junction conditGroup = Restrictions.disjunction();
-            conditGroup.add(Subqueries.propertyIn("idTomaMx", DetachedCriteria.forClass(DaSolicitudEstudio.class)
-                    .add(Restrictions.eq("aprobada", filtro.getSolicitudAprobada()))
-                    .add(Restrictions.eq("anulado",false))
-                    .createAlias("idTomaMx", "toma")
-                    .setProjection(Property.forName("toma.idTomaMx"))))
 
-                    .add(Subqueries.propertyIn("idTomaMx", DetachedCriteria.forClass(DaSolicitudDx.class)
-                            .add(Restrictions.eq("aprobada", filtro.getSolicitudAprobada()))
-                            .add(Restrictions.eq("anulado",false))
-                            .createAlias("idTomaMx", "toma")
-                            .setProjection(Property.forName("toma.idTomaMx"))));
+            //filtro por fecha de procesamiento de dx
+            if (filtro.getFechaInicioProcesamiento()!=null && filtro.getFechaFinProcesamiento()!=null){
+                Junction conditGroup = Restrictions.disjunction();
+                conditGroup.add(Subqueries.propertyIn("idTomaMx", DetachedCriteria.forClass(DaSolicitudEstudio.class)
+                        .add(Restrictions.eq("aprobada", filtro.getSolicitudAprobada()))
+                        .add(Restrictions.eq("anulado",false))
+                        .add(Subqueries.propertyIn("idSolicitudEstudio", DetachedCriteria.forClass(DetalleResultadoFinal.class)
+                                .createAlias("solicitudEstudio", "estudio").add(Restrictions.eq("pasivo",false))
+                                .add(Restrictions.between("fechahRegistro", filtro.getFechaInicioProcesamiento(),filtro.getFechaFinProcesamiento()))
+                                .setProjection(Property.forName("estudio.idSolicitudEstudio"))))
+                        .createAlias("idTomaMx", "toma")
+                        .setProjection(Property.forName("toma.idTomaMx"))))
+                        .add(Subqueries.propertyIn("idTomaMx", DetachedCriteria.forClass(DaSolicitudDx.class)
+                                .add(Restrictions.eq("aprobada", filtro.getSolicitudAprobada()))
+                                .add(Restrictions.eq("anulado",false))
+                                .add(Subqueries.propertyIn("idSolicitudDx", DetachedCriteria.forClass(DetalleResultadoFinal.class)
+                                        .createAlias("solicitudDx", "dx").add(Restrictions.eq("pasivo",false))
+                                        .add(Restrictions.between("fechahRegistro", filtro.getFechaInicioProcesamiento(),filtro.getFechaFinProcesamiento()))
+                                        .setProjection(Property.forName("dx.idSolicitudDx"))))
+                                .createAlias("idTomaMx", "toma")
+                                .setProjection(Property.forName("toma.idTomaMx"))));
+                crit.add(conditGroup);
+            }else{
+                Junction conditGroup = Restrictions.disjunction();
+                conditGroup.add(Subqueries.propertyIn("idTomaMx", DetachedCriteria.forClass(DaSolicitudEstudio.class)
+                        .add(Restrictions.eq("aprobada", filtro.getSolicitudAprobada()))
+                        .add(Restrictions.eq("anulado",false))
+                        .createAlias("idTomaMx", "toma")
+                        .setProjection(Property.forName("toma.idTomaMx"))))
 
-
-            crit.add(conditGroup);
+                        .add(Subqueries.propertyIn("idTomaMx", DetachedCriteria.forClass(DaSolicitudDx.class)
+                                .add(Restrictions.eq("aprobada", filtro.getSolicitudAprobada()))
+                                .add(Restrictions.eq("anulado",false))
+                                .createAlias("idTomaMx", "toma")
+                                .setProjection(Property.forName("toma.idTomaMx"))));
+                crit.add(conditGroup);
+            }
 
         }
+
         //filtro sólo control calidad en el laboratio del usuario
         if (filtro.getControlCalidad()!=null) {
             if (filtro.getControlCalidad()){  //si hay filtro por control de calidad y es "Si", sólo incluir rutinas
@@ -372,7 +397,8 @@ public class TomaMxService {
     }
 
     public List<Solicitud> getSolicitudesDxByIdTomaV2(String idTomaMx, String codigoLab){
-        String query = "select distinct sdx.codDx.idDiagnostico as idSolicitud, sdx.codDx.nombre as nombre from DaSolicitudDx sdx inner join sdx.idTomaMx mx " +
+        String query = "select distinct sdx.codDx.idDiagnostico as idSolicitud, sdx.codDx.nombre as nombre, sdx.aprobada as aprobada, sdx.codDx.area.idArea as idArea " +
+                "from DaSolicitudDx sdx inner join sdx.idTomaMx mx " +
                 "where sdx.anulado = false and mx.idTomaMx = :idTomaMx " +
                 "and (sdx.labProcesa.codigo = :codigoLab" +
                 " or sdx.idSolicitudDx in (select oe.solicitudDx.idSolicitudDx " +
@@ -443,13 +469,16 @@ public class TomaMxService {
      *
      */
     @SuppressWarnings("unchecked")
-    public List<Dx_TipoMx_TipoNoti> getDx(String codMx, String tipoNoti, String userName) throws Exception {
+    public List<Dx_TipoMx_TipoNoti> getDx(String codMx, String tipoNoti, String userName, String idTomaMx) throws Exception {
         String query = "select dx from Dx_TipoMx_TipoNoti dx " +
                 "where dx.tipoMx_tipoNotificacion.tipoMx.idTipoMx = :codMx " +
                 //"and dx.tipoMx_tipoNotificacion.tipoNotificacion.codigo = :tipoNoti and dx.diagnostico.pasivo = false";
                 "and dx.tipoMx_tipoNotificacion.tipoNotificacion = :tipoNoti and dx.diagnostico.pasivo = false";
         if (userName!=null) {
           query +=  " and dx.diagnostico.area.idArea in (select a.idArea from AutoridadArea as aa inner join aa.area as a where aa.pasivo = false and aa.user.username = :userName)";
+        }
+        if (idTomaMx!=null) {
+            query += " and dx.diagnostico.idDiagnostico in (select sdx.codDx.idDiagnostico from DaSolicitudDx sdx where sdx.idTomaMx.idTomaMx = :idTomaMx )";
         }
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery(query);
@@ -458,11 +487,15 @@ public class TomaMxService {
         if (userName!=null) {
             q.setString("userName", userName);
         }
+        if (idTomaMx!=null) {
+            q.setString("idTomaMx", idTomaMx);
+        }
+
         return q.list();
     }
 
     public List<Catalogo_Dx> getDxsByTipoNoti(String tipoNoti) throws Exception {
-        String query = "select dx from Dx_TipoMx_TipoNoti dxrel inner join dxrel.diagnostico dx where dxrel.tipoMx_tipoNotificacion.tipoNotificacion.codigo = :tipoNoti" ;
+        String query = "select dx from Dx_TipoMx_TipoNoti dxrel inner join dxrel.diagnostico dx where dxrel.tipoMx_tipoNotificacion.tipoNotificacion = :tipoNoti" ;
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery(query);
         q.setString("tipoNoti", tipoNoti);
@@ -614,6 +647,13 @@ public class TomaMxService {
         return q.list();
     }
 
+    public boolean tieneEstudiosByIdTomaMx(String idTomaMx){
+        String query = "select est.idSolicitudEstudio from DaSolicitudEstudio est where est.anulado = false and est.idTomaMx.idTomaMx = :idTomaMx ORDER BY est.fechaHSolicitud";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idTomaMx",idTomaMx);
+        return q.list().size()>0;
+    }
+
     /**
      *Retorna una lista de estudios segun tipoMx y tipo Notificacion
      * @param codTipoMx código del tipo de Mx
@@ -621,16 +661,21 @@ public class TomaMxService {
      *
      */
     @SuppressWarnings("unchecked")
-    public List<Estudio_TipoMx_TipoNoti> getEstudiosByTipoMxTipoNoti(String codTipoMx, String codTipoNoti) throws Exception {
-        String query = "select est from Estudio_TipoMx_TipoNoti est, DaSolicitudEstudio as dse inner join dse.tipoEstudio as tes " +
-                "where dse.anulado = false and est.tipoMx_tipoNotificacion.tipoMx.idTipoMx = :codTipoMx " +
-                "and est.tipoMx_tipoNotificacion.tipoNotificacion.codigo = :codTipoNoti " +
-                "and tes.idEstudio = est.estudio.idEstudio " +
-                "and dse.idTomaMx.idTomaMx = :idTomaMx" ;
+    public List<Estudio_TipoMx_TipoNoti> getEstudiosByTipoMxTipoNoti(String codTipoMx, String codTipoNoti, String idTomaMx) {
+        String query = "select est from Estudio_TipoMx_TipoNoti est " +
+                "where est.tipoMx_tipoNotificacion.tipoMx.idTipoMx = :codTipoMx " +
+                "and est.tipoMx_tipoNotificacion.tipoNotificacion = :codTipoNoti " ;
+
+        if (idTomaMx!= null){
+            query += " and est.estudio.idEstudio in ( select tipoEstudio.idEstudio from DaSolicitudEstudio se where se.idTomaMx.idTomaMx = :idTomaMx )";
+        }
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery(query);
         q.setString("codTipoMx", codTipoMx);
         q.setString("codTipoNoti", codTipoNoti);
+        if (idTomaMx!= null){
+            q.setString("idTomaMx", idTomaMx);
+        }
 
         return q.list();
     }
@@ -646,7 +691,7 @@ public class TomaMxService {
 
     public List<Catalogo_Estudio> getEstudiossByTipoNoti(String tipoNoti) throws Exception {
         String query = "select dx from Estudio_TipoMx_TipoNoti dxrel inner join dxrel.estudio dx " +
-                "where dxrel.tipoMx_tipoNotificacion.tipoNotificacion.codigo = :tipoNoti" ;
+                "where dxrel.tipoMx_tipoNotificacion.tipoNotificacion = :tipoNoti" ;
         Session session = sessionFactory.getCurrentSession();
         Query q = session.createQuery(query);
         q.setString("tipoNoti", tipoNoti);
@@ -1036,6 +1081,15 @@ public class TomaMxService {
         return (DaSolicitudDx)q.uniqueResult();
     }
 
+    public String getIdSolicitudDxByMxDxNoCC(String idTomaMx,  Integer idDiagnostico){
+        String query = "select idSolicitudDx from DaSolicitudDx where idTomaMx.idTomaMx = :idTomaMx and anulado = false and controlCalidad = false  " +
+                "and codDx.idDiagnostico = :idDiagnostico ORDER BY fechaHSolicitud";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idTomaMx",idTomaMx);
+        q.setParameter("idDiagnostico",idDiagnostico);
+        return (String)q.uniqueResult();
+    }
+
     /**
      * Obtiene los dx iniciales solicitados en la toma de mx en una fecha de toma especifica
      * @param id del estudio a buscar
@@ -1111,4 +1165,52 @@ public class TomaMxService {
         List<Solicitud> results = query.list();
         return  results;
     }
+
+    /**
+     *Retorna una lista de Catalogo_Dx segun tipoMx y tipo Notificacion y las autoridades del usuario
+     * @param codMx tipo de Mx
+     * @param tipoNoti tipo Notificacion
+     *
+     */
+    @SuppressWarnings("unchecked")
+    public List<Catalogo_Dx> getDxByTipoMxTipoNoti(String codMx, String tipoNoti, String userName) {
+        String query = "select distinct dx.diagnostico from Dx_TipoMx_TipoNoti dx " +
+                "where dx.tipoMx_tipoNotificacion.tipoMx.idTipoMx = :codMx " +
+                "and dx.tipoMx_tipoNotificacion.tipoNotificacion = :tipoNoti and dx.diagnostico.pasivo = false";
+        if (userName!=null) {
+            query +=  " and dx.diagnostico.area.idArea in (select a.idArea from AutoridadArea as aa inner join aa.area as a where aa.pasivo = false and aa.user.username = :userName)";
+        }
+        Session session = sessionFactory.getCurrentSession();
+        Query q = session.createQuery(query);
+        q.setString("codMx", codMx);
+        q.setString("tipoNoti", tipoNoti);
+        if (userName!=null) {
+            q.setString("userName", userName);
+        }
+        return q.list();
+    }
+
+    /**
+     *Retorna una lista de Catalogo_Estudio segun tipoMx y tipo Notificacion
+     * @param codTipoMx código del tipo de Mx
+     * @param codTipoNoti código del tipo Notificacion
+     *
+     */
+    @SuppressWarnings("unchecked")
+    public List<Catalogo_Estudio> getEstudiosByTipoMxTipoNoti(String codTipoMx, String codTipoNoti) {
+        String query = "select distinct est.estudio from Estudio_TipoMx_TipoNoti est " +
+                "where est.tipoMx_tipoNotificacion.tipoMx.idTipoMx = :codTipoMx " +
+                "and est.tipoMx_tipoNotificacion.tipoNotificacion = :codTipoNoti " +
+                "and est.pasivo = false and est.estudio.pasivo = false " +
+                "and est.tipoMx_tipoNotificacion.pasivo = false " +
+                "and est.tipoMx_tipoNotificacion.tipoMx.pasivo = false " ;
+
+        Session session = sessionFactory.getCurrentSession();
+        Query q = session.createQuery(query);
+        q.setString("codTipoMx", codTipoMx);
+        q.setString("codTipoNoti", codTipoNoti);
+
+        return q.list();
+    }
+
 }

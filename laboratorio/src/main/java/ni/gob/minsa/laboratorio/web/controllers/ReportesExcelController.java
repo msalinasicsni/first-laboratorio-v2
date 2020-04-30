@@ -110,6 +110,8 @@ public class ReportesExcelController {
     @Autowired
     MessageSource messageSource;
 
+    private User usuario = null;
+
     /*******************************************************************/
     /************************ REPORTE POR RESULTADO DX PARA VIGILANCIA ***********************/
     /*******************************************************************/
@@ -219,18 +221,38 @@ public class ReportesExcelController {
             List<Object[]> registrosNeg = new ArrayList<Object[]>();
             List<Object[]> registrosMxInadec = new ArrayList<Object[]>();
             List<String> columnas = new ArrayList<String>();
-            Catalogo_Dx dx = tomaMxService.getDxById(filtroRep.getIdDx().toString());
+            Catalogo_Dx dx = null;
+            Catalogo_Estudio est = null;
+            String[] idDxsVirusResp = null;
+            String nombreDx = "";
+            if (filtroRep.getIdDx()!=null) {
+                if (filtroRep.getIdDx()==0){
+                    idDxsVirusResp = new String[2];
+                    Parametro parametro = parametrosService.getParametroByName("ID_DXS_VIRUS_RESPIRATORIOS");
+                    if (parametro!=null && parametro.getValor()!=null)
+                        idDxsVirusResp = parametro.getValor().split(",");
+                    filtroRep.setIdDx(Integer.valueOf(idDxsVirusResp[0]));
+                }
+                dx = tomaMxService.getDxById(filtroRep.getIdDx().toString());
+                if (dx!=null) nombreDx = dx.getNombre().toUpperCase();
+                rvList = reportesService.getDiagnosticosAprobadosByFiltroV2(filtroRep);
+            }
+            if (filtroRep.getIdEstudio()!=null) {
+                rvList = reportesService.getEstudiosAprobadosByFiltroV2(filtroRep);
+                est = tomaMxService.getEstudioById(filtroRep.getIdEstudio());
+                nombreDx = est.getNombre().toUpperCase();
+            }
             boolean mostrarTabla1 = true, mostrarTabla2 = true;
 
             String tipoReporte = "";
-            if (dx.getNombre().toLowerCase().contains("dengue")){
+            if ((dx!=null && dx.getNombre().toLowerCase().contains("dengue")) || (est!=null && est.getNombre().toLowerCase().contains("dengue"))) {
                 tipoReporte = "DENGUE";
                 setNombreColumnasDengue(columnas);
-                setDatosDengue(rvList, registrosPos, registrosNeg, labUser.getCodigo(), filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, columnas.size());
+                //setDatosDengue(dxList, registrosPos, registrosNeg, labUser.getCodigo(), filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, columnas.size());
             }else if (dx.getNombre().toLowerCase().contains("chikun")){
                 tipoReporte = "CHIK";
                 setNombreColumnasChik(columnas);
-                setDatosChikungunya(rvList, registrosPos, registrosNeg, filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, labUser.getCodigo(), columnas.size());
+                //setDatosChikungunya(dxList, registrosPos, registrosNeg, filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, labUser.getCodigo(), columnas.size());
             }else if (dx.getNombre().toLowerCase().contains("zika")){
                 tipoReporte = "ZIKA";
                 setNombreColumnasZika(columnas);
@@ -263,19 +285,28 @@ public class ReportesExcelController {
                 tipoReporte = "IFI_VIRUS_RESP";
                 setNombreColumnasIFIVR(columnas);
                 setDatosIFIVR(rvList, registrosPos, registrosNeg, filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, columnas.size());
-            } else if (dx.getNombre().toLowerCase().contains("molecular virus respiratorio")) {
+            }else if (dx!=null && dx.getNombre().toLowerCase().contains("molecular virus respiratorio") || (est!=null && est.getNombre().toLowerCase().contains("influenza"))) {
                 tipoReporte = "BIO_MOL_VIRUS_RESP";
                 setNombreColumnasBioMolVR(columnas);
                 setDatosBioMolVR(rvList, registrosPos, registrosNeg, filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, columnas.size());
-            } else{
+            } else if (idDxsVirusResp != null) {
+                tipoReporte = "VIRUS_RESPIRATORIOS";
+                setNombreColumnasVirusResp(columnas);
+                //filtroRep.setIdDx(360449);
+                filtroRep.setIdDx(Integer.valueOf(idDxsVirusResp[1]));
+                dx = tomaMxService.getDxById(filtroRep.getIdDx().toString());
+                if (dx!=null) nombreDx = nombreDx + " - "+ dx.getNombre().toUpperCase();
+                List<ResultadoVigilancia> dxListBio = reportesService.getDiagnosticosAprobadosByFiltroV2(filtroRep);
+                setDatosVirusResp(rvList, dxListBio, registrosPos, registrosNeg, filtroRep.isIncluirMxInadecuadas(), registrosMxInadec, columnas.size());
+            }else if (dx!=null){
                 tipoReporte = dx.getNombre().replace(" ","_");
                 setNombreColumnasDefecto(columnas);
                 setDatosDefecto(rvList, registrosPos, registrosNeg, filtroRep.isIncluirMxInadecuadas(), registrosMxInadec);
             }
 
-            Departamento departamento = organizationChartService.getDepartamentoAreaByLab(labUser.getCodigo(), dx.getArea().getIdArea());
+            Departamento departamento = organizationChartService.getDepartamentoAreaByLab(labUser.getCodigo(), (dx!=null?dx.getArea().getIdArea():est.getArea().getIdArea()));
             model.put("titulo", messageSource.getMessage("lbl.minsa", null, null) + " - " + labUser.getNombre());
-            model.put("subtitulo", departamento.getNombre().toUpperCase() + "/" + dx.getNombre().toUpperCase());
+            model.put("subtitulo", departamento.getNombre().toUpperCase() + "/" + nombreDx);
 
             model.put("tablaPos", getSubtituloTabla1(tipoReporte, filtroRep));
             model.put("tablaNeg", getSubtituloTabla2(tipoReporte, filtroRep));
@@ -343,6 +374,45 @@ public class ReportesExcelController {
         }catch (Exception ex){
             return new Gson().toJson(messageSource.getMessage("msg.error.sending.email",null,null)+" "+ ex.getMessage());
         }
+    }
+
+    /*******************************************************************/
+    /****** REPORTE INDICADOR DE TIEMPOS DE PROCESAMIENTO DE MX ********/
+    /*******************************************************************/
+
+    @RequestMapping(value = "tiemposProcesamiento/init", method = RequestMethod.GET)
+    public String initTiemposProcesamiento(Model model,HttpServletRequest request) throws Exception {
+        logger.debug("Reporte tiempos procesamiento");
+        List<Laboratorio> laboratorios = null;
+        String username = seguridadService.obtenerNombreUsuario();
+        List<EntidadesAdtvas> entidades = new ArrayList<EntidadesAdtvas>();
+        Laboratorio laboratorio = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
+        entidades = CallRestServices.getEntidadesAdtvas();
+        if (seguridadService.esUsuarioNivelCentral(username)){
+            laboratorios = laboratoriosService.getLaboratoriosRegionales();
+        } else {
+            //entidades = seguridadService.obtenerEntidadesPorUsuario((int) idUsuario, ConstantsSecurity.SYSTEM_CODE);
+            if (laboratorio != null) {
+                laboratorios = new ArrayList<Laboratorio>();
+                laboratorios.add(laboratorio);
+            }
+        }
+        //ABRIL2019
+        List<Catalogo> areas = CallRestServices.getCatalogos(CatalogConstants.AreaRep);
+        //areas.add(catalogosService.getAreaRep("AREAREP|PAIS"));
+        //areas.add(catalogosService.getAreaRep("AREAREP|SILAIS"));
+        //areas.add(catalogosService.getAreaRep("AREAREP|UNI"));
+        List<Catalogo_Dx> catDx = associationSamplesRequestService.getDxs();
+        List<Catalogo_Estudio> catEs = null;
+        if (laboratorio != null && laboratorio.getCodigo().equalsIgnoreCase("CNDR")) {
+            catEs = associationSamplesRequestService.getStudies();
+        }
+        model.addAttribute("laboratorios", laboratorios);
+        model.addAttribute("areas", areas);
+        model.addAttribute("entidades", entidades);
+        model.addAttribute("dxs", catDx);
+        model.addAttribute("estudios", catEs);
+        return "reportes/tiemposProcesamiento";
     }
 
     /**
@@ -537,6 +607,7 @@ public class ReportesExcelController {
     public ModelAndView downloadExcel(@RequestParam(value = "filtro", required = true) String filtro) throws Exception {
         // create some sample data
         logger.info("Obteniendo los datos para Reporte por Resultado dx vigilancia");
+        usuario = seguridadService.getUsuario(seguridadService.obtenerNombreUsuario());
         FiltrosReporte filtroRep = jsonToFiltroReportes(filtro);
         String[] idDxsVirusResp = null;
         String nombreDx = "";
@@ -654,6 +725,107 @@ public class ReportesExcelController {
         excelView.addObject("incluirMxInadecuadas", filtroRep.isIncluirMxInadecuadas());
         excelView.addObject("mostrarTabla1", mostrarTabla1);
         excelView.addObject("mostrarTabla2", mostrarTabla2);
+        excelView.addObject("sinDatos", messageSource.getMessage("lbl.nothing.to.show", null, null));
+        return excelView;
+    }
+
+    @RequestMapping(value = "/resultadoDx", method = RequestMethod.GET)
+    public ModelAndView resultadoDx(@RequestParam(value = "filtro", required = true) String filtro) throws Exception {
+        usuario = seguridadService.getUsuario(seguridadService.obtenerNombreUsuario());
+        // create some sample data
+        logger.info("Obteniendo los datos para Reporte por Resultado dx vigilancia");
+        ModelAndView excelView = new ModelAndView("excelView");
+        Catalogo_Dx dx = null;
+        Catalogo_Estudio est = null;
+        String nombreDx = "";
+        String nivel = "";
+        List<String> columnas = new ArrayList<String>();
+        List<Object[]> datos = new ArrayList<Object[]>();
+        FiltrosReporte filtroRep = jsonToFiltroReportes(filtro);
+        Laboratorio labUser = laboratoriosService.getLaboratorioByCodigo(filtroRep.getCodLaboratio());
+        if (filtroRep.getIdDx()!=null) {
+            dx = tomaMxService.getDxById(filtroRep.getIdDx().toString());
+            if (dx!=null) nombreDx = dx.getNombre().toUpperCase();
+        }else if (filtroRep.getIdEstudio()!=null) {
+            est = tomaMxService.getEstudioById(filtroRep.getIdEstudio());
+            nombreDx = est.getNombre().toUpperCase();
+        }
+        if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|PAIS")) {
+            nivel = messageSource.getMessage("lbl.pais", null, null).toUpperCase();
+        } else if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|SILAIS")) {
+            nivel = messageSource.getMessage("lbl.silais", null, null).toUpperCase();
+        }else if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|MUNI")) {
+            nivel = messageSource.getMessage("lbl.muni", null, null).toUpperCase();
+        }else if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|UNI")){
+            nivel = messageSource.getMessage("lbl.health.unit", null, null).toUpperCase();
+        }
+        setNombreColumnasResultadoDX(filtroRep, columnas, nombreDx);
+        if (filtroRep.getIdDx()!=null) {
+            datos = reportesService.getDataDxResultReport(filtroRep, nombreDx, columnas.size());
+        }else if (filtroRep.getIdEstudio()!=null) {
+            datos = reportesService.getDataEstResultReport(filtroRep, nombreDx, columnas.size());
+        }
+
+        excelView.addObject("titulo", messageSource.getMessage("lbl.minsa", null, null) + " - " + (labUser!=null?labUser.getNombre():messageSource.getMessage("lbl.all.laboratories", null, null)));
+        excelView.addObject("subtitulo", String.format(messageSource.getMessage("lbl.resultDx.subtitle", null, null), nivel) + " / " + nombreDx);
+        excelView.addObject("rangoFechas", String.format(messageSource.getMessage("lbl.excel.filter.2", null, null),
+                DateUtil.DateToString(filtroRep.getFechaInicio(), "dd/MM/yyyy"),
+                DateUtil.DateToString(filtroRep.getFechaFin(), "dd/MM/yyyy")));
+        excelView.addObject("columnas", columnas);
+        excelView.addObject("reporte","RESULTDX");
+        excelView.addObject("datos", datos);
+        excelView.addObject("sinDatos", messageSource.getMessage("lbl.nothing.to.show", null, null));
+        return excelView;
+    }
+
+    @RequestMapping(value = "/tiemposProcesamiento", method = RequestMethod.GET)
+    public ModelAndView tiemposProcesamiento(@RequestParam(value = "filtro", required = true) String filtro) throws Exception {
+        usuario = seguridadService.getUsuario(seguridadService.obtenerNombreUsuario());
+        // create some sample data
+        logger.info("Obteniendo los datos para Reporte de tiempos procesamiento");
+        ModelAndView excelView = new ModelAndView("excelView");
+        Catalogo_Dx dx = null;
+        Catalogo_Estudio est = null;
+        String nombreDx = "";
+        String nivel = "";
+        String subtitulo = "";
+        List<String> columnas = new ArrayList<String>();
+        List<Object[]> datos = new ArrayList<Object[]>();
+        FiltrosReporte filtroRep = jsonToFiltroReportes(filtro);
+        Laboratorio labUser = laboratoriosService.getLaboratorioByCodigo(filtroRep.getCodLaboratio());
+        if (filtroRep.getIdDx()!=null) {
+            dx = tomaMxService.getDxById(filtroRep.getIdDx().toString());
+            if (dx!=null) nombreDx = dx.getNombre().toUpperCase();
+        }
+        if (filtroRep.getIdEstudio()!=null) {
+            est = tomaMxService.getEstudioById(filtroRep.getIdEstudio());
+            nombreDx = est.getNombre().toUpperCase();
+        }
+        if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|PAIS")) {
+            nivel = messageSource.getMessage("lbl.pais", null, null).toUpperCase();
+            subtitulo = String.format(messageSource.getMessage("lbl.proc.times.subtitle", null, null), nivel, "");
+        } else if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|SILAIS")) {
+            nivel = messageSource.getMessage("lbl.silais", null, null).toUpperCase();
+            EntidadesAdtvas entidadesAdtva = CallRestServices.getEntidadAdtva(filtroRep.getCodSilais());//ABRIL2019
+            if (entidadesAdtva != null)
+                subtitulo = String.format(messageSource.getMessage("lbl.proc.times.subtitle", null, null), nivel, entidadesAdtva.getNombre());
+        }else if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|UNI")){
+            nivel = messageSource.getMessage("lbl.health.unit", null, null).toUpperCase();
+            Unidades unidad = CallRestServices.getUnidadSalud(filtroRep.getCodUnidad());
+            if (unidad != null)
+                subtitulo = String.format(messageSource.getMessage("lbl.proc.times.subtitle", null, null), nivel, unidad.getNombre());
+        }
+        setNombreColumnasTiemposProc(columnas);
+        if (filtroRep.getIdDx()!=null) datos = reportesService.getFechasDiagnosticosAprobadosByFiltro(filtroRep);
+        else datos = reportesService.getFechasEstudiosAprobadosByFiltro(filtroRep);
+        excelView.addObject("titulo", messageSource.getMessage("lbl.minsa", null, null) + " - " + (labUser!=null?labUser.getNombre():messageSource.getMessage("lbl.all.laboratories", null, null)));
+        excelView.addObject("subtitulo",  subtitulo+ " / " + nombreDx);
+        excelView.addObject("rangoFechas", String.format(messageSource.getMessage("lbl.excel.filter.3", null, null),
+                DateUtil.DateToString(filtroRep.getFechaInicio(), "dd/MM/yyyy"),
+                DateUtil.DateToString(filtroRep.getFechaFin(), "dd/MM/yyyy")));
+        excelView.addObject("columnas", columnas);
+        excelView.addObject("reporte","TIEMPOSMX");
+        excelView.addObject("datos", datos);
         excelView.addObject("sinDatos", messageSource.getMessage("lbl.nothing.to.show", null, null));
         return excelView;
     }
@@ -815,18 +987,35 @@ public class ReportesExcelController {
     private void setNombreColumnasMycobacTB(List<String> columnas){
         columnas.add(messageSource.getMessage("lbl.num", null, null));
         columnas.add(messageSource.getMessage("lbl.lab.code.mx", null, null).toUpperCase());
-        columnas.add(messageSource.getMessage("lbl.receipt.person.name", null, null).toUpperCase());
-        columnas.add(messageSource.getMessage("person.sexo", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("person.name1.full", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("person.name2.full", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("person.lastname1.full", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("person.lastname2.full", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.cedula", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.age", null, null).toUpperCase().replace(":", ""));
-        columnas.add(messageSource.getMessage("lbl.age.um", null, null).toUpperCase());
+        //columnas.add(messageSource.getMessage("lbl.age.um", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("person.sexo", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.silais", null, null).toUpperCase());
-        columnas.add(messageSource.getMessage("lbl.health.unit", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.muni", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.health.unit.alt", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.sector", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.doctor", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.minsa.code", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.silais", null, null).toUpperCase()+"2");
+        columnas.add(messageSource.getMessage("lbl.muni", null, null).toUpperCase()+"2");
+        columnas.add(messageSource.getMessage("lbl.health.unit.alt", null, null).toUpperCase()+"2");
+        columnas.add(messageSource.getMessage("lbl.sector", null, null).toUpperCase()+"2");
         columnas.add(messageSource.getMessage("lbl.population.risk", null, null).toUpperCase());
-        columnas.add(messageSource.getMessage("lbl.category.patient", null, null).toUpperCase());
-        columnas.add(messageSource.getMessage("lbl.comorbidities", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.location.infection", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.category.patient", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.chronic.diseases", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.requested.exam", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.sample.type1", null, null).toUpperCase());
-        columnas.add(messageSource.getMessage("lbl.bacilloscopy", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.collection.date", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.reception.date.laboratory", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.collection.date.previous.baar", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.result.date.previous.baar", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.result.previous.baar", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.date.xpert.tb", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.fr.expert.tb", null, null).toUpperCase());
         columnas.add(messageSource.getMessage("lbl.observations", null, null).toUpperCase());
@@ -1074,6 +1263,70 @@ public class ReportesExcelController {
         columnas.add(messageSource.getMessage("lbl.res.final", null, null).toUpperCase());
     }
 
+    private void setNombreColumnasResultadoDX(FiltrosReporte filtroRep, List<String> columnas, String nombreDx) throws Exception{
+        if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|PAIS")) {
+            columnas.add(messageSource.getMessage("lbl.silais", null, null).toUpperCase());
+        } else if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|SILAIS")) {
+            columnas.add(messageSource.getMessage("lbl.muni", null, null).toUpperCase());
+        }
+        if (filtroRep.getCodArea().equalsIgnoreCase("AREAREP|MUNI") || filtroRep.getCodArea().equalsIgnoreCase("AREAREP|UNI")) {
+            columnas.add(messageSource.getMessage("lbl.health.unit", null, null).toUpperCase());
+        }
+        columnas.add(messageSource.getMessage("lbl.total", null, null).toUpperCase());
+        if (nombreDx.toLowerCase().contains("dengue") || nombreDx.toLowerCase().contains("chikun") || nombreDx.toLowerCase().contains("zika")
+                || (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("molec"))) {
+            columnas.add(messageSource.getMessage("lbl.positives", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.negatives", null, null).toUpperCase());
+        } else if (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("serolog")){
+            columnas.add(messageSource.getMessage("lbl.reactor", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.no.reactor", null, null).toUpperCase());
+        } else if (nombreDx.toLowerCase().contains("ifi virus respiratorio")){
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.a", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.b", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.rsv", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.adv", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.piv1", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.piv2", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.piv3", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.ifi.flu.mpv", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.negatives", null, null).toUpperCase());
+        } else if (nombreDx.toLowerCase().contains("molecular virus respiratorio") || nombreDx.toLowerCase().contains("influenza")) {
+            columnas.add(messageSource.getMessage("lbl.pcr.flu.a.H1N1", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.pcr.flu.a.H1N1PDM", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.pcr.flu.a.H3N2", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.pcr.flu.a.NS", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.pcr.flu.b.2", null, null).toUpperCase());
+        } else if (nombreDx.toLowerCase().contains("mycobacterium") && (nombreDx.toLowerCase().contains("tuberculosis") || nombreDx.contains("tb"))) {
+            columnas.add(messageSource.getMessage("lbl.mtb.det", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.mtb.nd", null, null).toUpperCase());
+        } else{
+            columnas.add(messageSource.getMessage("lbl.positives", null, null).toUpperCase());
+            columnas.add(messageSource.getMessage("lbl.negatives", null, null).toUpperCase());
+        }
+        columnas.add(messageSource.getMessage("lbl.without.result", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.sample.inadequate2", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.sample.no.proc", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.pos.percentage", null, null).toUpperCase());
+    }
+
+    private void setNombreColumnasTiemposProc(List<String> columnas) throws Exception{
+        columnas.add(messageSource.getMessage("lbl.num", null, null));
+        columnas.add(messageSource.getMessage("lbl.lab.code.mx", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.silais", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.muni", null, null).toUpperCase());
+        //columnas.add(messageSource.getMessage("lbl.dxs.large", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.ftm", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.general.reception.datetime", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.general.reception.time", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.lab.reception.datetime", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.lab.reception.time", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.processing.datetime.2", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.processing.time.2", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.approve.datetime", null, null).toUpperCase());
+        columnas.add(messageSource.getMessage("lbl.approval.time", null, null).toUpperCase());
+        //columnas.add(messageSource.getMessage("lbl.total.time", null, null).toUpperCase());
+    }
+
     public Integer getSemanaEpi(Date fechaSemana) throws Exception{
         CalendarioEpi calendario = null;
         if (fechaSemana != null)
@@ -1172,7 +1425,7 @@ public class ReportesExcelController {
             }else if (registro[20].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
-            }else if (incluirMxInadecuadas && registro[20].toString().toLowerCase().contains("inadecuada")){
+            }else if (incluirMxInadecuadas && registro[20].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }
@@ -1242,7 +1495,7 @@ public class ReportesExcelController {
             } else if (registro[18].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
-            } else if (incluirMxInadecuadas && registro[18].toString().toLowerCase().contains("inadecuada")){
+            } else if (incluirMxInadecuadas && registro[18].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }
@@ -1328,7 +1581,7 @@ public class ReportesExcelController {
             } else if (registro[17].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
-            } else if (incluirMxInadecuadas && registro[17].toString().toLowerCase().contains("inadecuada")){
+            } else if (incluirMxInadecuadas && registro[17].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }
@@ -1406,7 +1659,7 @@ public class ReportesExcelController {
             }else if (registro[2].toString().toLowerCase().contains("reactor") || registro[2].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountPos++;
                 registrosPos.add(registro);
-            } else if (incluirMxInadecuadas && registro[2].toString().toLowerCase().contains("inadecuada")){
+            } else if (incluirMxInadecuadas && registro[2].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }
@@ -1419,21 +1672,21 @@ public class ReportesExcelController {
         int rowCountNeg = 1;
         int rowCountInadec = 1;
         for (ResultadoVigilancia solicitudDx : dxList) {
-            String nombres = "";
-            String apellidos = "";
+            //String nombres = "";
+            //String apellidos = "";
 
             Object[] registro = new Object[numColumnas];
             registro[1] = solicitudDx.getCodigoMx();
-            nombres = solicitudDx.getPrimerNombre();
+            registro[2] = solicitudDx.getPrimerNombre();
             if (solicitudDx.getSegundoNombre()!=null)
-                nombres += " "+solicitudDx.getSegundoNombre();
+                registro[3] = solicitudDx.getSegundoNombre();
 
-            apellidos = solicitudDx.getPrimerApellido();
+            registro[4] = solicitudDx.getPrimerApellido();
             if (solicitudDx.getSegundoApellido()!=null)
-                apellidos += " "+solicitudDx.getSegundoApellido();
-            registro[2] = nombres + " " + apellidos;
-            String sexo = solicitudDx.getSexo();
-            registro[3] = sexo.substring(sexo.length() - 1, sexo.length());
+                registro[5] = solicitudDx.getSegundoApellido();
+
+            //registro[6] = solicitudDx.getIdentificacion();//TODO
+
             Integer edad = null;
             String medidaEdad = "";
             String[] arrEdad = DateUtil.calcularEdad(solicitudDx.getFechaNacimiento(), new Date()).split("/");
@@ -1444,17 +1697,29 @@ public class ReportesExcelController {
             }else if (arrEdad[2] != null) {
                 edad = Integer.valueOf(arrEdad[2]); medidaEdad = "D";
             }
-            registro[4] = edad;
-            registro[5] = medidaEdad;
-            registro[6] = (solicitudDx.getCodigoSilaisNoti()!=null?solicitudDx.getNombreSilaisNoti(): //silais en la notificacion
-                    (solicitudDx.getCodigoSilaisMx()!=null?solicitudDx.getNombreSilaisMx():"")); //silais en la toma mx
-            registro[7] = (solicitudDx.getCodigoUnidadNoti()!=null?solicitudDx.getNombreUnidadNoti()://unidad en la notif
-                    (solicitudDx.getCodigoUnidadMx()!=null?solicitudDx.getNombreUnidadMx():""));//unidad en la toma mx
-            registro[12] = solicitudDx.getNombreTipoMx();
+            registro[7] = edad + medidaEdad;
+            String sexo = solicitudDx.getSexo();
+            registro[8] = sexo.substring(sexo.length() - 1, sexo.length());
 
-            validarPCRTB(registro, solicitudDx.getIdSolicitud(), 15, 14);
+            registro[9] = (solicitudDx.getCodigoSilaisNoti()!=null?solicitudDx.getNombreSilaisNoti(): //silais en la notificacion
+                    (solicitudDx.getCodigoSilaisMx()!=null?solicitudDx.getNombreSilaisMx():"")); //silais en la toma mx
+            registro[10] = (solicitudDx.getCodigoUnidadNoti()!=null?solicitudDx.getNombreUnidadNoti()://unidad en la notif
+                    (solicitudDx.getCodigoUnidadMx()!=null?solicitudDx.getNombreUnidadMx():""));//unidad en la toma mx
+            registro[11] = solicitudDx.getNombreTipoMx();
+            //registro[12] = ""; //no hay dato sector
+            //registro[13] = ""; //no hay dato del medico
+            //registro[14] = ""; //no hay dato del medico
+            registro[15] = (solicitudDx.getNombreSilaisResid()!=null?solicitudDx.getNombreSilaisResid():"");
+            registro[16] = (solicitudDx.getNombreMuniResid()!=null?solicitudDx.getNombreMuniResid():"");
+            //registro[17] = ""; //no hay dato unidad de residencia
+            //registro[18] = ""; //no hay dato sector de residencia
+
+            registro[24] = solicitudDx.getNombreTipoMx();
+
+
+            validarPCRTB(registro, solicitudDx.getIdSolicitud(), 31, 30, 23);
             String resSol = parseFinalResultDetails(solicitudDx.getIdSolicitud());
-            if (incluirMxInadecuadas && (resSol.toLowerCase().contains("inadecuada") || (registro[15] != null && registro[15].toString().toLowerCase().contains("inadecuada")))) {
+            if (incluirMxInadecuadas && (resSol.toLowerCase().contains("inadecuad") || (registro[15] != null && registro[15].toString().toLowerCase().contains("inadecuad")))) {
                 registro[0] = rowCountInadec++;
                 registrosMxInadec.add(registro);
             } else {
@@ -1505,7 +1770,7 @@ public class ReportesExcelController {
 
             validarCultivoTB(registro, solicitudDx.getIdSolicitud());
             String resSol = parseFinalResultDetails(solicitudDx.getIdSolicitud());
-            if (incluirMxInadecuadas && (resSol.toLowerCase().contains("inadecuada") || (registro[19] != null && registro[19].toString().toLowerCase().contains("inadecuada")))) {
+            if (incluirMxInadecuadas && (resSol.toLowerCase().contains("inadecuad") || (registro[19] != null && registro[19].toString().toLowerCase().contains("inadecuad")))) {
                 registro[0] = rowCountInadec++;
                 registrosMxInadec.add(registro);
             } else {
@@ -1517,7 +1782,7 @@ public class ReportesExcelController {
             List<DaSolicitudDx> buscarCultivoTb = tomaMxService.getSoliDxAprobByIdToma(solicitudDx.getIdTomaMx());
             for (DaSolicitudDx cultivoDx : buscarCultivoTb) {
                 if (cultivoDx.getCodDx().getNombre().toLowerCase().contains("mycobacterium") && (cultivoDx.getCodDx().getNombre().toLowerCase().contains("tuberculosis") || cultivoDx.getCodDx().getNombre().toLowerCase().contains("tb"))) {
-                    validarPCRTB(registro, cultivoDx.getIdSolicitudDx(), 15, 14);
+                    validarPCRTB(registro, cultivoDx.getIdSolicitudDx(), 31, 30, 23);
                 }
             }
         }
@@ -1535,10 +1800,20 @@ public class ReportesExcelController {
             //registro[1] = solicitudDx.getIdTomaMx().getIdNotificacion().getCodigoPacienteVIH();
             registro[2] = "expediente";
             registro[3] = "ocupacion";
-            registro[4] = "Edad";
-            registro[5] = "En";
-            registro[6] = "Sexo";
-            registro[7] = "Embarazada";
+            Integer edad = null;
+            String medidaEdad = "";
+            String[] arrEdad = DateUtil.calcularEdad(solicitudDx.getFechaNacimiento(), new Date()).split("/");
+            if (arrEdad[0] != null && !arrEdad[0].equalsIgnoreCase("0")) {
+                edad = Integer.valueOf(arrEdad[0]); medidaEdad = "A";
+            }else if (arrEdad[1] != null && !arrEdad[1].equalsIgnoreCase("0")) {
+                edad = Integer.valueOf(arrEdad[1]); medidaEdad = "M";
+            }else if (arrEdad[2] != null) {
+                edad = Integer.valueOf(arrEdad[2]); medidaEdad = "D";
+            }
+            registro[4] = edad;
+            registro[5] = medidaEdad;
+            String sexo = solicitudDx.getSexo();
+            registro[6] = sexo.substring(sexo.length() - 1, sexo.length());            registro[7] = "Embarazada";
             registro[8] = (solicitudDx.getCodigoSilaisNoti()!=null?solicitudDx.getNombreSilaisNoti(): //silais en la notificacion
                     (solicitudDx.getCodigoSilaisMx()!=null?solicitudDx.getNombreSilaisMx():"")); //silais en la toma mx
             registro[9] = (solicitudDx.getCodigoMuniNoti()!=null?solicitudDx.getNombreMuniNoti(): //unidad en la notif
@@ -1561,30 +1836,11 @@ public class ReportesExcelController {
             registro[16] = "FechaEntregaResultado";
 
             registro[18] = parseFinalResultDetails(solicitudDx.getIdSolicitud(), "observaci");
-
-
-
-
-            /*
-            Integer edad = null;
-            String medidaEdad = "";
-            String[] arrEdad = DateUtil.calcularEdad(solicitudDx.getIdTomaMx().getIdNotificacion().getPersona().getFechaNacimiento(), new Date()).split("/");
-            if (arrEdad[0] != null && !arrEdad[0].equalsIgnoreCase("0")) {
-                edad = Integer.valueOf(arrEdad[0]); medidaEdad = "A";
-            }else if (arrEdad[1] != null && !arrEdad[1].equalsIgnoreCase("0")) {
-                edad = Integer.valueOf(arrEdad[1]); medidaEdad = "M";
-            }else if (arrEdad[2] != null) {
-                edad = Integer.valueOf(arrEdad[2]); medidaEdad = "D";
-            }
-            registro[10] = edad;
-            registro[11] = medidaEdad;
-            String sexo = solicitudDx.getIdTomaMx().getIdNotificacion().getPersona().getSexo().getCodigo();
-            registro[12] = sexo.substring(sexo.length() - 1, sexo.length());
-            */
-            //la posici�n que contiene el resultado final
+            //la posiciï¿½n que contiene el resultado final
             registros.add(registro);
         }
     }
+
 
 
     private void setDatosDefecto(List<ResultadoVigilancia> dxList, List<Object[]> registrosPos, List<Object[]> registrosNeg, boolean incluirMxInadecuadas, List<Object[]> registrosMxInadec) throws Exception{
@@ -1646,7 +1902,7 @@ public class ReportesExcelController {
             } else if (registro[15].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
-            } else if (incluirMxInadecuadas && registro[15].toString().toLowerCase().contains("inadecuada")){
+            } else if (incluirMxInadecuadas && registro[15].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }
@@ -1710,7 +1966,7 @@ public class ReportesExcelController {
             if (registro[23].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
-            } else if (incluirMxInadecuadas && registro[23].toString().toLowerCase().contains("inadecuada")){
+            } else if (incluirMxInadecuadas && registro[23].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }else if (!registro[23].toString().toLowerCase().contains("indetermin")) {
@@ -1798,8 +2054,10 @@ public class ReportesExcelController {
                 }
             };
             //si se encuentra la muestra poner agregar datos de bio molecular a la fila
+            boolean tieneBioMol = false;
             Collection<ResultadoVigilancia> resExamen = FilterLists.filter(dxListBio, byIdOrdenExamen);
             if (resExamen.size()>0) {
+                tieneBioMol = true;
                 for(ResultadoVigilancia dxBm : resExamen){
                     validarPCRVirusResp(registro, dxBm.getIdSolicitud(), 35);
                     registro[41] = DateUtil.DateToString(dxBm.getFechaAprobacion(),"dd/MM/yyyy");
@@ -1822,14 +2080,17 @@ public class ReportesExcelController {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
                 registro[43] = "Negativo";
-            } else if (incluirMxInadecuadas && (registro[34].toString().toLowerCase().contains("inadecuada") || registro[42].toString().toLowerCase().contains("inadecuada"))){
+            } else if (incluirMxInadecuadas && (registro[34].toString().toLowerCase().contains("inadecuad") || registro[42].toString().toLowerCase().contains("inadecuad"))){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
                 registro[43] = "Mx Inadecuada";
             }else if (!registro[34].toString().toLowerCase().contains("indetermin") || !registro[42].toString().toLowerCase().contains("indetermin")) {
                 registro[0]= rowCountPos++;
                 registrosPos.add(registro);
-                registro[43] = "Positivo";
+                if (tieneBioMol)
+                    registro[43] = registro[42].toString();
+                else
+                    registro[43] = registro[34].toString()+", "+messageSource.getMessage("lbl.pcr.flu.a.NS", null, null);
             }
         }
     }
@@ -1891,7 +2152,7 @@ public class ReportesExcelController {
             if (registro[19].toString().toLowerCase().contains("negativo")) {
                 registro[0]= rowCountNeg++;
                 registrosNeg.add(registro);
-            } else if (incluirMxInadecuadas && registro[19].toString().toLowerCase().contains("inadecuada")){
+            } else if (incluirMxInadecuadas && registro[19].toString().toLowerCase().contains("inadecuad")){
                 registro[0]= rowCountInadec++;
                 registrosMxInadec.add(registro);
             }else if (!registro[19].toString().toLowerCase().contains("indetermin")) {
@@ -2107,10 +2368,12 @@ public class ReportesExcelController {
         }
     }
 
-    private void validarPCRTB(Object[] dato, String idSolicitudDx, int indiceRes, int indiceFR){
+    private void validarPCRTB(Object[] dato, String idSolicitudDx, int indiceRes, int indiceFR, int indiceNombreEx){
 
         List<DatosOrdenExamen> examenes = ordenExamenMxService.getOrdenesExamenByIdSolicitudV2(idSolicitudDx);
+        String nombreExamenes = "";
         for (DatosOrdenExamen examen : examenes) {
+            nombreExamenes += nombreExamenes+",";
             if (examen.getExamen().toUpperCase().contains("XPERT")){
                 List<ResultadoExamen> resultados = resultadosService.getDetallesResultadoActivosByExamenV2(examen.getIdOrdenExamen());
 
@@ -2135,6 +2398,7 @@ public class ReportesExcelController {
                 }
             }
         }
+        dato[indiceNombreEx] = nombreExamenes;
     }
 
     private void validarCultivoTB(Object[] dato, String idSolicitudDx) throws Exception{
@@ -2246,7 +2510,7 @@ public class ReportesExcelController {
                 }else if (res.getTipo().equals("TPDATO|LOG")) {
                     String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
                     resultados+=valorBoleano;
-                } else if (res.getValor().toLowerCase().contains("inadecuada")) {
+                } else if (res.getValor().toLowerCase().contains("inadecuad")) {
                     resultados+=res.getValor();
                 }
             }else if (res.getRespuestaExamen()!=null){
@@ -2394,6 +2658,7 @@ public class ReportesExcelController {
         filtroRep.setSemFinal(semFinal);
         filtroRep.setAnioInicial(anio);
         filtroRep.setConsolidarPor(consolidarPor);
+        filtroRep.setNivelCentral(usuario.getNivelCentral());
         filtroRep.setEstudios(estudios!=null?estudios.replaceAll("-E",""):null);
         return filtroRep;
     }

@@ -180,6 +180,9 @@
                             <li class="sampleTypes">
                                 <a href="<spring:url value="/administracion/sampleTypes/init" htmlEscape="true "/>" title="<spring:message code="lbl.sample.types" />"><i class="fa fa-lg fa-fw fa-list-ul"></i> <spring:message code="lbl.sample.types" /></a>
                             </li>
+                            <li class="equipos">
+                                <a href="<spring:url value="/administracion/equipos/list" htmlEscape="true "/>" title="<spring:message code="menu.equipments" />"><i class="fa fa-lg fa-fw fa-list-ul"></i> <spring:message code="menu.equipments" /></a>
+                            </li>
                         </ul>
                     </li>
                     <li class="concepto">
@@ -244,6 +247,9 @@
                     </li>
                     <li class="consolidatedexams">
                         <a href="<spring:url value="/reports/consolidatedexams/init" htmlEscape="true "/>" title="<spring:message code="menu.report.consol.exams" />"><i class="fa fa-lg fa-fw fa-list-alt"></i> <spring:message code="menu.report.consol.exams" /></a>
+                    </li>
+                    <li class="tiemposProcesamiento">
+                        <a href="<spring:url value="/reports/tiemposProcesamiento/init" htmlEscape="true "/>" title="<spring:message code="menu.report.proc.times" />"><i class="fa fa-lg fa-fw fa-clock-o"></i> <spring:message code="menu.report.proc.times" /></a>
                     </li>
                 </ul>
             </li>

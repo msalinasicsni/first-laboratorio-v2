@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import ni.gob.minsa.laboratorio.restServices.entidades.*;
+import ni.gob.minsa.laboratorio.utilities.HL7.TestOrder;
 import ni.gob.minsa.laboratorio.utilities.reportes.FilterLists;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -414,4 +415,19 @@ public class CallRestServices {
         }else return null;
     }
 
+    //HL7
+    public static void crearSolicitud(TestOrder testOrder) throws Exception {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ResultadoHL7Services.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ResultadoHL7Services servicios = retrofit.create(ResultadoHL7Services.class);
+
+        Call<ResponseBody> call = servicios.crearSolicitud(testOrder);
+        Response<ResponseBody> response = call.execute();
+        System.out.println("Respuesta es exitosa desde "+ResultadoHL7Services.API_URL);
+        System.out.println(response.isSuccessful());
+        if (response.body()!=null) System.out.println(response.body().string());
+    }
 }

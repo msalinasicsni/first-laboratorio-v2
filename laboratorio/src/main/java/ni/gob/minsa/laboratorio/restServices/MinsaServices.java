@@ -13,8 +13,8 @@ import retrofit2.http.Query;
  */
 public interface MinsaServices {
 
-    public static final String API_URL = "http://desa.minsa.gob.ni:8084"; //"http://prueba.minsa.gob.ni:8084/";
-    public static final String API_PERSONA_URL = "http://desa.minsa.gob.ni:8084";
+    public static final String API_URL = "http://desa.minsa.gob.ni"; //"http://prueba.minsa.gob.ni:8084/";
+    public static final String API_PERSONA_URL = "http://desa.minsa.gob.ni";
     public static final String SEVICIO_PERSONAS_IDENTIFICACION = API_URL+"/wspersonas/v2/hospitalario/personas/identificacion/";
     public static final String SEVICIO_PERSONAS_NONBRES = API_URL+"/wspersonas/v2/hospitalario/personas/nombre/";
 

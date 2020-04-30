@@ -100,6 +100,28 @@ var consolidatedExams = function () {
                     filtro['estudios'] = strValoresEst;
                     $(this).attr("href",parametros.excelUrl+"?filtro="+JSON.stringify(filtro));
                     desbloquearUI();
+
+                    /*
+                     var strValoresEst = '';
+                     for (var i = 0; i < valores.length; i++) {
+                     if (valores[i].indexOf("-R") != -1) {
+                     if (strValores.length > 0)
+                     strValores = strValores + ',' + valores[i].substr(0, valores[i].indexOf("-R"));
+                     else
+                     strValores = +valores[i].substr(0, valores[i].indexOf("-R"));
+                     }
+                     else {
+                     if (strValoresEst.length > 0)
+                     strValoresEst = strValoresEst + ',' + valores[i].substr(0, valores[i].indexOf("-E"));
+                     else
+                     strValoresEst = +valores[i].substr(0, valores[i].indexOf("-E"));
+                     }
+                     }
+                     filtro['diagnosticos'] = strValores;
+                     filtro['estudios'] = strValoresEst;
+                     $(this).attr("href", parametros.excelUrl + "?filtro=" + JSON.stringify(filtro));
+
+                     * */
                 }
             });
         }

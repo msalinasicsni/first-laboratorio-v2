@@ -44,13 +44,13 @@ var resultReport = function () {
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'>r>"+
                     "t"+
                     "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                "aoColumns" : [ {sClass: "aw-left" },{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"}],
+                "aoColumns" : [ {sClass: "aw-left" },{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"},{sClass: "aw-right"}],
                 "createdRow": function ( row, data, index ) {
                     if ( data[2] > 0 ) {
                         $('td', row).eq(2).addClass('highlight');
                     }
-                    if ( data[6]  > 0 ) {
-                        $('td', row).eq(6).addClass('highlight');
+                    if ( data[7]  > 0 ) {
+                        $('td', row).eq(7).addClass('highlight');
                     }
                 },
                 "autoWidth" : true,
@@ -163,6 +163,33 @@ var resultReport = function () {
                     }
                 });
 
+            $("#exportExcel").click(function(){
+                var $validarForm = $("#result_form").valid();
+                if (!$validarForm) {
+                    $validator.focusInvalid();
+                    return false;
+                } else {
+                    bloquearUI(parametros.blockMess);
+                    var filtro = {};
+                    //filtro['subunidades'] = $('#ckUS').is(':checked');
+                    filtro['fechaInicio'] = $('#initDate').val();
+                    filtro['fechaFin'] = $('#endDate').val();
+                    filtro['codSilais'] = $('#codSilais').find('option:selected').val();
+                    filtro['codUnidadSalud'] = $('#codUnidadAtencion').find('option:selected').val();
+                    //filtro['codDepartamento'] = $('#codDepartamento').find('option:selected').val();
+                    filtro['codMunicipio'] = $('#codMunicipio').find('option:selected').val();
+                    filtro['codArea'] = $('#codArea').find('option:selected').val();
+                    //filtro['tipoNotificacion'] = $('#codTipoNoti').find('option:selected').val();
+                    filtro['porSilais'] = "true"; //$('input[name="rbNivelPais"]:checked', '#result_form').val();
+                    //filtro['codZona'] = $('#codZona').find('option:selected').val();
+                    filtro['idDx'] = $('#idDx').find('option:selected').val();
+                    filtro['codLabo'] = $('#codigoLab').find('option:selected').val();
+                    filtro['consolidarPor'] = $('input[name="rbFechaBusqueda"]:checked', '#result_form').val();
+                    $(this).attr("href",parametros.sExcelResultDx+"?filtro="+JSON.stringify(filtro));
+                    desbloquearUI();
+                }
+            });
+
             function getData() {
                 var filtro = {};
                 //filtro['subunidades'] = $('#ckUS').is(':checked');
@@ -221,7 +248,7 @@ var resultReport = function () {
                     }
 
                     for (var row in data) {
-                        table1.fnAddData([data[row][0], data[row][2], data[row][3], data[row][4], data[row][5],data[row][7], data[row][6]]);
+                        table1.fnAddData([data[row][0], data[row][2], data[row][3], data[row][4], data[row][5],data[row][7], data[row][8], data[row][6]]);
                         encontrado = true;
 
                     }

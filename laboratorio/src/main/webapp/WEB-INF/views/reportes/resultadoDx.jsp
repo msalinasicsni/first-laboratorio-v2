@@ -147,10 +147,10 @@
                         <div class="row">
                             <section class="col col-sm-12 col-md-12 col-lg-12">
                                 <label class="text-left txt-color-blue font-md">
-                                    <i class="fa fa-fw fa-asterisk txt-color-red font-sm"></i><spring:message code="lbl.dxs.large" /> </label>
+                                    <i class="fa fa-fw fa-asterisk txt-color-red font-sm"></i><spring:message code="lbl.request.large" /> </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"> <i class="fa fa-list"></i></span>
-                                    <select  name="idDx" id="idDx" data-placeholder="<spring:message code="act.select" /> <spring:message code="lbl.dxs.large" />" class="select2">
+                                    <select  name="idDx" id="idDx" data-placeholder="<spring:message code="act.select" /> <spring:message code="lbl.request.large" />" class="select2">
                                         <option value=""></option>
                                         <c:forEach items="${dxs}" var="dx">
                                             <option value="${dx.idDiagnostico}-R">${dx.nombre}</option>
@@ -313,7 +313,8 @@
                         </div>
                         <!-- END ROW -->
                         <footer>
-                            <button type="submit" class="btn btn-info"><i class="fa fa-refresh"></i> <spring:message code="act.refresh" /></button>
+                            <!--<button type="submit" class="btn btn-info"><i class="fa fa-refresh"></i> <spring:message code="act.refresh" /></button> -->
+                            <a id="exportExcel" class="btn btn-success btn-lg pull-right header-btn" href="#"><i class="fa fa-file-excel-o"></i> <spring:message code="lbl.export.excel" /></a>
                         </footer>
                     </fieldset>
                 </form>
@@ -325,61 +326,6 @@
     <!-- end widget -->
 </article>
 
-<article class="col-xs-12 col-sm-12 col-md-7 col-lg-12">
-    <!-- Widget ID (each widget will need unique ID)-->
-    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-4">
-        <!-- widget options:
-            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-            data-widget-colorbutton="false"
-            data-widget-editbutton="false"
-            data-widget-togglebutton="false"
-            data-widget-deletebutton="false"
-            data-widget-fullscreenbutton="false"
-            data-widget-custombutton="false"
-            data-widget-collapsed="true"
-            data-widget-sortable="false"
-        -->
-        <header>
-            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-            <h2><spring:message code="lbl.distritution.by.result"/> </h2>
-        </header>
-        <!-- widget div-->
-        <div>
-            <!-- widget edit box -->
-            <div class="jarviswidget-editbox">
-                <!-- This area used as dropdown edit box -->
-                <input class="form-control" type="text">
-            </div>
-            <!-- end widget edit box -->
-            <!-- widget content -->
-            <div class="widget-body">
-                <table id="tableRES" class="table table-striped table-bordered table-hover" width="100%">
-                    <thead>
-                    <tr>
-                        <th id="firstTh"></th>
-                        <th><spring:message code="lbl.total"/></th>
-                        <th><spring:message code="lbl.positive"/></th>
-                        <th><spring:message code="lbl.negative"/></th>
-                        <th><spring:message code="lbl.without.result"/></th>
-                        <th><spring:message code="lbl.sample.inadequate2"/></th>
-                        <th><spring:message code="lbl.pos.percentage"/></th>
-                    </tr>
-
-                    </thead>
-                </table>
-                <form id="mail-form" class="smart-form" novalidate="novalidate">
-                    <footer>
-                        <a href="#" class="export btn btn-success btn-lg pull-right header-btn"><i class="fa fa-file-excel-o"></i> <spring:message code="lbl.export.csv" /></a>
-                        <button type="button" id="sendMail" class="btn btn-success btn-lg pull-right header-btn"><i class="fa fa-envelope-o"></i> <spring:message code="act.send.mail" /></button>
-                    </footer>
-                </form>
-            </div>
-            <!-- end widget content -->
-        </div>
-        <!-- end widget div -->
-    </div>
-    <!-- end widget -->
-</article>
 <!-- WIDGET END -->
 
 </div>
@@ -448,6 +394,7 @@
 <c:url var="unidadesURL" value="/api/v1/unidadesPrimHosp"/>
 <c:url var="municipiosURL" value="/api/v1/municipiosbysilais"/>
 <c:url var="sMailUrl" value="/reports/dataReportResultDxMail"/>
+<c:url var="sExcelResultDx" value="/reports/resultadoDx"/>
 <script type="text/javascript">
     $(document).ready(function() {
         pageSetUp();
@@ -457,7 +404,8 @@
             sMunicipiosUrl:"${municipiosURL}",
             msgNoData: "${msgNoData}",
             msgTitle: "${msgTitle}",
-            sMailUrl: "${sMailUrl}"
+            sMailUrl: "${sMailUrl}",
+            sExcelResultDx: "${sExcelResultDx}"
         };
         resultReport.init(parametros);
         SeleccionUnidadLab.init(parametros);

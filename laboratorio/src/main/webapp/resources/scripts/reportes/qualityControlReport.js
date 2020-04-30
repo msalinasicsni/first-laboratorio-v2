@@ -110,8 +110,8 @@ var QualityReport = function () {
                 var mxFiltros = {};
                 if (showAll) {
 
-                    mxFiltros['fechaInicioRecepcion'] = '';
-                    mxFiltros['fechaFinRecepcion'] = '';
+                    mxFiltros['fechaInicioAprob'] = '';
+                    mxFiltros['fechaFinAprob'] = '';
                     mxFiltros['codSilais'] = '';
                     mxFiltros['codUnidadSalud'] = '';
                     mxFiltros['codTipoMx'] = '';
@@ -121,13 +121,13 @@ var QualityReport = function () {
 
                 } else {
 
-                    mxFiltros['fechaInicioRecepcion'] = $('#fecInicioRecepcion').val();
-                    mxFiltros['fechaFinRecepcion'] = $('#fecFinRecepcion').val();
+                    mxFiltros['fechaInicioAprob'] = $('#fecInicioMx').val();
+                    mxFiltros['fechaFinAprob'] = $('#fecFinMx').val();
                     mxFiltros['codSilais'] = $('#codSilais').find('option:selected').val();
                     mxFiltros['codUnidadSalud'] = $('#codUnidadSalud').find('option:selected').val();
                     mxFiltros['codTipoMx'] = $('#codTipoMx').find('option:selected').val();
                     mxFiltros['codTipoSolicitud'] = $('#tipo').find('option:selected').val();
-                    mxFiltros['nombreSolicitud'] = encodeURI($('#nombreSoli').val());
+                    mxFiltros['nombreSolicitud'] = ''; //encodeURI($('#nombreSoli').val());
                     mxFiltros['laboratorio'] = $('#codLaboratorioOri').find('option:selected').val();
 
                 }

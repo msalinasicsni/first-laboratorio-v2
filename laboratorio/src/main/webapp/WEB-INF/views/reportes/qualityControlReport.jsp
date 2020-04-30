@@ -126,28 +126,28 @@
                                 </div>
                             </section>
 
-                        <section class="col col-sm-6 col-md-4 col-lg-3">
+                            <section class="col col-sm-6 col-md-4 col-lg-3">
                                 <label class="text-left txt-color-blue font-md">
-                                    <spring:message code="lbl.receipt.start.date.mx" />
+                                    <spring:message code="lbl.start.approval.date" />
                                 </label>
                                 <label class="input">
                                     <i class="icon-prepend fa fa-pencil"></i> <i class="icon-append fa fa-calendar"></i>
                                     <input type="text" name="fecInicioMx" id="fecInicioMx"
                                            placeholder="<spring:message code="lbl.date.format"/>"
                                            class="form-control from_date" data-date-end-date="+0d"/>
-                                    <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="tooltip.receipt.startdate"/></b>
+                                    <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="tooltip.start.approval.date"/></b>
                                 </label>
                             </section>
                             <section class="col col-sm-6 col-md-4 col-lg-3">
                                 <label class="text-left txt-color-blue font-md">
-                                    <spring:message code="lbl.receipt.end.date.mx" />
+                                    <spring:message code="lbl.end.approval.date" />
                                 </label>
                                 <label class="input">
                                     <i class="icon-prepend fa fa-pencil"></i> <i class="icon-append fa fa-calendar"></i>
                                     <input type="text" name="fecFinMx" id="fecFinMx"
                                            placeholder="<spring:message code="lbl.date.format"/>"
                                            class="form-control to_date" data-date-end-date="+0d"/>
-                                    <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="tooltip.receipt.enddate"/></b>
+                                    <b class="tooltip tooltip-bottom-right"> <i class="fa fa-warning txt-color-pink"></i> <spring:message code="tooltip.end.approval.date"/></b>
                                 </label>
 
 
@@ -205,22 +205,24 @@
                                     <b class="tooltip tooltip-bottom-right"><i class="fa fa-warning txt-color-pink"></i><spring:message code="tooltip.send.request.name"/></b>
                                 </label>
                             </section>-->
-                            <section class="col col-sm-12 col-md-6 col-lg-4">
-                                <label class="text-left txt-color-blue font-md">
-                                    <spring:message code="lbl.transfer.origin.lab" /> </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-location-arrow fa-fw"></i></span>
-                                    <select id="codLaboratorioOri" name="codLaboratorioOri"
-                                            class="select2">
-                                        <option value=""><spring:message code="lbl.select" />...</option>
-                                        <c:forEach items="${laboratorios}" var="laboratorio">
-                                            <c:if test="${laboratorio.codigo ne 'LABCNDR'}">
-                                                <option value="${laboratorio.codigo}">${laboratorio.nombre}</option>
-                                            </c:if>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </section>
+                            <c:if test="${esCNDR}">
+                                <section class="col col-sm-12 col-md-6 col-lg-4">
+                                    <label class="text-left txt-color-blue font-md">
+                                        <spring:message code="lbl.transfer.origin.lab" /> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-location-arrow fa-fw"></i></span>
+                                        <select id="codLaboratorioOri" name="codLaboratorioOri"
+                                                class="select2">
+                                            <option value=""><spring:message code="lbl.select" />...</option>
+                                            <c:forEach items="${laboratorios}" var="laboratorio">
+                                                <c:if test="${laboratorio.codigo ne 'LABCNDR'}">
+                                                    <option value="${laboratorio.codigo}">${laboratorio.nombre}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </section>
+                            </c:if>
                         </div>
                     </fieldset>
                     <footer>

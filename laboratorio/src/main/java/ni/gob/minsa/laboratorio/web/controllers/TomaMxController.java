@@ -206,14 +206,23 @@ public class TomaMxController {
             //ABRIL2019
             List<Catalogo> tiposNotificacion = CallRestServices.getCatalogos(CatalogConstants.TipoNotificacion);
             List<Catalogo> tiposNotificacionValidas = new ArrayList<Catalogo>();
-            for(Catalogo catalogo : tiposNotificacion){
-                if (catalogo.getCodigo().equalsIgnoreCase("TPNOTI|PCNT")
-                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|SINFEB")
-                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|IRAG")
-                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|VIH")
-                        || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|TB"))
-                    tiposNotificacionValidas.add(catalogo);
+            //No permitir cambio de tipo de notificación si no es PACIENT
+            if (noti.getCodTipoNotificacion().equalsIgnoreCase("TPNOTI|PCNT")){
+                for(Catalogo catalogo : tiposNotificacion){
+                    if (catalogo.getCodigo().equalsIgnoreCase("TPNOTI|PCNT")
+                            || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|SINFEB")
+                            || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|IRAG")
+                            || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|VIH")
+                            || catalogo.getCodigo().equalsIgnoreCase("TPNOTI|TB"))
+                        tiposNotificacionValidas.add(catalogo);
+                }
+            }else {
+                for(Catalogo catalogo : tiposNotificacion){
+                    if (catalogo.getCodigo().equalsIgnoreCase(noti.getCodTipoNotificacion()))
+                        tiposNotificacionValidas.add(catalogo);
+                }
             }
+
             List<Catalogo> catResp =CallRestServices.getCatalogos(CatalogConstants.Respuesta);//ABRIL2019
             Laboratorio labUser = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
 
@@ -268,7 +277,7 @@ public class TomaMxController {
     List<Dx_TipoMx_TipoNoti> getDxBySample(@RequestParam(value = "codMx", required = true) String codMx, @RequestParam(value = "tipoNoti", required = true) String tipoNoti) throws Exception {
         logger.info("Obteniendo los diagn�sticos segun muestra y tipo de Notificacion en JSON");
         //nombre usuario null, para que no valide autoridad
-        return tomaMxService.getDx(codMx, tipoNoti,null);
+        return tomaMxService.getDx(codMx, tipoNoti,null, null);
     }
 
     private boolean saveDxRequest(String idTomaMx, String dx, String strRespuestas, Integer cantRespuestas) throws Exception {

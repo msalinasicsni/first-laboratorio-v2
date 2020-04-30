@@ -232,13 +232,7 @@ var BuscarNotificacion = function () {
                 })
                     .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                         unBlockUI();
-                        $.smallBox({
-                            title: "FAIL" ,
-                            content: errorThrown,
-                            color: "#C46A69",
-                            iconSmall: "fa fa-warning",
-                            timeout: 8000
-                        });
+                        validateLogin(jqXHR);
                     });
             }
 

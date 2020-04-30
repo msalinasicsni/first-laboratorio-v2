@@ -2,6 +2,7 @@ package ni.gob.minsa.laboratorio.web.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import ni.gob.minsa.laboratorio.domain.concepto.Catalogo_Lista;
 import ni.gob.minsa.laboratorio.domain.examen.Area;
 import ni.gob.minsa.laboratorio.domain.examen.CatalogoExamenes;
 import ni.gob.minsa.laboratorio.domain.muestra.*;
@@ -9,10 +10,12 @@ import ni.gob.minsa.laboratorio.domain.muestra.traslado.HistoricoEnvioMx;
 import ni.gob.minsa.laboratorio.domain.muestra.traslado.TrasladoMx;
 import ni.gob.minsa.laboratorio.domain.parametros.Parametro;
 import ni.gob.minsa.laboratorio.domain.portal.Usuarios;
+import ni.gob.minsa.laboratorio.domain.resultados.DetalleResultadoFinal;
 import ni.gob.minsa.laboratorio.restServices.CallRestServices;
 import ni.gob.minsa.laboratorio.restServices.entidades.EntidadesAdtvas;
 import ni.gob.minsa.laboratorio.service.*;
 import ni.gob.minsa.laboratorio.utilities.DateUtil;
+import ni.gob.minsa.laboratorio.utilities.reportes.ResultadoSolicitud;
 import org.apache.commons.lang3.text.translate.UnicodeEscaper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +100,9 @@ public class TrasladoMxController {
 
     @Autowired
     MessageSource messageSource;
+
+    @Resource(name = "resultadoFinalService")
+    private ResultadoFinalService resultadoFinalService;
 
     @RequestMapping(value = "init", method = RequestMethod.GET)
     public ModelAndView initSearchForm() throws Exception {
@@ -374,43 +380,51 @@ public class TrasladoMxController {
                                     }
 
                                 } else {
-                                    solicitudDx.setLabProcesa(labDestino);
-                                    //externo, validar si el dx tiene el examanen y el ex�men sin resultado
-                                    //si ya tiene registrado ex�menes con resultado, no se va a trasladar
-                                    String[] arrayExamenes = idExamenes.replaceAll("\\[","").replaceAll("\\]","").replaceAll("\"","").split(",");
-                                    List<OrdenExamen> ordenExamenList;
-                                    int contExamenesValidos = 0;
-                                    for (String idExamen : arrayExamenes) {
-                                        ordenExamenList = ordenExamenMxService.getOrdExamenNoAnulByIdMxIdDxIdExamen(idTomaMx, Integer.valueOf(idRutina), Integer.valueOf(idExamen), seguridadService.obtenerNombreUsuario());
-                                        if (ordenExamenList.size() > 0) {
-                                            if (resultadosService.getDetallesResultadoActivosByExamen(ordenExamenList.get(0).getIdOrdenExamen()).size() <= 0) {
-                                                //solicitudDx.setSegundoLabProcesa2(labDestino);
-                                                //tomaMxService.updateSolicitudDx(solicitudDx);
-                                                OrdenExamen ordenProcesar = ordenExamenList.get(0);
-                                                ordenProcesar.setLabProcesa(labDestino);
-                                                ordenExamenMxService.updateOrdenExamen(ordenProcesar);
-                                                contExamenesValidos++;
-                                            }
-                                        }else{//Si examen solicitado aún no esta agregado en el lab origen, se agrega para procesar en lab destino
-                                            OrdenExamen ordenExamen = new OrdenExamen();
-                                            ordenExamen.setSolicitudDx(solicitudDx);
-                                            CatalogoExamenes examen = examenesService.getExamenById(Integer.valueOf(idExamen));
-                                            ordenExamen.setCodExamen(examen);
-                                            ordenExamen.setFechaHOrden(new Timestamp(new Date().getTime()));
-                                            ordenExamen.setUsuarioRegistro(seguridadService.getUsuario(seguridadService.obtenerNombreUsuario()));
-                                            ordenExamen.setLabProcesa(labDestino);
-                                            try {
-                                                ordenExamenMxService.addOrdenExamen(ordenExamen);
-                                                contExamenesValidos++;
-                                            } catch (Exception ex) {
-                                                ex.printStackTrace();
-                                                logger.error("Error al agregar orden de examen", ex);
+                                    if (!solicitudDx.getAprobada()) {
+                                        solicitudDx.setLabProcesa(labDestino);
+                                        //externo, validar si el dx tiene el examanen y el ex�men sin resultado
+                                        //si ya tiene registrado ex�menes con resultado, no se va a trasladar
+                                        String[] arrayExamenes = idExamenes.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "").split(",");
+                                        List<OrdenExamen> ordenExamenList;
+                                        int contExamenesValidos = 0;
+                                        for (String idExamen : arrayExamenes) {
+                                            ordenExamenList = ordenExamenMxService.getOrdExamenNoAnulByIdMxIdDxIdExamen(idTomaMx, Integer.valueOf(idRutina), Integer.valueOf(idExamen), seguridadService.obtenerNombreUsuario());
+                                            if (ordenExamenList.size() > 0) {
+                                                if (resultadosService.getDetallesResultadoActivosByExamen(ordenExamenList.get(0).getIdOrdenExamen()).size() <= 0) {
+                                                    //solicitudDx.setSegundoLabProcesa2(labDestino);
+                                                    //tomaMxService.updateSolicitudDx(solicitudDx);
+                                                    OrdenExamen ordenProcesar = ordenExamenList.get(0);
+                                                    ordenProcesar.setLabProcesa(labDestino);
+                                                    ordenExamenMxService.updateOrdenExamen(ordenProcesar);
+                                                    contExamenesValidos++;
+                                                }
+                                            } else {//Si examen solicitado aún no esta agregado en el lab origen, se agrega para procesar en lab destino
+                                                OrdenExamen ordenExamen = new OrdenExamen();
+                                                ordenExamen.setSolicitudDx(solicitudDx);
+                                                CatalogoExamenes examen = examenesService.getExamenById(Integer.valueOf(idExamen));
+                                                ordenExamen.setCodExamen(examen);
+                                                ordenExamen.setFechaHOrden(new Timestamp(new Date().getTime()));
+                                                ordenExamen.setUsuarioRegistro(seguridadService.getUsuario(seguridadService.obtenerNombreUsuario()));
+                                                ordenExamen.setLabProcesa(labDestino);
+                                                try {
+                                                    ordenExamenMxService.addOrdenExamen(ordenExamen);
+                                                    contExamenesValidos++;
+                                                } catch (Exception ex) {
+                                                    ex.printStackTrace();
+                                                    logger.error("Error al agregar orden de examen", ex);
+                                                }
                                             }
                                         }
-                                    }
-                                    //si ning�n examen es v�lido para el traslado, no procesar traslado
-                                    if (contExamenesValidos <= 0) {
+                                        //si ning�n examen es v�lido para el traslado, no procesar traslado
+                                        if (contExamenesValidos <= 0) {
+                                            procesarTraslado = false;
+                                        }
+                                    }else {
+                                        //no procesar traslado porque la solicitud ya fue aprobada
                                         procesarTraslado = false;
+                                        if (cantMuestras==1){
+                                            throw new Exception(messageSource.getMessage("msg.transfer.dx.approved",null,null));
+                                        }
                                     }
                                 }
                             } else {//si no se encontr� la solicitud, no se permite el traslado
@@ -550,8 +564,6 @@ public class TrasladoMxController {
 
         filtroMx.setCodSilais(codSilais);
         filtroMx.setCodUnidadSalud(codUnidadSalud);
-        filtroMx.setFechaInicioTomaMx(fechaInicioTomaMx);
-        filtroMx.setFechaFinTomaMx(fechaFinTomaMx);
         filtroMx.setFechaInicioRecep(fechaInicioRecep);
         filtroMx.setFechaFinRecep(fechaFinRecep);
         filtroMx.setNombreApellido(nombreApellido);
@@ -563,9 +575,13 @@ public class TrasladoMxController {
         filtroMx.setNombreUsuario(seguridadService.obtenerNombreUsuario());
         if (tipoTraslado.equals("cc")){ //para traslado al CNDR la solicitud tiene que estar aprobada
             filtroMx.setSolicitudAprobada(true);
-        }/*else if(tipoTraslado.equals("externo")){ //para traslado externo la solicitud puedo estar o no aprobada
-            filtroMx.setSolicitudAprobada(false);
-        }*/
+            filtroMx.setFechaInicioAprob(fechaInicioTomaMx);
+            filtroMx.setFechaFinAprob(fechaFinTomaMx);
+
+        }else{
+            filtroMx.setFechaInicioTomaMx(fechaInicioTomaMx);
+            filtroMx.setFechaFinTomaMx(fechaFinTomaMx);
+        }
         return filtroMx;
     }
 
@@ -634,12 +650,19 @@ public class TrasladoMxController {
                 List<DaSolicitudDx> solicitudDxList = tomaMxService.getSolicitudesDxByIdToma(tomaMx.getIdTomaMx(), labUser.getCodigo());
                 Map<Integer, Object> mapSolicitudesList = new HashMap<Integer, Object>();
                 Map<String, String> mapSolicitud = new HashMap<String, String>();
-                if (solicitudDxList.size() > 0) {
                     int subIndice = 0;
                     for (DaSolicitudDx solicitudDx : solicitudDxList) {
                         mapSolicitud.put("nombre", solicitudDx.getCodDx().getNombre());
                         mapSolicitud.put("tipo", "Rutina");
                         mapSolicitud.put("fechaSolicitud", DateUtil.DateToString(solicitudDx.getFechaHSolicitud(), "dd/MM/yyyy hh:mm:ss a"));
+
+                        if (solicitudDx.getFechaAprobacion() != null){
+                            mapSolicitud.put("fechaAprobacion", DateUtil.DateToString(solicitudDx.getFechaAprobacion(), "dd/MM/yyyy hh:mm:ss a"));
+
+                        }else{
+                            mapSolicitud.put("fechaAprobacion", "");
+                        }
+
                         //obtener los examenes solicitados para la solicitud
                         List<OrdenExamen> ordenes = ordenExamenMxService.getOrdenesExamenNoAnuladasByIdSolicitud(solicitudDx.getIdSolicitudDx());
                         int cont = 0;
@@ -653,15 +676,23 @@ public class TrasladoMxController {
                             }
 
                         }
+
+                        //detalle de resultado
+                        List<ResultadoSolicitud> resFinal = resultadoFinalService.getDetResActivosBySolicitudV2(solicitudDx.getIdSolicitudDx());
+                        if (!resFinal.isEmpty()) {
+                            map.put("resultadoS", messageSource.getMessage("lbl.yes", null, null));
+                        } else {
+                            map.put("resultadoS", messageSource.getMessage("lbl.no", null, null));
+                        }
+                        mapSolicitud.put("detResultado",parseResultDetails(resFinal));
+
                         mapSolicitud.put("examenes", ordenesEx);
                         subIndice++;
                         mapSolicitudesList.put(subIndice, mapSolicitud);
                         mapSolicitud = new HashMap<String, String>();
                     }
                     map.put("solicitudes", new Gson().toJson(mapSolicitudesList));
-                } else {
                     List<DaSolicitudEstudio> solicitudEstudios = tomaMxService.getSolicitudesEstudioByIdTomaMx(tomaMx.getIdTomaMx());
-                    int subIndice = 0;
                     for (DaSolicitudEstudio solicitudEstudio : solicitudEstudios) {
                         mapSolicitud.put("nombre", solicitudEstudio.getTipoEstudio().getNombre());
                         mapSolicitud.put("tipo", "Estudio");
@@ -685,7 +716,6 @@ public class TrasladoMxController {
                         mapSolicitud = new HashMap<String, String>();
                     }
                     map.put("solicitudes", new Gson().toJson(mapSolicitudesList));
-                }
                 mapResponse.put(indice, map);
                 indice++;
             }
@@ -694,5 +724,36 @@ public class TrasladoMxController {
         UnicodeEscaper escaper     = UnicodeEscaper.above(127);
         return escaper.translate(jsonResponse);
     }
+
+    private String parseResultDetails(List<ResultadoSolicitud> resultList){
+        String resultados="";
+        for(ResultadoSolicitud res: resultList){
+            if (res.getRespuesta()!=null) {
+                resultados+=(resultados.isEmpty()?res.getRespuesta():", "+res.getRespuesta());
+                if (res.getTipo().equals("TPDATO|LIST")) {
+                    Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
+                    resultados+=": "+cat_lista.getValor();
+                }else if (res.getTipo().equals("TPDATO|LOG")) {
+                    String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
+                    resultados+=": "+valorBoleano;
+                } else {
+                    resultados+=": "+res.getValor();
+                }
+            }else if (res.getRespuestaExamen()!=null){
+                resultados+=(resultados.isEmpty()?res.getRespuestaExamen():", "+res.getRespuestaExamen());
+                if (res.getTipoExamen().equals("TPDATO|LIST")) {
+                    Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
+                    resultados+=": "+cat_lista.getValor();
+                } else if (res.getTipoExamen().equals("TPDATO|LOG")) {
+                    String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
+                    resultados+=": "+valorBoleano;
+                }else {
+                    resultados+=": "+res.getValor();
+                }
+            }
+        }
+        return resultados;
+    }
+
 
 }

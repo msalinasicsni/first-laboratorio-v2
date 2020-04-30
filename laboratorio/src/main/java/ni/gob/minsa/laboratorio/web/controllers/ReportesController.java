@@ -27,6 +27,7 @@ import ni.gob.minsa.laboratorio.utilities.pdfUtils.GeneralUtils;
 import ni.gob.minsa.laboratorio.utilities.pdfUtils.Row;
 import ni.gob.minsa.laboratorio.utilities.reportes.ConsolidadoRecepcion;
 import ni.gob.minsa.laboratorio.utilities.reportes.FilterLists;
+import ni.gob.minsa.laboratorio.utilities.reportes.ResultadoSolicitud;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.text.translate.UnicodeEscaper;
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -295,10 +296,9 @@ public class ReportesController {
             Laboratorio labUser = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
             List<DaSolicitudDx> solicitudDxList = tomaMxService.getSolicitudesDxByIdToma(receivedMx.getTomaMx().getIdTomaMx(), labUser.getCodigo());
             DaSolicitudEstudio solicitudE = tomaMxService.getSoliEstByCodigo(receivedMx.getTomaMx().getCodigoUnicoMx());
-
+            String dxs = "";
             if (!solicitudDxList.isEmpty()) {
                 int cont = 0;
-                String dxs = "";
                 for (DaSolicitudDx solicitudDx : solicitudDxList) {
                     cont++;
                     if (cont == solicitudDxList.size()) {
@@ -309,13 +309,11 @@ public class ReportesController {
 
                 }
                 map.put("solicitudes", dxs);
-            } else {
-                if(solicitudE != null){
-                    map.put("solicitudes", solicitudE.getTipoEstudio().getNombre());
-                }else{
-                    map.put("solicitudes", "");
-                }
-
+            }
+            if(solicitudE != null){
+                map.put("solicitudes",(dxs.isEmpty()?solicitudE.getTipoEstudio().getNombre():dxs+", "+solicitudE.getTipoEstudio().getNombre()));
+            }else{
+                map.put("solicitudes", dxs);
             }
 
             map.put("usuario", receivedMx.getUsuarioRecepcion().getCompleteName());
@@ -840,7 +838,7 @@ public class ReportesController {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("solicitud", soli.getCodDx().getNombre());
                     map.put("idSolicitud", soli.getIdSolicitudDx());
-                    map.put("codigoUnicoMx", soli.getIdTomaMx().getCodigoLab());
+                    map.put("codigoUnicoMx", soli.getIdTomaMx().getCodigoLab() != null ? soli.getIdTomaMx().getCodigoLab() : soli.getIdTomaMx().getCodigoUnicoMx());
                     map.put("fechaAprobacion", DateUtil.DateToString(soli.getFechaAprobacion(), "dd/MM/yyyy hh:mm:ss a"));
 
                     if (soli.getIdTomaMx().getIdNotificacion().getCodSilaisAtencion() != null) {
@@ -1052,7 +1050,7 @@ public class ReportesController {
                         unidadSalud = soli.getIdTomaMx().getIdNotificacion().getNombreUnidadAtencion();//ABRIL2019
                     }
 
-                    content[0] = soli.getIdTomaMx() != null ? soli.getIdTomaMx().getCodigoLab() : "";
+                   content[0] = soli.getIdTomaMx() != null ? soli.getIdTomaMx().getCodigoLab()!=null?soli.getIdTomaMx().getCodigoLab():soli.getIdTomaMx().getCodigoUnicoMx() : "";
                     content[1] = fechaAprob != null ? fechaAprob : "";
                     content[2] = silais != null ? silais : "";
                     content[3] = unidadSalud != null ? unidadSalud : "";
@@ -1370,7 +1368,7 @@ public class ReportesController {
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("solicitud", soli.getCodDx().getNombre());
                         map.put("idSolicitud", soli.getIdSolicitudDx());
-                        map.put("codigoUnicoMx", soli.getIdTomaMx().getCodigoLab());
+                        map.put("codigoUnicoMx", soli.getIdTomaMx().getCodigoLab()!=null?soli.getIdTomaMx().getCodigoLab():soli.getIdTomaMx().getCodigoUnicoMx());
                         map.put("fechaAprobacion", DateUtil.DateToString(soli.getFechaAprobacion(), "dd/MM/yyyy hh:mm:ss a"));
                         map.put("resultado", valorResultado);
 
@@ -2011,9 +2009,15 @@ public class ReportesController {
         List<EntidadesAdtvas> entidadesAdtvases = CallRestServices.getEntidadesAdtvas();
         List<Laboratorio> laboratorios = laboratoriosService.getLaboratoriosRegionales();
         List<TipoMx> tipoMxList = catalogosService.getTipoMuestra();
+        laboratorio = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
+        boolean esCNDR = true;
+        //solo cuÃ¡ndo no es usuario del CNDR se setea el laboratorio
+        if (laboratorio!=null && !laboratorio.getCodigo().equalsIgnoreCase("CNDR"))
+            esCNDR = false;
         mav.addObject("entidades", entidadesAdtvases);
         mav.addObject("tipoMuestra", tipoMxList);
         mav.addObject("laboratorios",laboratorios);
+        mav.addObject("esCNDR", esCNDR);
         mav.setViewName("reportes/qualityControlReport");
         return mav;
     }
@@ -2032,6 +2036,9 @@ public class ReportesController {
         logger.info("Obteniendo las mx recepcionadas seg�n filtros en JSON");
         FiltroMx filtroMx = jsonToFiltroMx(filtro);
         filtroMx.setControlCalidad(true);
+        laboratorio = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
+        //solo cuÃ¡ndo no es usuario del CNDR se setea el laboratorio
+        if (laboratorio!=null && !laboratorio.getCodigo().equalsIgnoreCase("CNDR")) filtroMx.setCodLaboratio(laboratorio.getCodigo());
         List<DaSolicitudDx> receivedList = reportesService.getQCRoutineRequestByFilter(filtroMx);
        return solicitudesDxToJson(receivedList, true);
     }
@@ -2100,12 +2107,14 @@ public class ReportesController {
 
             if (incluirResultados){
                 //detalle resultado final solicitud
-                List<DetalleResultadoFinal> detalleResultadoCC = resultadoFinalService.getDetResActivosBySolicitud(diagnostico.getIdSolicitudDx());
-                String resCC = parseResultDetails(detalleResultadoCC);
+                List<ResultadoSolicitud> detalleResultadoCC = resultadoFinalService.getDetResActivosBySolicitudV2(diagnostico.getIdSolicitudDx());
+                String resCC = parseResultDetailsV2(detalleResultadoCC, false);
                 map.put("resultadocc", resCC);
-                DaSolicitudDx solicitudNoCC = tomaMxService.getSolicitudDxByMxDxNoCC(diagnostico.getIdTomaMx().getIdTomaMx(),diagnostico.getCodDx().getIdDiagnostico());
-                List<DetalleResultadoFinal> detalleResultadoNoCC = resultadoFinalService.getDetResActivosBySolicitud(solicitudNoCC.getIdSolicitudDx());
-                String resNoCC = parseResultDetails(detalleResultadoNoCC);
+                //DaSolicitudDx solicitudNoCC = tomaMxService.getSolicitudDxByMxDxNoCC(diagnostico.getIdTomaMx().getIdTomaMx(),diagnostico.getCodDx().getIdDiagnostico());
+                //List<ResultadoSolicitud> detalleResultadoNoCC = resultadoFinalService.getDetResActivosBySolicitudV2(solicitudNoCC.getIdSolicitudDx());
+                String idSolicitudNoCC = tomaMxService.getIdSolicitudDxByMxDxNoCC(diagnostico.getIdTomaMx().getIdTomaMx(), diagnostico.getCodDx().getIdDiagnostico());
+                List<ResultadoSolicitud> detalleResultadoNoCC = resultadoFinalService.getDetResActivosBySolicitudV2(idSolicitudNoCC);
+                String resNoCC = parseResultDetailsV2(detalleResultadoNoCC, false);
                 map.put("resultado",resNoCC);
                 map.put("coincide", (resCC.equalsIgnoreCase(resNoCC)?messageSource.getMessage("lbl.yes",null,null):messageSource.getMessage("lbl.no",null,null)));
             }
@@ -2730,7 +2739,7 @@ public class ReportesController {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("solicitud", soli.getCodDx().getNombre());
                     map.put("idSolicitud", soli.getIdSolicitudDx());
-                    map.put("codigoUnicoMx", soli.getIdTomaMx().getCodigoLab());
+                    map.put("codigoUnicoMx", soli.getIdTomaMx().getCodigoLab()!=null?soli.getIdTomaMx().getCodigoLab():soli.getIdTomaMx().getCodigoUnicoMx());
                     map.put("fechaAprobacion", DateUtil.DateToString(soli.getFechaAprobacion(), "dd/MM/yyyy hh:mm:ss a"));
 
 
@@ -2856,6 +2865,45 @@ public class ReportesController {
         }
         return resultados;
     }
+
+    private String parseResultDetailsV2(List<ResultadoSolicitud> resultList, boolean incluirAuxiliares){
+        String resultados="";
+        for(ResultadoSolicitud res: resultList){
+            if (res.getRespuesta()!=null) {
+                if (res.getTipo().equals("TPDATO|LIST")) {
+                    resultados+=(resultados.isEmpty()?res.getRespuesta():", "+res.getRespuesta());
+                    Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
+                    resultados+=": "+cat_lista.getValor();
+                }else if (res.getTipo().equals("TPDATO|LOG")) {
+                    resultados+=(resultados.isEmpty()?res.getRespuesta():", "+res.getRespuesta());
+                    String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
+                    resultados+=": "+valorBoleano;
+                } else {
+                    if (incluirAuxiliares){
+                        resultados+=(resultados.isEmpty()?res.getRespuesta():", "+res.getRespuesta());
+                        resultados+=": "+res.getValor();
+                    }
+                }
+            }else if (res.getRespuestaExamen()!=null){
+                if (res.getTipoExamen().equals("TPDATO|LIST")) {
+                    resultados+=(resultados.isEmpty()?res.getRespuestaExamen():", "+res.getRespuestaExamen());
+                    Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
+                    resultados+=": "+cat_lista.getValor();
+                } else if (res.getTipoExamen().equals("TPDATO|LOG")) {
+                    resultados+=(resultados.isEmpty()?res.getRespuestaExamen():", "+res.getRespuestaExamen());
+                    String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
+                    resultados+=": "+valorBoleano;
+                }else {
+                    if (incluirAuxiliares){
+                        resultados+=(resultados.isEmpty()?res.getRespuestaExamen():", "+res.getRespuestaExamen());
+                        resultados+=": "+res.getValor();
+                    }
+                }
+            }
+        }
+        return resultados;
+    }
+
 
     @RequestMapping(value = "/general/generalRepToPDF", method = RequestMethod.GET)
     public
@@ -3384,9 +3432,15 @@ public class ReportesController {
         areas.add(catalogosService.getAreaRep("AREAREP|UNI"));
 */
         List<Catalogo_Dx> catDx = associationSamplesRequestService.getDxs();
+        List<Catalogo_Estudio> catEs = null;
+        if (laboratorio!=null && laboratorio.getCodigo().equalsIgnoreCase("CNDR")) {
+            catEs = associationSamplesRequestService.getStudies();
+        }
+
         model.addAttribute("areas", areas);
         model.addAttribute("entidades", entidades);
         model.addAttribute("dxs", catDx);
+        model.addAttribute("estudios", catEs);
         model.addAttribute("laboratorios", laboratorios);
         return "reportes/resultadoDx";
     }
@@ -3403,7 +3457,10 @@ public class ReportesController {
         logger.info("Obteniendo los datos para Reporte por Resultado ");
         FiltrosReporte filtroRep = jsonToFiltroReportes(filtro);
 
-        return reportesService.getDataDxResultReport(filtroRep);
+        if (filtroRep.getIdDx()!=null)
+            return reportesService.getDataDxResultReport(filtroRep, null, 8);
+        else
+            return reportesService.getDataEstResultReport(filtroRep, null, 8);
     }
 
     /**

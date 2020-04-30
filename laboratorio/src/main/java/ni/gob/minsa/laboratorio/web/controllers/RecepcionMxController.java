@@ -2,6 +2,7 @@ package ni.gob.minsa.laboratorio.web.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import ni.gob.minsa.laboratorio.domain.comunicacionResultados.SolicitudHL7;
 import ni.gob.minsa.laboratorio.domain.concepto.Catalogo_Lista;
 import ni.gob.minsa.laboratorio.domain.examen.Area;
 import ni.gob.minsa.laboratorio.domain.examen.CatalogoExamenes;
@@ -25,9 +26,12 @@ import ni.gob.minsa.laboratorio.restServices.entidades.Unidades;
 import ni.gob.minsa.laboratorio.service.*;
 import ni.gob.minsa.laboratorio.utilities.ConstantsSecurity;
 import ni.gob.minsa.laboratorio.utilities.DateUtil;
+import ni.gob.minsa.laboratorio.utilities.HL7.SimpleMLLPBasedTCPClient;
+import ni.gob.minsa.laboratorio.utilities.HL7.TestOrder;
 import ni.gob.minsa.laboratorio.utilities.StringUtil;
 import ni.gob.minsa.laboratorio.utilities.enumeration.HealthUnitType;
 import ni.gob.minsa.laboratorio.utilities.pdfUtils.GeneralUtils;
+import ni.gob.minsa.laboratorio.utilities.reportes.Solicitud;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.text.translate.UnicodeEscaper;
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -130,6 +134,13 @@ public class RecepcionMxController {
     @Resource(name = "respuestasExamenService")
     private RespuestasExamenService respuestasExamenService;
 
+    @Resource(name = "equiposProcesamientoService")
+    private EquiposProcesamientoService equiposProcesamientoService;
+
+    @Resource(name = "comunicacionResultadosService")
+    private ComunicacionResultadosService comunicacionResultadosService;
+
+
     @Autowired
     MessageSource messageSource;
 
@@ -149,7 +160,7 @@ public class RecepcionMxController {
         Laboratorio labUser = seguridadService.getLaboratorioUsuario(seguridadService.obtenerNombreUsuario());
         mav.addObject("entidades",entidadesAdtvases);
         mav.addObject("tipoMuestra", tipoMxList);
-        mav.addObject("mostrarPopUpMx",labUser.getPopUpCodigoMx());
+        mav.addObject("mostrarPopUpMx",(labUser!=null?labUser.getPopUpCodigoMx():false));
         mav.setViewName("recepcionMx/searchOrders");
 
         return mav;
@@ -454,6 +465,16 @@ public class RecepcionMxController {
                     datoSolicitudDetalles.addAll(datosSolicitudService.getDatosSolicitudDetalleBySolicitud(solicitudEstudio.getIdSolicitudEstudio()));
                 }
                 mav.addObject("datosList",datoSolicitudDetalles);
+                if (esEstudio) {
+                    List<Catalogo_Estudio> catalogoEstudios =
+                            tomaMxService.getEstudiosByTipoMxTipoNoti(recepcionMx.getTomaMx().getCodTipoMx().getIdTipoMx().toString(),
+                                    recepcionMx.getTomaMx().getIdNotificacion().getCodTipoNotificacion());
+                    mav.addObject("catEst", catalogoEstudios);
+                }
+                List<Catalogo_Dx> catalogoDxs =
+                        tomaMxService.getDxByTipoMxTipoNoti(recepcionMx.getTomaMx().getCodTipoMx().getIdTipoMx().toString(),
+                                recepcionMx.getTomaMx().getIdNotificacion().getCodTipoNotificacion(),seguridadService.obtenerNombreUsuario());
+                mav.addObject("catDx", catalogoDxs);
             }
 
             //ABRIL2019
@@ -1109,7 +1130,7 @@ public class RecepcionMxController {
             //Recuperando Json enviado desde el cliente
             JsonObject jsonpObject = new Gson().fromJson(json, JsonObject.class);
             esEstudio = jsonpObject.get("esEstudio").getAsBoolean();
-            if(esEstudio)
+            if(esEstudio)  //cuando es estudio tambien se pueden agregar dx de rutina
                 resultado = agregarSolicitudEstudio(jsonpObject);
             else
                 resultado = agregarSolicitudDx(jsonpObject, request);
@@ -1561,6 +1582,8 @@ public class RecepcionMxController {
                                 }
                             }
                         }
+
+                        validarEnviarSolicitudInfinity(recepcionMx, user);
                     } catch (Exception ex) {
                         resultado = messageSource.getMessage("msg.add.receipt.error", null, null);
                         resultado = resultado + ". \n " + ex.getMessage();
@@ -1599,6 +1622,52 @@ public class RecepcionMxController {
             response.getOutputStream().write(jsonResponse.getBytes());
             response.getOutputStream().close();
         }
+    }
+
+    private void validarEnviarSolicitudInfinity(RecepcionMx recepcionMx, User usuario) throws Exception{
+        try {
+            String idExamenes = equiposProcesamientoService.ordersProcessedInInfinity(recepcionMx.getTomaMx().getIdTomaMx());
+            if (idExamenes != null){
+                TestOrder testOrder = new TestOrder();
+                testOrder.setIpServer("localhost");
+                testOrder.setPuertoServer(50001);
+                testOrder.setMessageId(DateUtil.DateToString(new Date(), "yyyyMMddHHmmss"));
+                testOrder.setCodExpediente("401MASRM21128901");
+                testOrder.setPersonaId(String.valueOf(recepcionMx.getTomaMx().getIdNotificacion().getPersona().getPersonaId()));
+
+                testOrder.setApellido1(recepcionMx.getTomaMx().getIdNotificacion().getPersona().getPrimerApellido());
+                testOrder.setApellido2(recepcionMx.getTomaMx().getIdNotificacion().getPersona().getSegundoApellido());
+                testOrder.setNombre1(recepcionMx.getTomaMx().getIdNotificacion().getPersona().getPrimerNombre());
+                testOrder.setNombre2(recepcionMx.getTomaMx().getIdNotificacion().getPersona().getSegundoNombre());
+                testOrder.setFechaNac(DateUtil.DateToString(recepcionMx.getTomaMx().getIdNotificacion().getPersona().getFechaNacimiento(),"yyyyMMdd"));
+                String sexo = recepcionMx.getTomaMx().getIdNotificacion().getPersona().getCodigoSexo();
+                testOrder.setSexo(sexo.substring(sexo.length()-1, sexo.length()));
+                testOrder.setIdMuestra(comunicacionResultadosService.generarIdMuestra()); //AÃ±oMesDÃ­a y consecutivo de 5 digitos ejemplo: 19021300001
+                testOrder.setFechaHoraMx(DateUtil.DateToString(recepcionMx.getTomaMx().getFechaHTomaMx(),"yyyyMMddHHmmss"));//"20190722094500"
+                testOrder.setIdUnidadSalud(String.valueOf(recepcionMx.getTomaMx().getIdUnidadAtencion()));
+                testOrder.setNombreUnidadSalud(recepcionMx.getTomaMx().getNombreUnidadAtencion());
+                testOrder.setIdOrigen("3");
+                testOrder.setNombreOrigen("COMPONENTE");
+                testOrder.setIdSilais(String.valueOf(recepcionMx.getTomaMx().getIdSilaisAtencion()));
+                testOrder.setNombreSilais(recepcionMx.getTomaMx().getNombreSilaisAtencion());
+                testOrder.setIdExamenes(idExamenes);
+                SimpleMLLPBasedTCPClient.sendHL7TestOrder(testOrder);
+
+                SolicitudHL7 solicitudHL7 = new SolicitudHL7();
+                solicitudHL7.setAnulado(false);
+                solicitudHL7.setExamenes(testOrder.getIdExamenes());
+                solicitudHL7.setFechaRegistro(new Date());
+                solicitudHL7.setIdMuestraSecundario(testOrder.getIdMuestra());
+                solicitudHL7.setTrama(testOrder.getTrama());
+                solicitudHL7.setMuestra(recepcionMx.getTomaMx());
+                solicitudHL7.setUsuarioRegistro(usuario);
+                comunicacionResultadosService.saveOrUpdateSolicitudHL7(solicitudHL7);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
     private String agregarSolicitudDx(JsonObject jsonpObject, HttpServletRequest request) throws Exception {
@@ -2096,10 +2165,10 @@ public class RecepcionMxController {
                 //se arma estructura de diagn�sticos o estudios
                 List<DaSolicitudDx> solicitudDxList = tomaMxService.getSolicitudesDxByIdToma(recepcion.getTomaMx().getIdTomaMx(), labUser.getCodigo());
                 DaSolicitudEstudio solicitudE = tomaMxService.getSoliEstByCodigo(recepcion.getTomaMx().getCodigoUnicoMx());
-
+                String dxs = "";
                 if (!solicitudDxList.isEmpty()) {
                     int cont = 0;
-                    String dxs = "";
+
                     for (DaSolicitudDx solicitudDx : solicitudDxList) {
                         cont++;
                         if (cont == solicitudDxList.size()) {
@@ -2110,14 +2179,13 @@ public class RecepcionMxController {
 
                     }
                     map.put("solicitudes", dxs);
-                } else {
-                    if(solicitudE != null){
-                        map.put("solicitudes", solicitudE.getTipoEstudio().getNombre());
-                    }else{
-                        map.put("solicitudes", "");
-                    }
-
                 }
+                if(solicitudE != null){
+                    map.put("solicitudes",(dxs.isEmpty()?solicitudE.getTipoEstudio().getNombre():dxs+", "+solicitudE.getTipoEstudio().getNombre()));
+                }else{
+                    map.put("solicitudes", dxs);
+                }
+
 
                 mapResponse.put(indice, map);
                 indice++;
@@ -2270,17 +2338,19 @@ public class RecepcionMxController {
         String nombreSolicitud = null;
         Boolean controlCalidad = null;
         String codigoVIH = null;
+        Date fechaInicioProc = null;
+        Date fechaFinProc = null;
 
         if (jObjectFiltro.get("nombreApellido") != null && !jObjectFiltro.get("nombreApellido").getAsString().isEmpty())
             nombreApellido = jObjectFiltro.get("nombreApellido").getAsString();
         if (jObjectFiltro.get("fechaInicioTomaMx") != null && !jObjectFiltro.get("fechaInicioTomaMx").getAsString().isEmpty())
             fechaInicioTomaMx = DateUtil.StringToDate(jObjectFiltro.get("fechaInicioTomaMx").getAsString() + " 00:00:00");
         if (jObjectFiltro.get("fechaFinTomaMx") != null && !jObjectFiltro.get("fechaFinTomaMx").getAsString().isEmpty())
-            fechaFinTomaMx = DateUtil.StringToDate(jObjectFiltro.get("fechaFinTomaMx").getAsString()+" 23:59:59");
+            fechaFinTomaMx = DateUtil.StringToDate(jObjectFiltro.get("fechaFinTomaMx").getAsString() + " 23:59:59");
         if (jObjectFiltro.get("fechaInicioRecep") != null && !jObjectFiltro.get("fechaInicioRecep").getAsString().isEmpty())
             fechaInicioRecep = DateUtil.StringToDate(jObjectFiltro.get("fechaInicioRecep").getAsString()+" 00:00:00");
         if (jObjectFiltro.get("fechaFinRecepcion") != null && !jObjectFiltro.get("fechaFinRecepcion").getAsString().isEmpty())
-            fechaFinRecep =DateUtil. StringToDate(jObjectFiltro.get("fechaFinRecepcion").getAsString()+" 23:59:59");
+            fechaFinRecep =DateUtil. StringToDate(jObjectFiltro.get("fechaFinRecepcion").getAsString() + " 23:59:59");
         if (jObjectFiltro.get("codSilais") != null && !jObjectFiltro.get("codSilais").getAsString().isEmpty())
             codSilais = jObjectFiltro.get("codSilais").getAsString();
         if (jObjectFiltro.get("codUnidadSalud") != null && !jObjectFiltro.get("codUnidadSalud").getAsString().isEmpty())
@@ -2299,6 +2369,10 @@ public class RecepcionMxController {
             controlCalidad = jObjectFiltro.get("controlCalidad").getAsBoolean();
         if (jObjectFiltro.get("codigoVIH") != null && !jObjectFiltro.get("codigoVIH").getAsString().isEmpty())
         	codigoVIH = jObjectFiltro.get("codigoVIH").getAsString();
+        if (jObjectFiltro.get("fecInicioProc") != null && !jObjectFiltro.get("fecInicioProc").getAsString().isEmpty())
+            fechaInicioProc = DateUtil.StringToDate(jObjectFiltro.get("fecInicioProc").getAsString() + " 00:00:00");
+        if (jObjectFiltro.get("fecFinProc") != null && !jObjectFiltro.get("fecFinProc").getAsString().isEmpty())
+            fechaFinProc =DateUtil. StringToDate(jObjectFiltro.get("fecFinProc").getAsString() + " 23:59:59");
 
         filtroMx.setCodSilais(codSilais);
         filtroMx.setCodUnidadSalud(codUnidadSalud);
@@ -2322,6 +2396,8 @@ public class RecepcionMxController {
         filtroMx.setIncluirTraslados(true);
         filtroMx.setControlCalidad(controlCalidad);
         filtroMx.setCodigoVIH(codigoVIH);
+        filtroMx.setFechaInicioProcesamiento(fechaInicioProc);
+        filtroMx.setFechaFinProcesamiento(fechaFinProc);
 
         return filtroMx;
     }
@@ -2404,41 +2480,39 @@ public class RecepcionMxController {
         for(DaTomaMx tomaMx : tomaMxList){
             Map<String, String> map = new HashMap<String, String>();
             //se arma estructura de diagn�sticos o estudios
-            List<DaSolicitudDx> solicitudDxList = tomaMxService.getSolicitudesDxByIdToma(tomaMx.getIdTomaMx(), labUser.getCodigo());
+            List<Solicitud> solicitudDxList = tomaMxService.getSolicitudesDxByIdTomaV2(tomaMx.getIdTomaMx(), labUser.getCodigo());
             Authority esAnalista = usuarioService.getAuthority(userName, "ROLE_ANALISTA");
+            String dxs = "";
             if (!solicitudDxList.isEmpty()) {
                 int cont = 0;
-                String dxs = "";
-                for (DaSolicitudDx solicitudDx : solicitudDxList) {
+                for (Solicitud solicitudDx : solicitudDxList) {
                     if (solicitudDx.getAprobada()) {
                         cont++;
                         if (cont == solicitudDxList.size()) {
-                            dxs += solicitudDx.getCodDx().getNombre();
+                            dxs += solicitudDx.getNombre();
                         } else {
-                            dxs += solicitudDx.getCodDx().getNombre() + ", ";
+                            dxs += solicitudDx.getNombre() + ", ";
                         }
                         //Si no es analista, es recepcionista mostrar muestra o si es analista y tiene autoridad en al menos uno de los dx solicitados mostrar muestra
-                        if (esAnalista==null || (esAnalista!=null && seguridadService.usuarioAutorizadoArea(userName, solicitudDx.getCodDx().getArea().getIdArea()) && !mostrar)){
+                        if (esAnalista==null || (esAnalista!=null && seguridadService.usuarioAutorizadoArea(userName, solicitudDx.getIdArea()) && !mostrar)){
                             mostrar = true;
                         }
                     }
 
                 }
                 map.put("solicitudes", dxs);
-            } else {
-                DaSolicitudEstudio solicitudE = tomaMxService.getSoliEstByCodigo(tomaMx.getCodigoUnicoMx());
-                if(solicitudE != null && solicitudE.getAprobada()){
-                    map.put("solicitudes", solicitudE.getTipoEstudio().getNombre());
-                    if (esAnalista==null || (esAnalista!=null && seguridadService.usuarioAutorizadoArea(userName, solicitudE.getTipoEstudio().getArea().getIdArea()) && !mostrar)){
-                        mostrar = true;
-                    }
-                }else{
-                    map.put("solicitudes", "");
+            }
+            DaSolicitudEstudio solicitudE = tomaMxService.getSoliEstByCodigo(tomaMx.getCodigoUnicoMx());
+            if(solicitudE != null && solicitudE.getAprobada()){
+                map.put("solicitudes",(dxs.isEmpty()?solicitudE.getTipoEstudio().getNombre():dxs+", "+solicitudE.getTipoEstudio().getNombre()));
+                if (esAnalista==null || (esAnalista!=null && seguridadService.usuarioAutorizadoArea(userName, solicitudE.getTipoEstudio().getArea().getIdArea()) && !mostrar)){
+                    mostrar = true;
                 }
-
+            }else{
+                map.put("solicitudes", dxs);
             }
             if (mostrar) {
-                esEstudio = tomaMxService.getSolicitudesEstudioByIdTomaMx(tomaMx.getIdTomaMx()).size() > 0;
+                esEstudio = tomaMxService.tieneEstudiosByIdTomaMx(tomaMx.getIdTomaMx());
                 //map.put("idOrdenExamen",tomaMx.getIdOrdenExamen());
                 map.put("idTomaMx", tomaMx.getIdTomaMx());
                 map.put("codigoUnicoMx", esEstudio ? tomaMx.getCodigoUnicoMx() : tomaMx.getCodigoLab());
@@ -2506,7 +2580,7 @@ public class RecepcionMxController {
 
                     List<Area> areaDxList = tomaMxService.getAreaSoliDxAprobByTomaAndUser(tomaMx.getIdTomaMx(), seguridadService.obtenerNombreUsuario());
                     Authority esRecepcionista = usuarioService.getAuthority(userName, "ROLE_RECEPCION");
-                    int count = 1;
+                    float yPosicionExamen = 0;
                     for (Area area : areaDxList) {
                         if (esRecepcionista!=null || seguridadService.usuarioAutorizadoArea(userName, area.getIdArea())) {
                             PDPage page = GeneralUtils.addNewPage(doc);
@@ -2578,7 +2652,7 @@ public class RecepcionMxController {
                             GeneralUtils.drawTEXT(tomaMx.getCodMuniUnidadAtencion() != null ? tomaMx.getNombreMuniUnidadAtencion() : "", y, 430, stream, 10, PDType1Font.HELVETICA_BOLD);//ABRIL2019
                             y = y - 15;
                             GeneralUtils.drawTEXT(messageSource.getMessage("lbl.health.unit1", null, null), y, 60, stream, 11, PDType1Font.HELVETICA);
-                            GeneralUtils.drawTEXT(tomaMx.getCodUnidadAtencion() != null ? tomaMx.getNombreUnidadAtencion() : "", y, 150, stream, 10, PDType1Font.HELVETICA_BOLD);//ABRIL2019
+                            GeneralUtils.drawTEXT(tomaMx.getCodUnidadAtencion() != null ? tomaMx.getNombreUnidadAtencion() : "", y, 150, stream, 9, PDType1Font.HELVETICA_BOLD);//ABRIL2019
                             GeneralUtils.drawTEXT(messageSource.getMessage("lbl.sampling.datetime1", null, null), y, 400, stream, 11, PDType1Font.HELVETICA);
                             GeneralUtils.drawTEXT(DateUtil.DateToString(tomaMx.getFechaHTomaMx(), "dd/MM/yyyy"), y, 490, stream, 11, PDType1Font.HELVETICA_BOLD);
 
@@ -2622,7 +2696,8 @@ public class RecepcionMxController {
                                         }
                                         List<DetalleResultado> resultados = resultadosService.getDetallesResultadoActivosByExamen(examen.getIdOrdenExamen());
                                         if (resultados.size() > 0) {
-                                            GeneralUtils.drawTEXT(examen.getCodExamen().getNombre(), y, 100, stream, 10, PDType1Font.HELVETICA);
+                                            yPosicionExamen = y;
+                                            //GeneralUtils.drawTEXT(examen.getCodExamen().getNombre(), y, 100, stream, 10, PDType1Font.HELVETICA);
                                             y = y - 15;
                                         }
 
@@ -2643,24 +2718,23 @@ public class RecepcionMxController {
                                             y = y - 15;
                                         }
                                         if (resultados.size() > 0) {
-                                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.processing.date", null, null) + ": " + fechaProcesamiento, y, 150, stream, 12, PDType1Font.HELVETICA);
-                                            y = y - 15;
+                                            GeneralUtils.drawTEXT(examen.getCodExamen().getNombre()+ " - "+messageSource.getMessage("lbl.processing.date", null, null) + ": " + fechaProcesamiento, yPosicionExamen, 100, stream, 10, PDType1Font.HELVETICA);
+                                            //y = y - 15;
                                         }
                                     }
                                 }
                             }
-                            count++;
                             //fecha impresi?n
-                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.date.delivery.results", null, null) + ": ", 225, 60, stream, 11, PDType1Font.HELVETICA);
-                            GeneralUtils.drawTEXT(fechaImpresion, 225, 190, stream, 10, PDType1Font.HELVETICA);
+                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.date.delivery.results", null, null) + ": ", 160, 60, stream, 11, PDType1Font.HELVETICA);
+                            GeneralUtils.drawTEXT(fechaImpresion, 160, 190, stream, 10, PDType1Font.HELVETICA);
 
-                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.bioanalyst", null, null) + ": ", 180, 60, stream, 11, PDType1Font.HELVETICA);
-                            GeneralUtils.drawTEXT(procesadoPor, 180, 122, stream, 10, PDType1Font.HELVETICA);
+                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.bioanalyst", null, null) + ": ", 130, 60, stream, 11, PDType1Font.HELVETICA);
+                            GeneralUtils.drawTEXT(procesadoPor, 130, 122, stream, 10, PDType1Font.HELVETICA);
 
-                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.validated.by", null, null) + ": ", 180, 300, stream, 11, PDType1Font.HELVETICA);
-                            GeneralUtils.drawTEXT(aprobadoPor, 180, 370, stream, 10, PDType1Font.HELVETICA);
+                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.validated.by", null, null) + ": ", 130, 300, stream, 11, PDType1Font.HELVETICA);
+                            GeneralUtils.drawTEXT(aprobadoPor, 130, 370, stream, 10, PDType1Font.HELVETICA);
 
-                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.footer.note.results", null, null), 140, 60, stream, 11, PDType1Font.HELVETICA_BOLD);
+                            GeneralUtils.drawTEXT(messageSource.getMessage("lbl.footer.note.results", null, null), 100, 60, stream, 11, PDType1Font.HELVETICA_BOLD);
 
                             stream.close();
                         }

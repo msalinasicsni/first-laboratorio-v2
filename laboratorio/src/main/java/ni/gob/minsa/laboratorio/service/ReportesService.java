@@ -9,10 +9,10 @@ import ni.gob.minsa.laboratorio.domain.muestra.traslado.HistoricoEnvioMx;
 import ni.gob.minsa.laboratorio.domain.muestra.traslado.TrasladoMx;
 import ni.gob.minsa.laboratorio.domain.resultados.DetalleResultadoFinal;
 import ni.gob.minsa.laboratorio.domain.seguridadlocal.AutoridadLaboratorio;
+import ni.gob.minsa.laboratorio.utilities.DateUtil;
 import ni.gob.minsa.laboratorio.utilities.FiltrosReporte;
 import ni.gob.minsa.laboratorio.utilities.enumeration.HealthUnitType;
-import ni.gob.minsa.laboratorio.utilities.reportes.ConsolidadoRecepcion;
-import ni.gob.minsa.laboratorio.utilities.reportes.ResultadoVigilancia;
+import ni.gob.minsa.laboratorio.utilities.reportes.*;
 import ni.gob.minsa.laboratorio.utilities.reportes.ConsolidadoRecepcion;
 import ni.gob.minsa.laboratorio.utilities.reportes.ResultadoVigilancia;
 import org.hibernate.Criteria;
@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -416,24 +417,13 @@ public class ReportesService {
                 }
             }
         }
-        //se filtra que usuario tenga autorizado laboratorio al que se envio la muestra desde ALERTA
-        if (filtro.getNombreUsuario()!=null) {
-            crit.createAlias("toma.envio","envioMx");
-            crit.add(Subqueries.propertyIn("envioMx.laboratorioDestino.codigo", DetachedCriteria.forClass(AutoridadLaboratorio.class)
-                    .createAlias("laboratorio", "labautorizado")
-                    .createAlias("user", "usuario")
-                    .add(Restrictions.eq("pasivo",false)) //autoridad laboratorio activa
-                    .add(Restrictions.and(Restrictions.eq("usuario.username",filtro.getNombreUsuario()))) //usuario
-                    .setProjection(Property.forName("labautorizado.codigo"))));
-        }
-
-        crit.add(Restrictions.and(
-                        Restrictions.eq("rutina.controlCalidad", true))
-        );
 
         //filtro de resultados finales aprobados
         crit.add(Restrictions.and(
                         Restrictions.eq("rutina.aprobada", true))
+        );
+        crit.add(Restrictions.and(
+                        Restrictions.eq("rutina.controlCalidad", true))
         );
 
         // se filtra por tipo de muestra
@@ -449,7 +439,17 @@ public class ReportesService {
                 .setProjection(Property.forName("solicitudDx.idSolicitudDx"))));*/
 
         //crit.addOrder(Order.asc("fechaAprobacion"));
-
+        //se filtra que usuario tenga autorizado laboratorio al que se envio la muestra desde ALERTA
+        //solo cuÃ¡ndo no es usuario del CNDR se setea el laboratorio, es decir que sÃ³lo si es del CNDR validar autoridad de laboratorio destion
+        if (filtro.getNombreUsuario()!=null && filtro.getCodLaboratio()==null) {
+            crit.createAlias("toma.envio","envioMx");
+            crit.add(Subqueries.propertyIn("envioMx.laboratorioDestino.codigo", DetachedCriteria.forClass(AutoridadLaboratorio.class)
+                    .createAlias("laboratorio", "labautorizado")
+                    .createAlias("user", "usuario")
+                    .add(Restrictions.eq("pasivo",false)) //autoridad laboratorio activa
+                    .add(Restrictions.and(Restrictions.eq("usuario.username",filtro.getNombreUsuario()))) //usuario
+                    .setProjection(Property.forName("labautorizado.codigo"))));
+        }
         if (filtro.getCodLaboratio()!=null){
             crit.add(Subqueries.propertyIn("toma.idTomaMx", DetachedCriteria.forClass(TrasladoMx.class)
                     .createAlias("tomaMx", "tomaMx")
@@ -658,7 +658,7 @@ public class ReportesService {
      * @return Lista de objetos a mostrar
      */
     @SuppressWarnings("unchecked")
-    public List<Object[]> getDataDxResultReport(FiltrosReporte filtro) {
+    public List<Object[]> getDataDxResultReport(FiltrosReporte filtro, String nombreDx, int cantidadColumnas) {
         // Retrieve session from Hibernate
         List<Object[]> resTemp1 = new ArrayList<Object[]>();
         List<Object[]> resTemp2 = new ArrayList<Object[]>();
@@ -742,7 +742,7 @@ public class ReportesService {
                         " and  noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId = div.divisionpoliticaId " +
                         " and noti.pasivo = false and dx.anulado = false and dx.controlCalidad = false " +
                         " and mx.anulada = false),0) as sinresultado " +
-                        " from Divisionpolitica div " +
+                        " from DaNotificacion div " +
                         "where div.dependencia is null and div.pasivo = '0'" +
                         " order by div.divisionpoliticaId ");
 
@@ -1022,43 +1022,968 @@ public class ReportesService {
         queryNotiDx.setParameter("fechaFin", filtro.getFechaFin());
         resTemp1.addAll(queryNotiDx.list());
         for (Object[] reg : resTemp1) {
-            Object[] reg1 = new Object[8];
+            Object[] reg1 = new Object[cantidadColumnas];
             reg1[0] = reg[1]; //Nombre Silais
-            reg1[1] = reg[2]; //Cantidad Notificaciones (NO SE USA)
-            reg1[2] = (Long) reg[2]; //Cantidad Dx
+            //reg1[1] = reg[2]; //Cantidad Notificaciones (NO SE USA)
+            reg1[1] = (Long) reg[2]; //Cantidad Dx //24072019
             if (!filtro.getCodArea().equals("AREAREP|MUNI") || (filtro.getCodArea().equals("AREAREP|MUNI") && (Long) reg[2]>0)) {
+                //para dengue, chik y zika
                 int pos = 0;
                 int neg = 0;
+                //para ifi
+                int flua = 0, flub = 0, flursv = 0, fluadv = 0, flupiv1 = 0, flupiv2 = 0, flupiv3 = 0, flumpv = 0;
+                //para molecular virus respiratorios
+                int h1n1 = 0, h1n1pd = 0, h3n2 = 0, nosuptipificable = 0, flubpcr = 0;
                 int inadecuada = 0;
+                int noProc = 0;
                 String idSolicitud = "";
                 for (Object[] sol : resTemp2) {
                     //identidad
-                    if (sol[0].equals(reg[0]) && !sol[0].equals(idSolicitud)) {
+                    if (sol[0].equals(reg[0]) && !sol[1].equals(idSolicitud)) {
 
                         if (!sol[3].toString().equalsIgnoreCase("NULL")) {
                             if (sol[3].toString().equalsIgnoreCase("TPDATO|LIST")) {
                                 Integer idLista = Integer.valueOf(sol[2].toString());
-                                String valor = null;
+                                Catalogo_Lista valor = null;
                                 try {
-                                    valor = respuestasExamenService.getValorCatalogoListaConceptoByIdLista(idLista);
+                                    valor = respuestasExamenService.getCatalogoListaConceptoByIdLista(idLista);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                                 if (valor != null) {
-                                    if (valor.trim().toLowerCase().contains("negativo")
-                                            || valor.trim().toLowerCase().contains("no reactor")
-                                            || valor.trim().toLowerCase().contains("no detectado")
-                                            || valor.trim().toUpperCase().contains("MTB-ND")) {
+                                    if (nombreDx.toLowerCase().contains("dengue") || nombreDx.toLowerCase().contains("chikun") || nombreDx.toLowerCase().contains("zika") ||
+                                            (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("molec"))) {
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")
+                                                /*|| valor.getValor().trim().toLowerCase().contains("no reactor")
+                                                || valor.getValor().trim().toLowerCase().contains("no detectado")
+                                                || valor.getValor().trim().toUpperCase().contains("MTB-ND")*/) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("positivo")
+                                                /*|| valor.getValor().trim().toLowerCase().contains("reactor")
+                                                || valor.getValor().trim().toLowerCase().contains("detectado")
+                                                || valor.getValor().trim().toUpperCase().contains("MTB-DET")*/
+                                                || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
+                                            pos++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    }else if (nombreDx.toLowerCase().contains("ifi virus respiratorio")){
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza a") || valor.getValor().trim().toLowerCase().contains("flu a")){
+                                            flua++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza b") || valor.getValor().trim().toLowerCase().contains("flu b")){
+                                            flub++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("rsv") || valor.getValor().trim().toLowerCase().contains("sincitial")){
+                                            flursv++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("adenovirus") || valor.getValor().trim().toLowerCase().contains("adv")){
+                                            fluadv++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza 1") || valor.getValor().trim().toLowerCase().contains("influenza1")){
+                                            flupiv1++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza 2") || valor.getValor().trim().toLowerCase().contains("influenza2")){
+                                            flupiv2++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza 3") || valor.getValor().trim().toLowerCase().contains("influenza3")){
+                                            flupiv3++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("metapneumovirus") || valor.getValor().trim().toLowerCase().contains("mpv")){
+                                            flumpv++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuado")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        }else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("molecular virus respiratorio") || nombreDx.toLowerCase().contains("influenza")){
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("h1n1 pdm") || valor.getValor().trim().toLowerCase().contains("h1n1pdm")){
+                                            h1n1pd++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("h1n1")){
+                                            h1n1++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("h3n2")){
+                                            h3n2++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza b") || valor.getValor().trim().toLowerCase().contains("flu b")){
+                                            flubpcr++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuado")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("serolog")){
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")
+                                                || valor.getValor().trim().toLowerCase().contains("no reactor")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("positivo")
+                                                || valor.getValor().trim().toLowerCase().contains("reactor")
+                                                || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
+                                            pos++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("mycobacterium") && (nombreDx.toLowerCase().contains("tuberculosis") || nombreDx.contains("tb"))) {
+                                        if (valor.getValor().trim().toUpperCase().contains("MTB-ND")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toUpperCase().contains("MTB-DET")
+                                                || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
+                                            pos++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    }
+                                }
+
+                            } else if (sol[3].toString().equalsIgnoreCase("TPDATO|TXT")) {
+                                if (nombreDx.toLowerCase().contains("dengue") || nombreDx.toLowerCase().contains("chikun") || nombreDx.toLowerCase().contains("zika") ||
+                                        (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("molec"))) {
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")
+                                            /*|| sol[2].toString().trim().toLowerCase().contains("no reactor")
+                                            || sol[2].toString().trim().toLowerCase().contains("no detectado")
+                                            || sol[2].toString().trim().toUpperCase().contains("MTB-ND")*/) {
                                         neg++;
                                         idSolicitud = sol[1].toString();
-                                    } else if (valor.trim().toLowerCase().equals("mx inadecuada")){
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
                                         inadecuada++;
                                         idSolicitud = sol[1].toString();
-                                    } else if (valor.trim().toLowerCase().contains("positivo")
-                                            || valor.trim().toLowerCase().contains("reactor")
-                                            || valor.trim().toLowerCase().contains("detectado")
-                                            || valor.trim().toUpperCase().contains("MTB-DET")
-                                            || (!valor.trim().toLowerCase().contains("negativo") && !valor.trim().toLowerCase().contains("indetermin"))) {
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("positivo")
+                                            /*|| sol[2].toString().trim().toLowerCase().contains("reactor")
+                                            || sol[2].toString().trim().toLowerCase().contains("detectado")
+                                            || sol[2].toString().trim().toUpperCase().contains("MTB-DET")
+                                            */|| (!sol[2].toString().trim().toLowerCase().contains("negativo") && !sol[2].toString().trim().toLowerCase().contains("indetermin"))) {
+                                        pos++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("ifi virus respiratorio")){
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza a") || sol[2].toString().trim().toLowerCase().contains("flu a")){
+                                        flua++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza b") || sol[2].toString().trim().toLowerCase().contains("flu b")){
+                                        flub++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("rsv") || sol[2].toString().trim().toLowerCase().contains("sincitial")){
+                                        flursv++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("adenovirus") || sol[2].toString().trim().toLowerCase().contains("adv")){
+                                        fluadv++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza 1") || sol[2].toString().trim().toLowerCase().contains("influenza1")){
+                                        flupiv1++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza 2") || sol[2].toString().trim().toLowerCase().contains("influenza2")){
+                                        flupiv2++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza 3") || sol[2].toString().trim().toLowerCase().contains("influenza3")){
+                                        flupiv3++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("metapneumovirus") || sol[2].toString().trim().toLowerCase().contains("mpv")){
+                                        flumpv++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuado")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    }else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("molecular virus respiratorio") || nombreDx.toLowerCase().contains("influenza")){
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("h1n1 pdm") || sol[2].toString().trim().toLowerCase().contains("h1n1pdm")){
+                                        h1n1pd++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("h1n1")){
+                                        h1n1++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("h3n2")){
+                                        h3n2++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza b") || sol[2].toString().trim().toLowerCase().contains("flu b")){
+                                        flubpcr++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuado")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("serolog")){
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")
+                                            || sol[2].toString().trim().toLowerCase().contains("no reactor")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("positivo")
+                                            || sol[2].toString().trim().toLowerCase().contains("reactor")
+                                            || (!sol[2].toString().trim().toLowerCase().contains("negativo") && !sol[2].toString().trim().toLowerCase().contains("indetermin"))) {
+                                        pos++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("mycobacterium") && (nombreDx.toLowerCase().contains("tuberculosis") || nombreDx.contains("tb"))) {
+                                    if (sol[2].toString().trim().toUpperCase().contains("MTB-ND")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toUpperCase().contains("MTB-DET")
+                                            || (!sol[2].toString().trim().toLowerCase().contains("negativo") && !sol[2].toString().trim().toLowerCase().contains("indetermin"))) {
+                                        pos++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                }
+                            } //ES RESPUESTA EXAMEN
+                        } else if (!sol[4].toString().equalsIgnoreCase("NULL")) {
+                            if (sol[4].toString().equalsIgnoreCase("TPDATO|LIST")) {
+                                Integer idLista = Integer.valueOf(sol[2].toString());
+                                Catalogo_Lista valor = null;
+                                try {
+                                    valor = respuestasExamenService.getCatalogoListaConceptoByIdLista(idLista);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (valor != null) {
+                                    if (nombreDx.toLowerCase().contains("dengue") || nombreDx.toLowerCase().contains("chikun") || nombreDx.toLowerCase().contains("zika") ||
+                                            (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("molec"))) {
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")
+                                                /*|| valor.getValor().trim().toLowerCase().contains("no reactor")
+                                                || valor.getValor().trim().toLowerCase().contains("no detectado")
+                                                || valor.getValor().trim().toUpperCase().contains("MTB-ND")*/) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("positivo")
+                                                /*|| valor.getValor().trim().toLowerCase().contains("reactor")
+                                                || valor.getValor().trim().toLowerCase().contains("detectado")
+                                                || valor.getValor().trim().toUpperCase().contains("MTB-DET")
+                                                */|| (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
+                                            pos++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("ifi virus respiratorio")){
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza a") || valor.getValor().trim().toLowerCase().contains("flu a")){
+                                            flua++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza b") || valor.getValor().trim().toLowerCase().contains("flu b")){
+                                            flub++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("rsv") || valor.getValor().trim().toLowerCase().contains("sincitial")){
+                                            flursv++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("adenovirus") || valor.getValor().trim().toLowerCase().contains("adv")){
+                                            fluadv++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza 1") || valor.getValor().trim().toLowerCase().contains("influenza1")){
+                                            flupiv1++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza 2") || valor.getValor().trim().toLowerCase().contains("influenza2")){
+                                            flupiv2++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("influenza 3") || valor.getValor().trim().toLowerCase().contains("influenza3")){
+                                            flupiv3++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("metapneumovirus") || valor.getValor().trim().toLowerCase().contains("mpv")){
+                                            flumpv++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuado")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        }else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("molecular virus respiratorio") || nombreDx.toLowerCase().contains("influenza")){
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("h1n1 pand") || valor.getValor().trim().toLowerCase().contains("h1n1pand") || valor.getValor().trim().toLowerCase().contains("h1n1 pdm") || valor.getValor().trim().toLowerCase().contains("h1n1pdm")){
+                                            h1n1pd++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("h1n1")){
+                                            h1n1++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("h3n2")){
+                                            h3n2++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("subtipificable")){
+                                            nosuptipificable++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuado")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("serolog")) {
+                                        if (valor.getValor().trim().toLowerCase().contains("negativo")
+                                                || valor.getValor().trim().toLowerCase().contains("no reactor")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().contains("positivo")
+                                                || valor.getValor().trim().toLowerCase().contains("reactor")
+                                                || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
+                                            pos++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    } else if (nombreDx.toLowerCase().contains("mycobacterium") && (nombreDx.toLowerCase().contains("tuberculosis") || nombreDx.contains("tb"))) {
+                                        if (valor.getValor().trim().toUpperCase().contains("MTB-ND")) {
+                                            neg++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")) {
+                                            inadecuada++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                            noProc++;
+                                            idSolicitud = sol[1].toString();
+                                        } else if (valor.getValor().trim().toUpperCase().contains("MTB-DET")
+                                                || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
+                                            pos++;
+                                            idSolicitud = sol[1].toString();
+                                        }
+                                    }
+                                }
+
+
+                            } else if (sol[4].toString().equalsIgnoreCase("TPDATO|TXT")) {
+                                if (nombreDx.toLowerCase().contains("dengue") || nombreDx.toLowerCase().contains("chikun") || nombreDx.toLowerCase().contains("zika") ||
+                                        (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("molec"))) {
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")
+                                            /*|| sol[2].toString().trim().toLowerCase().contains("no reactor")
+                                            || sol[2].toString().trim().toLowerCase().contains("no detectado")
+                                            || sol[2].toString().trim().toUpperCase().contains("MTB-ND")*/) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("positivo")
+                                            /*|| sol[2].toString().trim().toLowerCase().contains("reactor")
+                                            || sol[2].toString().trim().toLowerCase().contains("detectado")
+                                            || sol[2].toString().trim().toUpperCase().contains("MTB-DET")
+                                            */|| (!sol[2].toString().trim().toLowerCase().contains("negativo") && !sol[2].toString().trim().toLowerCase().contains("indetermin"))) {
+                                        pos++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("ifi virus respiratorio")){
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza a") || sol[2].toString().trim().toLowerCase().contains("flu a")){
+                                        flua++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza b") || sol[2].toString().trim().toLowerCase().contains("flu b")){
+                                        flub++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("rsv") || sol[2].toString().trim().toLowerCase().contains("sincitial")){
+                                        flursv++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("adenovirus") || sol[2].toString().trim().toLowerCase().contains("adv")){
+                                        fluadv++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza 1") || sol[2].toString().trim().toLowerCase().contains("influenza1")){
+                                        flupiv1++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza 2") || sol[2].toString().trim().toLowerCase().contains("influenza2")){
+                                        flupiv2++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("influenza 3") || sol[2].toString().trim().toLowerCase().contains("influenza3")){
+                                        flupiv3++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("metapneumovirus") || sol[2].toString().trim().toLowerCase().contains("mpv")){
+                                        flumpv++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuado")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    }else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("molecular virus respiratorio") || nombreDx.toLowerCase().contains("influenza")){
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("h1n1 pand") || sol[2].toString().trim().toLowerCase().contains("h1n1pand") || sol[2].toString().trim().toLowerCase().contains("h1n1 pdm") || sol[2].toString().trim().toLowerCase().contains("h1n1pdm")){
+                                        h1n1pd++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("h1n1")){
+                                        h1n1++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("h3n2")){
+                                        h3n2++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("subtipificable")){
+                                        nosuptipificable++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuado")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("serolog")){
+                                    if (sol[2].toString().trim().toLowerCase().contains("negativo")
+                                            || sol[2].toString().trim().toLowerCase().contains("no reactor")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().contains("positivo")
+                                            || sol[2].toString().trim().toLowerCase().contains("reactor")
+                                            || (!sol[2].toString().trim().toLowerCase().contains("negativo") && !sol[2].toString().trim().toLowerCase().contains("indetermin"))) {
+                                        pos++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                } else if (nombreDx.toLowerCase().contains("mycobacterium") && (nombreDx.toLowerCase().contains("tuberculosis") || nombreDx.contains("tb"))) {
+                                    if (sol[2].toString().trim().toUpperCase().contains("MTB-ND")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (sol[2].toString().trim().toUpperCase().contains("MTB-DET")
+                                            || (!sol[2].toString().trim().toLowerCase().contains("negativo") && !sol[2].toString().trim().toLowerCase().contains("indetermin"))) {
+                                        pos++;
+                                        idSolicitud = sol[1].toString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (nombreDx.toLowerCase().contains("dengue") || nombreDx.toLowerCase().contains("chikun") || nombreDx.toLowerCase().contains("zika") ||
+                        (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("molec"))) {
+                    reg1[2] = pos; // Positivo
+                    reg1[3] = neg; // Negativo
+                    reg1[4] = (Long) reg[4]; // Sin Resultado dx
+                    Long totalConySinResultado = (long) pos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                    reg1[7] = (totalConySinResultado != 0 ? (double) Math.round(Integer.valueOf(reg1[2].toString()).doubleValue() / totalConySinResultado * 100 * 100) / 100 : 0);
+                    reg1[5] = inadecuada; //muestras inadecuadas
+                    reg1[6] = noProc; //muestras con resultado no procesados
+                    resFinal.add(reg1);
+                }else if (nombreDx.toLowerCase().contains("ifi virus respiratorio")){
+                    reg1[2] = flua; // flu a
+                    reg1[3] = flub; // flu b
+                    reg1[4] = flursv; // flu sincitial
+                    reg1[5] = fluadv; // flu adenovirus
+                    reg1[6] = flupiv1; // flu 1
+                    reg1[7] = flupiv2; // flua 2
+                    reg1[8] = flupiv3; // flua 3
+                    reg1[9] = flumpv; // flua meta
+                    reg1[10] = neg; // negativos
+                    reg1[11] = (Long) reg[4]; // Sin Resultado dx
+                    reg1[12] = inadecuada; //muestras inadecuadas
+                    reg1[13] = noProc; //muestras con resultado no procesados
+                    Long positivos = (long) flua + (long) flub + (long) flursv + (long) fluadv + (long) flupiv1 + (long) flupiv2 + (long) flupiv3 + (long) flumpv;
+                    Long totalPosNeg = positivos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                    reg1[14] = (totalPosNeg != 0 ? (double) Math.round(positivos.doubleValue() / totalPosNeg * 100 * 100) / 100 : 0);
+                    resFinal.add(reg1);
+                }else if (nombreDx.toLowerCase().contains("molecular virus respiratorio")){ //TODO
+                    reg1[2] = h1n1; // flua a h1n1
+                    reg1[3] = h1n1pd; // flua h1n1 pandÃ©mico
+                    reg1[4] = h3n2; // flua h3n2
+                    reg1[5] = nosuptipificable; // flua no subtipificable
+                    reg1[6] = flubpcr; // flua b
+                    reg1[7] = neg; // Negativo
+                    reg1[8] = (Long) reg[4]; // Sin Resultado dx
+                    reg1[9] = inadecuada; //muestras inadecuadas
+                    reg1[10] = noProc; //muestras con resultado no procesados
+                    Long positivos = (long) h1n1 + (long) h1n1pd + (long) h3n2 + (long) nosuptipificable + (long) flubpcr;
+                    Long totalPosNeg = positivos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                    reg1[11] = (totalPosNeg != 0 ? (double) Math.round(positivos.doubleValue() / totalPosNeg * 100 * 100) / 100 : 0);
+                    resFinal.add(reg1);
+                }else if (nombreDx.toLowerCase().contains("leptospi") && nombreDx.toLowerCase().contains("serolog")){
+                    reg1[2] = pos; // Reactor
+                    reg1[3] = neg; // No Reactor
+                    reg1[4] = (Long) reg[4]; // Sin Resultado dx
+                    Long totalConySinResultado = (long) pos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                    reg1[7] = (totalConySinResultado != 0 ? (double) Math.round(Integer.valueOf(reg1[2].toString()).doubleValue() / totalConySinResultado * 100 * 100) / 100 : 0);
+                    reg1[5] = inadecuada; //muestras inadecuadas
+                    reg1[6] = noProc; //muestras con resultado no procesados
+                    resFinal.add(reg1);
+                } else if (nombreDx.toLowerCase().contains("mycobacterium") && (nombreDx.toLowerCase().contains("tuberculosis") || nombreDx.contains("tb"))) {
+                    reg1[2] = pos; // MTB-DET
+                    reg1[3] = neg; // MTB-ND
+                    reg1[4] = (Long) reg[4]; // Sin Resultado dx
+                    Long totalConySinResultado = (long) pos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                    reg1[7] = (totalConySinResultado != 0 ? (double) Math.round(Integer.valueOf(reg1[2].toString()).doubleValue() / totalConySinResultado * 100 * 100) / 100 : 0);
+                    reg1[5] = inadecuada; //muestras inadecuadas
+                    reg1[6] = noProc; //muestras con resultado no procesados
+                    resFinal.add(reg1);
+                }else {
+                    reg1[2] = pos; // pos
+                    reg1[3] = neg; // neg
+                    reg1[4] = (Long) reg[4]; // Sin Resultado dx
+                    Long totalConySinResultado = (long) pos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                    reg1[7] = (totalConySinResultado != 0 ? (double) Math.round(Integer.valueOf(reg1[2].toString()).doubleValue() / totalConySinResultado * 100 * 100) / 100 : 0);
+                    reg1[5] = inadecuada; //muestras inadecuadas
+                    reg1[6] = noProc; //muestras con resultado no procesados
+                    resFinal.add(reg1);
+                }
+            }
+        }
+        return resFinal;
+    }
+
+    /**
+     * M?todo que retornar la informaci?n para generar reporte y gr?fico de notificaciones por tipo de resultado (positivo, negativo, sin resultado y % positividad)
+     * 04-09-2018 Andrea solocita que sea por fecha de aprobaciï¿½n que se filtre el reporte
+     * @param filtro indicando el nivel (pais, silais, departamento, municipio, unidad salud), tipo notificaci?n, rango de fechas, factor tasas de poblaci?n
+     * @return Lista de objetos a mostrar
+     */
+    @SuppressWarnings("unchecked")
+    public List<Object[]> getDataEstResultReport(FiltrosReporte filtro, String nombreEst, int cantidadColumnas) {
+        // Retrieve session from Hibernate
+        List<Object[]> resTemp1 = new ArrayList<Object[]>();
+        List<Object[]> resTemp2 = new ArrayList<Object[]>();
+
+        List<Object[]> resFinal = new ArrayList<Object[]>();
+        Session session = sessionFactory.getCurrentSession();
+        Query queryNotiDx = null;
+        Query queryIdNoti = null;
+
+        if (filtro.getCodArea().equals("AREAREP|PAIS")) {
+
+            if (filtro.isPorSilais()) {
+                queryNotiDx = session.createQuery(" select ent.codigo, ent.nombre, " + //TOTAL RUTINAS
+                        " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion and noti.codSilaisAtencion = ent.codigo " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " group by noti.codSilaisAtencion) as dx, " +
+                        " coalesce( " + //TOTAL RUTINAS CON RESULTADO
+                        " (select sum(case dx.aprobada when true then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx" +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and  noti.codSilaisAtencion = ent.codigo " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as conresultado, " +
+                        " coalesce( " + //TOTAL RUTINAS SIN RESULTADO
+                        " (select  sum(case dx.aprobada when false then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and  noti.codSilaisAtencion = ent.codigo " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as sinresultado " +
+                        " from DaNotificacion ent " + (!filtro.isNivelCentral()?", EntidadAdtvaLaboratorio entlab ":"") +
+                        " where ent.pasivo = 0 " + (!filtro.isNivelCentral()?" and ent.codSilaisAtencion = entlab.entidadAdtva and entlab.laboratorio.codigo = :laboratorio ":"") +
+                        " order by ent.codigo ");
+
+                queryIdNoti = session.createQuery(" select noti.codSilaisAtencion, dx.idSolicitudEstudio, r.valor " +
+                        ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        ", coalesce((select rr.concepto.tipo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx, DetalleResultadoFinal r " +
+                        " where noti.idNotificacion = mx.idNotificacion " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and dx.idSolicitudEstudio = r.solicitudEstudio.idSolicitudEstudio and r.pasivo = false " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false " +
+                        " and dx.aprobada = true " +
+                        " and noti.codSilaisAtencion is not null " +
+                        " order by noti.codSilaisAtencion");
+
+            }else{
+                queryNotiDx = session.createQuery(" select div.divisionpoliticaId, div.nombre, " +
+                        " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx" +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion" +
+                        " and noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId = div.divisionpoliticaId " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " group by noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId) as dx, " +
+                        " coalesce( " +
+                        " (select sum(case dx.aprobada when true then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and  noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId = div.divisionpoliticaId " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as conresultado, " +
+                        " coalesce( " +
+                        " (select  sum(case dx.aprobada when false then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and  noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId = div.divisionpoliticaId " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as sinresultado " +
+                        " from Divisionpolitica div " +
+                        "where div.dependencia is null and div.pasivo = '0'" +
+                        " order by div.divisionpoliticaId ");
+
+                queryIdNoti = session.createQuery(" select noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId, dx.idSolicitudEstudio, r.valor " +
+                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx, DetalleResultadoFinal r " +
+                        " where noti.idNotificacion = mx.idNotificacion " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and dx.idSolicitudEstudio = r.solicitudEstudio.idSolicitudEstudio and r.pasivo = false " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false " +
+                        " and dx.aprobada = true " +
+                        " and noti.codUnidadAtencion is not null " +
+                        " order by noti.codUnidadAtencion.municipio.dependencia.divisionpoliticaId");
+
+            }
+
+            //rutinas
+            queryIdNoti.setParameter("idDx", filtro.getIdEstudio());
+            queryIdNoti.setParameter("fechaInicio", filtro.getFechaInicio());
+            queryIdNoti.setParameter("fechaFin", filtro.getFechaFin());
+
+            resTemp2.addAll(queryIdNoti.list());
+
+        } else if (filtro.getCodArea().equals("AREAREP|SILAIS")) {
+
+            queryNotiDx = session.createQuery(" select distinct div.divisionpoliticaId, div.nombre, " +
+                    " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                    " where noti.idNotificacion = mx.idNotificacion.idNotificacion" +
+                    " and noti.codUnidadAtencion.municipio.divisionpoliticaId = div.divisionpoliticaId " +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
+                    sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " group by noti.codSilaisAtencion.entidadAdtvaId), " +
+                    " coalesce( " +
+                    " (select sum(case dx.aprobada when true then 1 else 0 end) " +
+                    " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                    " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                    " and noti.codUnidadAtencion.municipio.divisionpoliticaId = div.divisionpoliticaId " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " and noti.pasivo = false and dx.anulado = false " +
+                    " and mx.anulada = false),0) as conresultado, " +
+                    " coalesce( " +
+                    " (select  sum(case dx.aprobada when false then 1 else 0 end) " +
+                    " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                    " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                    " and noti.codUnidadAtencion.municipio.divisionpoliticaId = div.divisionpoliticaId " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " and noti.pasivo = false and dx.anulado = false " +
+                    " and mx.anulada = false),0) as sinresultado " +
+                    " from Divisionpolitica div, Unidades as uni " +
+                    " where div.pasivo = '0' and uni.pasivo='0' " +
+                    " and uni.municipio.codigoNacional = div.codigoNacional and uni.entidadAdtva.codigo = :codSilais " +
+                    " order by div.divisionpoliticaId ");
+
+            queryIdNoti = session.createQuery(" select noti.codUnidadAtencion.municipio.divisionpoliticaId, dx.idSolicitudEstudio, r.valor " +
+                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx, DetalleResultadoFinal r " +
+                    " where noti.idNotificacion = mx.idNotificacion " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                    " and dx.idSolicitudEstudio = r.solicitudEstudio.idSolicitudEstudio and r.pasivo = false " +
+                    " and noti.pasivo = false and dx.anulado = false " +
+                    " and mx.anulada = false " +
+                    " and dx.aprobada = true " +
+                    " and noti.codUnidadAtencion.entidadAdtva.codigo = :codSilais " +
+                    " order by noti.codUnidadAtencion.municipio.divisionpoliticaId ");
+
+            queryNotiDx.setParameter("codSilais", filtro.getCodSilais());
+
+            //rutinas
+            queryIdNoti.setParameter("idDx", filtro.getIdEstudio());
+            queryIdNoti.setParameter("fechaInicio", filtro.getFechaInicio());
+            queryIdNoti.setParameter("fechaFin", filtro.getFechaFin());
+            queryIdNoti.setParameter("codSilais", filtro.getCodSilais());
+
+            resTemp2.addAll(queryIdNoti.list());
+
+        } else if (filtro.getCodArea().equals("AREAREP|MUNI")) {
+            queryNotiDx = session.createQuery(" select uni.unidadId, uni.nombre, " +
+                    " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                    " where noti.idNotificacion = mx.idNotificacion.idNotificacion" +
+                    " and noti.codUnidadAtencion.codigo =  uni.codigo " +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " group by  noti.codUnidadAtencion.unidadId) as dx, " +
+                    " coalesce( " +
+                    " (select sum(case dx.aprobada when true then 1 else 0 end) " +
+                    " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                    " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                    " and  noti.codUnidadAtencion.codigo =  uni.codigo " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " and noti.pasivo = false and dx.anulado = false " +
+                    " and mx.anulada = false),0) as conresultado, " +
+                    " coalesce( " +
+                    " (select  sum(case dx.aprobada when false then 1 else 0 end) " +
+                    " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                    " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " and  noti.codUnidadAtencion.codigo =  uni.codigo " +
+                    " and noti.pasivo = false and dx.anulado = false " +
+                    " and mx.anulada = false),0) as sinresultado " +
+                    "FROM Unidades uni " +
+                    "where uni.municipio.codigoNacional = :codMunicipio" +
+                    " and uni.entidadAdtva.codigo = :codSilais" +
+                    " and uni.tipoUnidad in ("+ HealthUnitType.UnidadesPrimHosp.getDiscriminator()+") " +
+                    " order by uni.unidadId ");
+
+
+            queryIdNoti = session.createQuery(" select noti.codUnidadAtencion.unidadId, dx.idSolicitudEstudio, r.valor " +
+                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                    ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                    " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx, DetalleResultadoFinal r  " +
+                    " where noti.idNotificacion = mx.idNotificacion " +
+                    sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                    " and dx.idSolicitudEstudio = r.solicitudEstudio.idSolicitudEstudio and r.pasivo = false " +
+                    " and noti.pasivo = false and dx.anulado = false " +
+                    " and mx.anulada = false " +
+                    " and dx.aprobada = true " +
+                    " and noti.codUnidadAtencion.municipio.codigoNacional = :codMunicipio " +
+                    " and noti.codUnidadAtencion.entidadAdtva.codigo = :codSilais " +
+                    " order by noti.codUnidadAtencion.unidadId ");
+
+            queryNotiDx.setParameter("codMunicipio", String.valueOf(filtro.getCodMunicipio()));
+            queryNotiDx.setParameter("codSilais", filtro.getCodSilais());
+
+            //rutinas
+            queryIdNoti.setParameter("idDx", filtro.getIdEstudio());
+            queryIdNoti.setParameter("fechaInicio", filtro.getFechaInicio());
+            queryIdNoti.setParameter("fechaFin", filtro.getFechaFin());
+            queryIdNoti.setParameter("codMunicipio", String.valueOf(filtro.getCodMunicipio()));
+            queryIdNoti.setParameter("codSilais", filtro.getCodSilais());
+
+            resTemp2.addAll(queryIdNoti.list());
+
+        } else if (filtro.getCodArea().equals("AREAREP|UNI")) {
+
+            if(filtro.isSubunidades()){
+                queryNotiDx = session.createQuery(" select uni.unidadId, uni.nombre, " +
+                        " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx" +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion" +
+                        " and noti.codUnidadAtencion.codigo =  uni.codigo " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " group by  noti.codUnidadAtencion.unidadId) as dx, " +
+                        " coalesce( " +
+                        " (select sum(case dx.aprobada when true then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and  noti.codUnidadAtencion.codigo =  uni.codigo " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as conresultado, " +
+                        " coalesce( " +
+                        " (select  sum(case dx.aprobada when false then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and  noti.codUnidadAtencion.codigo =  uni.codigo " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as sinresultado " +
+                        "FROM Unidades uni " +
+                        "where (uni.unidadId = :codUnidad" +
+                        " or uni.unidadAdtva in (select u.codigo from Unidades u where u.unidadId = :codUnidad )) " +
+                        " and uni.tipoUnidad in ("+ HealthUnitType.UnidadesPrimHosp.getDiscriminator()+") " +
+                        " order by uni.unidadId ");
+
+                queryIdNoti = session.createQuery(" select noti.codUnidadAtencion.unidadId, dx.idSolicitudEstudio, r.valor " +
+                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx, DetalleResultadoFinal r " +
+                        " where noti.idNotificacion = mx.idNotificacion " +
+                        sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and dx.idSolicitudEstudio = r.solicitudEstudio.idSolicitudEstudio and r.pasivo = false " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false " +
+                        " and dx.aprobada = true " +
+                        " and (noti.codUnidadAtencion.unidadId = :codUnidad " +
+                        " or noti.codUnidadAtencion.unidadAdtva in (select u.codigo from Unidades u where u.unidadId = :codUnidad )) " +
+                        " order by noti.codUnidadAtencion.unidadId ");
+
+            }else{
+                queryNotiDx = session.createQuery(" select uni.unidadId, uni.nombre, " +
+                        " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion" +
+                        " and noti.codUnidadAtencion.codigo =  uni.codigo " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " group by  noti.codUnidadAtencion.unidadId) as dx, " +
+                        " coalesce( " +
+                        " (select sum(case dx.aprobada when true then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx" +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and  noti.codUnidadAtencion.codigo =  uni.codigo " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as conresultado, " +
+                        " coalesce( " +
+                        " (select  sum(case dx.aprobada when false then 1 else 0 end) " +
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx" +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and  noti.codUnidadAtencion.codigo =  uni.codigo " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false),0) as sinresultado " +
+                        "FROM Unidades uni " +
+                        "where uni.unidadId = :codUnidad" +
+                        " and uni.tipoUnidad in ("+ HealthUnitType.UnidadesPrimHosp.getDiscriminator()+") " +
+                        " order by uni.unidadId ");
+
+                queryIdNoti = session.createQuery(" select noti.codUnidadAtencion.unidadId, dx.idSolicitudEstudio, r.valor " +
+                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
+                        ", coalesce((select rr.concepto.tipo.codigo from RespuestaExamen rr where rr.idRespuesta = r.respuestaExamen.idRespuesta),'NULL') "+
+                        " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx, DetalleResultadoFinal r " +
+                        " where noti.idNotificacion = mx.idNotificacion " +
+                        sqlEstudio +(filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                        " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
+                        " and dx.idSolicitudEstudio = r.solicitudEstudio.idSolicitudEstudio and r.pasivo = false " +
+                        " and noti.pasivo = false and dx.anulado = false " +
+                        " and mx.anulada = false " +
+                        " and dx.aprobada = true " +
+                        " and noti.codUnidadAtencion.unidadId = :codUnidad " +
+                        " order by noti.codUnidadAtencion.unidadId ");
+            }
+
+            queryNotiDx.setParameter("codUnidad", filtro.getCodUnidad());
+
+            //rutinas
+            queryIdNoti.setParameter("idDx", filtro.getIdEstudio());
+            queryIdNoti.setParameter("fechaInicio", filtro.getFechaInicio());
+            queryIdNoti.setParameter("fechaFin", filtro.getFechaFin());
+            queryIdNoti.setParameter("codUnidad", filtro.getCodUnidad());
+
+            resTemp2.addAll(queryIdNoti.list());
+
+        }
+
+        queryNotiDx.setParameter("idDx", filtro.getIdEstudio());
+        queryNotiDx.setParameter("fechaInicio", filtro.getFechaInicio());
+        queryNotiDx.setParameter("fechaFin", filtro.getFechaFin());
+        resTemp1.addAll(queryNotiDx.list());
+        for (Object[] reg : resTemp1) {
+            Object[] reg1 = new Object[cantidadColumnas];
+            reg1[0] = reg[1]; //Nombre Silais
+            //reg1[1] = reg[2]; //Cantidad Notificaciones (NO SE USA)
+            reg1[1] = (Long) reg[2]; //Cantidad Dx
+            if (!filtro.getCodArea().equals("AREAREP|MUNI") || (filtro.getCodArea().equals("AREAREP|MUNI") && (Long) reg[2]>0)) {
+                int pos = 0;
+                int neg = 0;
+                int inadecuada = 0;
+                int noProc = 0;
+                String idSolicitud = "";
+                for (Object[] sol : resTemp2) {
+                    //identidad
+                    if (sol[0].equals(reg[0]) && !sol[1].equals(idSolicitud)) {
+
+                        if (!sol[3].toString().equalsIgnoreCase("NULL")) {
+                            if (sol[3].toString().equalsIgnoreCase("TPDATO|LIST")) {
+                                Integer idLista = Integer.valueOf(sol[2].toString());
+                                Catalogo_Lista valor = null;
+                                try {
+                                    valor = respuestasExamenService.getCatalogoListaConceptoByIdLista(idLista);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                if (valor != null) {
+                                    if (valor.getValor().trim().toLowerCase().contains("negativo")
+                                            || valor.getValor().trim().toLowerCase().contains("no reactor")
+                                            || valor.getValor().trim().toLowerCase().contains("no detectado")
+                                            || valor.getValor().trim().toUpperCase().contains("MTB-ND")) {
+                                        neg++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")){
+                                        inadecuada++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (valor.getValor().trim().toLowerCase().contains("positivo")
+                                            || valor.getValor().trim().toLowerCase().contains("reactor")
+                                            || valor.getValor().trim().toLowerCase().contains("detectado")
+                                            || valor.getValor().trim().toUpperCase().contains("MTB-DET")
+                                            || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
                                         pos++;
                                         idSolicitud = sol[1].toString();
                                     }
@@ -1071,8 +1996,11 @@ public class ReportesService {
                                         || sol[2].toString().trim().toUpperCase().contains("MTB-ND")) {
                                     neg++;
                                     idSolicitud = sol[1].toString();
-                                } else if (sol[2].toString().trim().toLowerCase().contains("mx inadecuada")) {
+                                } else if (sol[2].toString().trim().toLowerCase().contains("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
                                     inadecuada++;
+                                    idSolicitud = sol[1].toString();
+                                } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                    noProc++;
                                     idSolicitud = sol[1].toString();
                                 } else if (sol[2].toString().trim().toLowerCase().contains("positivo")
                                         || sol[2].toString().trim().toLowerCase().contains("reactor")
@@ -1086,28 +2014,31 @@ public class ReportesService {
                         } else if (!sol[4].toString().equalsIgnoreCase("NULL")) {
                             if (sol[4].toString().equalsIgnoreCase("TPDATO|LIST")) {
                                 Integer idLista = Integer.valueOf(sol[2].toString());
-                                String valor = null;
+                                Catalogo_Lista valor = null;
                                 try {
-                                    valor = respuestasExamenService.getValorCatalogoListaConceptoByIdLista(idLista);
+                                    valor = respuestasExamenService.getCatalogoListaConceptoByIdLista(idLista);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 
                                 if (valor != null) {
-                                    if (valor.trim().toLowerCase().contains("negativo")
-                                            || valor.trim().toLowerCase().contains("no reactor")
-                                            || valor.trim().toLowerCase().contains("no detectado")
-                                            || valor.trim().toUpperCase().contains("MTB-ND")) {
+                                    if (valor.getValor().trim().toLowerCase().contains("negativo")
+                                            || valor.getValor().trim().toLowerCase().contains("no reactor")
+                                            || valor.getValor().trim().toLowerCase().contains("no detectado")
+                                            || valor.getValor().trim().toUpperCase().contains("MTB-ND")) {
                                         neg++;
                                         idSolicitud = sol[1].toString();
-                                    } else if (valor.trim().toLowerCase().equals("mx inadecuada")){
+                                    } else if (valor.getValor().trim().toLowerCase().equals("mx inadecuada") || valor.getValor().trim().toLowerCase().contains("inadecuad")){
                                         inadecuada++;
                                         idSolicitud = sol[1].toString();
-                                    } else if (valor.trim().toLowerCase().contains("positivo")
-                                            || valor.trim().toLowerCase().contains("reactor")
-                                            || valor.trim().toLowerCase().contains("detectado")
-                                            || valor.trim().toUpperCase().contains("MTB-DET")
-                                            || (!valor.trim().toLowerCase().contains("negativo") && !valor.trim().toLowerCase().contains("indetermin"))) {
+                                    } else if (valor.getValor().trim().toLowerCase().equals("no procesado")) {
+                                        noProc++;
+                                        idSolicitud = sol[1].toString();
+                                    } else if (valor.getValor().trim().toLowerCase().contains("positivo")
+                                            || valor.getValor().trim().toLowerCase().contains("reactor")
+                                            || valor.getValor().trim().toLowerCase().contains("detectado")
+                                            || valor.getValor().trim().toUpperCase().contains("MTB-DET")
+                                            || (!valor.getValor().trim().toLowerCase().contains("negativo") && !valor.getValor().trim().toLowerCase().contains("indetermin"))) {
                                         pos++;
                                         idSolicitud = sol[1].toString();
                                     }
@@ -1121,8 +2052,11 @@ public class ReportesService {
                                         || sol[2].toString().trim().toUpperCase().contains("MTB-ND")) {
                                     neg++;
                                     idSolicitud = sol[1].toString();
-                                } else if (sol[2].toString().trim().toLowerCase().contains("mx inadecuada")) {
+                                } else if (sol[2].toString().trim().toLowerCase().contains("mx inadecuada") || sol[2].toString().trim().toLowerCase().contains("inadecuad")) {
                                     inadecuada++;
+                                    idSolicitud = sol[1].toString();
+                                } else if (sol[2].toString().trim().toLowerCase().equals("no procesado")) {
+                                    noProc++;
                                     idSolicitud = sol[1].toString();
                                 } else if (sol[2].toString().trim().toLowerCase().contains("positivo")
                                         || sol[2].toString().trim().toLowerCase().contains("reactor")
@@ -1138,12 +2072,13 @@ public class ReportesService {
                     }
                 }
 
-                reg1[3] = pos; // Positivo
-                reg1[4] = neg; // Negativo
-                reg1[5] = (Long) reg[4]; // Sin Resultado dx
-                Long totalConySinResultado = (Long) reg1[2];
-                reg1[6] = (totalConySinResultado != 0 ? (double) Math.round(Integer.valueOf(reg1[3].toString()).doubleValue() / totalConySinResultado * 100 * 100) / 100 : 0);
-                reg1[7] = inadecuada; //muestras inadecuadas
+                reg1[2] = pos; // Positivo
+                reg1[3] = neg; // Negativo
+                reg1[4] = (Long) reg[4]; // Sin Resultado dx
+                Long totalConySinResultado = (long) pos + (long) neg;//solo tomar en cuenta positivos y negativos. Andrea 24072019 //(Long) reg1[2];
+                reg1[7] = (totalConySinResultado != 0 ? (double) Math.round(Integer.valueOf(reg1[2].toString()).doubleValue() / totalConySinResultado * 100 * 100) / 100 : 0);
+                reg1[5] = inadecuada; //muestras inadecuadas
+                reg1[6] = noProc; //muestras con resultado no procesados
                 resFinal.add(reg1);
             }
         }
@@ -1215,4 +2150,236 @@ public class ReportesService {
         return queryNotiDx.list();
     }
 
+    public List<Object[]> getFechasDiagnosticosAprobadosByFiltro(FiltrosReporte filtro) throws ParseException {
+        Session session = sessionFactory.getCurrentSession();
+        String strFiltro = " and mx.fechah_tomamx between :fechaInicio and :fechaFin and dx.laboratorio_prc = :codigoLab and dx.id_diagnostico = :idDx ";
+        String strFiltro2 = " and mx.fechah_tomamx between :fechaInicio and :fechaFin and dx.id_diagnostico = :idDx "; //sin laboratorio, es decir todos
+        Query queryNotiDx = null;
+        if (filtro.getCodArea().equals("AREAREP|PAIS")) {
+            queryNotiDx = session.createSQLQuery("select mx.id_tomamx as IDTOMAMX, mx.codigo_lab as CODIGOMX, " +
+                    "mx.nombre_silais_atencion as SILAIS, " +
+                    "mx.NOM_MUN_UNIDAD_ATENCION as MUNICIPIO, " +
+                    " dx.id_solicitud_dx as IDSOLICITUDDX, c.nombre AS NOMBREDX, mx.fechah_tomamx as FECHATOMAMX, mx.hora_tomamx as HORATOMAMX, " +
+                    "(select min(r.fechahora_recepcion) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECEPCIONGRAL, " +
+                    "(select min(r.fecha_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECIBIDOGRAL, " +
+                    "(select min(r.hora_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as HORARECIBIDOGRAL, " +
+                    "(select min(rr.fechahora_recepcion) from recepcion_mx_lab rr, recepcion_mx r where r.codunicomx = mx.codunicomx and rr.id_recepcion = r.id_recepcion and rr.id_area = c.id_area) as FECHARECEPCIONLAB, " +
+                    "(select min(dr.fechah_registro) from detalle_resultado dr where dr.id_orden_examen = oe.id_orden_examen ) as FECHAPROCESAMIENTO, " +
+                    "dx.fecha_aprobacion as FECHAAPROBACION " +
+                    "from LABORATORIO.orden_examen oe inner join ALERTA.da_solicitud_dx dx on oe.id_solicitud_dx = dx.id_solicitud_dx " +
+                    "inner join LABORATORIO.catalogo_dx c on c.id_diagnostico = dx.id_diagnostico " +
+                    "inner join ALERTA.da_tomamx mx on dx.id_tomamx = mx.id_tomamx inner join ALERTA.da_notificacion noti on mx.id_notificacion = noti.id_notificacion " +
+                    "where oe.anulado = '0' and dx.anulado = '0' and dx.aprobada = '1' and mx.anulada = '0' and noti.pasivo = '0' and dx.control_calidad = '0' " +
+                    (filtro.getCodLaboratio().equalsIgnoreCase("ALL")? strFiltro2 : strFiltro) +
+                    " order by mx.fechah_tomamx");
+        }else if (filtro.getCodArea().equals("AREAREP|SILAIS")) {
+            queryNotiDx = session.createSQLQuery("select mx.id_tomamx as IDTOMAMX, mx.codigo_lab as CODIGOMX, " +
+                    "mx.nombre_silais_atencion as SILAIS, " +
+                    "mx.NOM_MUN_UNIDAD_ATENCION as MUNICIPIO, " +
+                    " dx.id_solicitud_dx as IDSOLICITUDDX, c.nombre AS NOMBREDX, mx.fechah_tomamx as FECHATOMAMX, mx.hora_tomamx as HORATOMAMX, " +
+                    "(select min(r.fechahora_recepcion) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECEPCIONGRAL, " +
+                    "(select min(r.fecha_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECIBIDOGRAL, " +
+                    "(select min(r.hora_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as HORARECIBIDOGRAL, " +
+                    "(select min(rr.fechahora_recepcion) from recepcion_mx_lab rr, recepcion_mx r where r.codunicomx = mx.codunicomx and rr.id_recepcion = r.id_recepcion and rr.id_area = c.id_area) as FECHARECEPCIONLAB, " +
+                    "(select min(dr.fechah_registro) from detalle_resultado dr where dr.id_orden_examen = oe.id_orden_examen ) as FECHAPROCESAMIENTO, " +
+                    "dx.fecha_aprobacion as FECHAAPROBACION " +
+                    "from LABORATORIO.orden_examen oe inner join ALERTA.da_solicitud_dx dx on oe.id_solicitud_dx = dx.id_solicitud_dx " +
+                    "inner join LABORATORIO.catalogo_dx c on c.id_diagnostico = dx.id_diagnostico " +
+                    "inner join ALERTA.da_tomamx mx on dx.id_tomamx = mx.id_tomamx inner join ALERTA.da_notificacion noti on mx.id_notificacion = noti.id_notificacion " +
+                    "where oe.anulado = '0' and dx.anulado = '0' and dx.aprobada = '1' and mx.anulada = '0' and noti.pasivo = '0' and dx.control_calidad = '0' " +
+                    (filtro.getCodLaboratio().equalsIgnoreCase("ALL")? strFiltro2 : strFiltro) +
+                    " and noti.cod_silais_atencion = :codSilais " +
+                    " order by mx.fechah_tomamx");
+            queryNotiDx.setParameter("codSilais", filtro.getCodSilais());
+
+        } else if (filtro.getCodArea().equals("AREAREP|UNI")) {
+            queryNotiDx = session.createSQLQuery("select mx.id_tomamx as IDTOMAMX, mx.codigo_lab as CODIGOMX, " +
+                    "mx.nombre_silais_atencion as SILAIS, " +
+                    "mx.NOM_MUN_UNIDAD_ATENCION as MUNICIPIO, " +
+                    " dx.id_solicitud_dx as IDSOLICITUDDX, c.nombre AS NOMBREDX, mx.fechah_tomamx as FECHATOMAMX, mx.hora_tomamx as HORATOMAMX, " +
+                    "(select min(r.fechahora_recepcion) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECEPCIONGRAL, " +
+                    "(select min(r.fecha_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECIBIDOGRAL, " +
+                    "(select min(r.hora_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as HORARECIBIDOGRAL, " +
+                    "(select min(rr.fechahora_recepcion) from recepcion_mx_lab rr, recepcion_mx r where r.codunicomx = mx.codunicomx and rr.id_recepcion = r.id_recepcion and rr.id_area = c.id_area) as FECHARECEPCIONLAB, " +
+                    "(select min(dr.fechah_registro) from detalle_resultado dr where dr.id_orden_examen = oe.id_orden_examen ) as FECHAPROCESAMIENTO, " +
+                    "dx.fecha_aprobacion as FECHAAPROBACION " +
+                    "from LABORATORIO.orden_examen oe inner join ALERTA.da_solicitud_dx dx on oe.id_solicitud_dx = dx.id_solicitud_dx " +
+                    "inner join LABORATORIO.catalogo_dx c on c.id_diagnostico = dx.id_diagnostico " +
+                    "inner join ALERTA.da_tomamx mx on dx.id_tomamx = mx.id_tomamx inner join ALERTA.da_notificacion noti on mx.id_notificacion = noti.id_notificacion " +
+                    "where oe.anulado = '0' and dx.anulado = '0' and dx.aprobada = '1' and mx.anulada = '0' and noti.pasivo = '0' and dx.control_calidad = '0' " +
+                    (filtro.getCodLaboratio().equalsIgnoreCase("ALL")? strFiltro2 : strFiltro) +
+                    " and noti.cod_unidad_atencion = :codUnidad " +
+                    " order by mx.fechah_tomamx");
+            queryNotiDx.setParameter("codUnidad", filtro.getCodUnidad());
+        }
+        if (!filtro.getCodLaboratio().equalsIgnoreCase("ALL")) {
+            queryNotiDx.setParameter("codigoLab", filtro.getCodLaboratio());
+        }
+        queryNotiDx.setParameter("idDx", filtro.getIdDx());
+        queryNotiDx.setParameter("fechaInicio", filtro.getFechaInicio());
+        queryNotiDx.setParameter("fechaFin", filtro.getFechaFin());
+
+        queryNotiDx.setResultTransformer(Transformers.aliasToBean(TiemposProcesamiento.class));
+        List<TiemposProcesamiento> fechasDx = queryNotiDx.list();
+        List<Object[]> resFinal = new ArrayList<Object[]>();
+        int rowCount=1;
+        for (TiemposProcesamiento tmp : fechasDx) {
+            Object[] reg1 = new Object[13];
+            reg1[0] = rowCount++;
+            reg1[1] = tmp.getCODIGOMX();
+            reg1[2] = tmp.getSILAIS();
+            reg1[3] = tmp.getMUNICIPIO();
+            //reg1[2] = tmp.getNOMBREDX();
+            Date fechaTomaCompuesta = null;
+            Date fechaRecibido = null;
+            if (tmp.getHORATOMAMX()!=null){
+                fechaTomaCompuesta = DateUtil.StringToDate(DateUtil.DateToString(tmp.getFECHATOMAMX(), "dd/MM/yyyy")+ " "+tmp.getHORATOMAMX(), "dd/MM/yyyy hh:mm a");
+
+                reg1[4] = fechaTomaCompuesta;
+                reg1[6] = DateUtil.CalcularDiferenciaHorasFechas(fechaTomaCompuesta, tmp.getFECHARECEPCIONGRAL());
+                reg1[12] = DateUtil.CalcularDiferenciaHorasFechas(fechaTomaCompuesta, tmp.getFECHAAPROBACION());
+            }else {
+                reg1[4] = tmp.getFECHATOMAMX();
+                reg1[6] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHATOMAMX(), tmp.getFECHARECEPCIONGRAL());
+                reg1[12] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHATOMAMX(), tmp.getFECHAAPROBACION());
+            }
+            if (tmp.getFECHARECIBIDOGRAL()!=null){
+                if (tmp.getHORARECIBIDOGRAL()!=null) {
+                    fechaRecibido = DateUtil.StringToDate(DateUtil.DateToString(tmp.getFECHARECIBIDOGRAL(), "dd/MM/yyyy") + " " + tmp.getHORARECIBIDOGRAL(), "dd/MM/yyyy hh:mm a");
+                    reg1[5] = fechaRecibido;
+                    reg1[8] = DateUtil.CalcularDiferenciaHorasFechas(fechaRecibido, tmp.getFECHARECEPCIONLAB());
+                }else {
+                    reg1[5] = tmp.getFECHARECIBIDOGRAL();
+                    reg1[8] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHARECIBIDOGRAL(), tmp.getFECHARECEPCIONLAB());
+                }
+            }else {
+                reg1[5] = tmp.getFECHARECEPCIONGRAL();
+                reg1[8] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHARECEPCIONGRAL(), tmp.getFECHARECEPCIONLAB());
+            }
+            reg1[7] = tmp.getFECHARECEPCIONLAB();
+
+            reg1[9] = tmp.getFECHAPROCESAMIENTO();
+            reg1[10] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHARECEPCIONLAB(), tmp.getFECHAPROCESAMIENTO());
+            reg1[11] = tmp.getFECHAAPROBACION();
+
+            //reg1[11] = DateUtil.CalcularDiferenciaHorasFechas(fechaTomaCompuesta == null ? tmp.getFECHATOMAMX(): fechaTomaCompuesta, tmp.getFECHAAPROBACION());
+            resFinal.add(reg1);
+        }
+        return resFinal;
+    }
+
+    public List<Object[]> getFechasEstudiosAprobadosByFiltro(FiltrosReporte filtro) throws ParseException {
+        Session session = sessionFactory.getCurrentSession();
+        String strFiltro = " and mx.fechah_tomamx between :fechaInicio and :fechaFin and dx.id_estudio = :idDx ";
+        Query queryNotiDx = null;
+        if (filtro.getCodArea().equals("AREAREP|PAIS")) {
+            queryNotiDx = session.createSQLQuery("select mx.id_tomamx as IDTOMAMX, mx.codunicomx as CODIGOMX, " +
+                    "mx.nombre_silais_atencion as SILAIS, " +
+                    "mx.NOM_MUN_UNIDAD_ATENCION as MUNICIPIO, " +
+                    "dx.id_solicitud_est as IDSOLICITUDDX, c.nombre AS NOMBREDX, mx.fechah_tomamx as FECHATOMAMX, mx.hora_tomamx as HORATOMAMX, " +
+                    "(select min(r.fechahora_recepcion) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECEPCIONGRAL, " +
+                    "(select min(r.fecha_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECIBIDOGRAL, " +
+                    "(select min(r.hora_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as HORARECIBIDOGRAL, " +
+                    "(select min(rr.fechahora_recepcion) from recepcion_mx_lab rr, recepcion_mx r where r.codunicomx = mx.codunicomx and rr.id_recepcion = r.id_recepcion and rr.id_area = c.id_area) as FECHARECEPCIONLAB, " +
+                    "(select min(dr.fechah_registro) from detalle_resultado dr where dr.id_orden_examen = oe.id_orden_examen ) as FECHAPROCESAMIENTO, " +
+                    "dx.fecha_aprobacion as FECHAAPROBACION " +
+                    "from LABORATORIO.orden_examen oe inner join ALERTA.da_solicitud_estudio dx on oe.id_solicitud_est = dx.id_solicitud_est " +
+                    "inner join LABORATORIO.catalogo_estudio c on c.id_estudio = dx.id_estudio " +
+                    "inner join ALERTA.da_tomamx mx on dx.id_tomamx = mx.id_tomamx inner join ALERTA.da_notificacion noti on mx.id_notificacion = noti.id_notificacion " +
+                    "where oe.anulado = '0' and dx.anulado = '0' and dx.aprobada = '1' and mx.anulada = '0' and noti.pasivo = '0' " +
+                    strFiltro +
+                    " order by mx.fechah_tomamx");
+        }else if (filtro.getCodArea().equals("AREAREP|SILAIS")) {
+            queryNotiDx = session.createSQLQuery("select mx.id_tomamx as IDTOMAMX, mx.codunicomx as CODIGOMX, " +
+                    "mx.nombre_silais_atencion as SILAIS, " +
+                    "mx.NOM_MUN_UNIDAD_ATENCION as MUNICIPIO, " +
+                    "dx.id_solicitud_est as IDSOLICITUDDX, c.nombre AS NOMBREDX, mx.fechah_tomamx as FECHATOMAMX, mx.hora_tomamx as HORATOMAMX, " +
+                    "(select min(r.fechahora_recepcion) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECEPCIONGRAL, " +
+                    "(select min(r.fecha_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECIBIDOGRAL, " +
+                    "(select min(r.hora_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as HORARECIBIDOGRAL, " +
+                    "(select min(rr.fechahora_recepcion) from recepcion_mx_lab rr, recepcion_mx r where r.codunicomx = mx.codunicomx and rr.id_recepcion = r.id_recepcion and rr.id_area = c.id_area) as FECHARECEPCIONLAB, " +
+                    "(select min(dr.fechah_registro) from detalle_resultado dr where dr.id_orden_examen = oe.id_orden_examen ) as FECHAPROCESAMIENTO, " +
+                    "dx.fecha_aprobacion as FECHAAPROBACION " +
+                    "from LABORATORIO.orden_examen oe inner join ALERTA.da_solicitud_estudio dx on oe.id_solicitud_est = dx.id_solicitud_est " +
+                    "inner join LABORATORIO.catalogo_estudio c on c.id_estudio = dx.id_estudio " +
+                    "inner join ALERTA.da_tomamx mx on dx.id_tomamx = mx.id_tomamx inner join ALERTA.da_notificacion noti on mx.id_notificacion = noti.id_notificacion " +
+                    "where oe.anulado = '0' and dx.anulado = '0' and dx.aprobada = '1' and mx.anulada = '0' and noti.pasivo = '0' " +
+                    strFiltro +
+                    " and noti.cod_silais_atencion = :codSilais " +
+                    " order by mx.fechah_tomamx");
+            queryNotiDx.setParameter("codSilais", filtro.getCodSilais());
+
+        } else if (filtro.getCodArea().equals("AREAREP|UNI")) {
+            queryNotiDx = session.createSQLQuery("select mx.id_tomamx as IDTOMAMX, mx.codunicomx as CODIGOMX, " +
+                    "mx.nombre_silais_atencion as SILAIS, " +
+                    "mx.NOM_MUN_UNIDAD_ATENCION as MUNICIPIO, " +
+                    "dx.id_solicitud_est as IDSOLICITUDDX, c.nombre AS NOMBREDX, mx.fechah_tomamx as FECHATOMAMX, mx.hora_tomamx as HORATOMAMX, " +
+                    "(select min(r.fechahora_recepcion) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECEPCIONGRAL, " +
+                    "(select min(r.fecha_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as FECHARECIBIDOGRAL, " +
+                    "(select min(r.hora_recibido) from recepcion_mx r where r.codunicomx = mx.codunicomx) as HORARECIBIDOGRAL, " +
+                    "(select min(rr.fechahora_recepcion) from recepcion_mx_lab rr, recepcion_mx r where r.codunicomx = mx.codunicomx and rr.id_recepcion = r.id_recepcion and rr.id_area = c.id_area) as FECHARECEPCIONLAB, " +
+                    "(select min(dr.fechah_registro) from detalle_resultado dr where dr.id_orden_examen = oe.id_orden_examen ) as FECHAPROCESAMIENTO, " +
+                    "dx.fecha_aprobacion as FECHAAPROBACION " +
+                    "from LABORATORIO.orden_examen oe inner join ALERTA.da_solicitud_estudio dx on oe.id_solicitud_est = dx.id_solicitud_est " +
+                    "inner join LABORATORIO.catalogo_estudio c on c.id_estudio = dx.id_estudio " +
+                    "inner join ALERTA.da_tomamx mx on dx.id_tomamx = mx.id_tomamx inner join ALERTA.da_notificacion noti on mx.id_notificacion = noti.id_notificacion " +
+                    "where oe.anulado = '0' and dx.anulado = '0' and dx.aprobada = '1' and mx.anulada = '0' and noti.pasivo = '0' " +
+                    strFiltro +
+                    " and noti.cod_unidad_atencion = :codUnidad " +
+                    " order by mx.fechah_tomamx");
+            queryNotiDx.setParameter("codUnidad", filtro.getCodUnidad());
+        }
+
+        queryNotiDx.setParameter("idDx", filtro.getIdEstudio());
+        queryNotiDx.setParameter("fechaInicio", filtro.getFechaInicio());
+        queryNotiDx.setParameter("fechaFin", filtro.getFechaFin());
+
+        queryNotiDx.setResultTransformer(Transformers.aliasToBean(TiemposProcesamiento.class));
+        List<TiemposProcesamiento> fechasDx = queryNotiDx.list();
+        List<Object[]> resFinal = new ArrayList<Object[]>();
+        int rowCount=1;
+        for (TiemposProcesamiento tmp : fechasDx) {
+            Object[] reg1 = new Object[13];
+            reg1[0] = rowCount++;
+            reg1[1] = tmp.getCODIGOMX();
+            reg1[2] = tmp.getSILAIS();
+            reg1[3] = tmp.getMUNICIPIO();
+            //reg1[2] = tmp.getNOMBREDX();
+            Date fechaTomaCompuesta = null;
+            Date fechaRecibido = null;
+            if (tmp.getHORATOMAMX()!=null){
+                fechaTomaCompuesta = DateUtil.StringToDate(DateUtil.DateToString(tmp.getFECHATOMAMX(), "dd/MM/yyyy")+ " "+tmp.getHORATOMAMX(), "dd/MM/yyyy hh:mm a");
+
+                reg1[4] = fechaTomaCompuesta;
+                reg1[6] = DateUtil.CalcularDiferenciaHorasFechas(fechaTomaCompuesta, tmp.getFECHARECEPCIONGRAL());
+                reg1[12] = DateUtil.CalcularDiferenciaHorasFechas(fechaTomaCompuesta, tmp.getFECHAAPROBACION());
+            }else {
+                reg1[4] = tmp.getFECHATOMAMX();
+                reg1[6] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHATOMAMX(), tmp.getFECHARECEPCIONGRAL());
+                reg1[12] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHATOMAMX(), tmp.getFECHAAPROBACION());
+            }
+            if (tmp.getFECHARECIBIDOGRAL()!=null){
+                if (tmp.getHORARECIBIDOGRAL()!=null) {
+                    fechaRecibido = DateUtil.StringToDate(DateUtil.DateToString(tmp.getFECHARECIBIDOGRAL(), "dd/MM/yyyy") + " " + tmp.getHORARECIBIDOGRAL(), "dd/MM/yyyy hh:mm a");
+                    reg1[5] = fechaRecibido;
+                    reg1[8] = DateUtil.CalcularDiferenciaHorasFechas(fechaRecibido, tmp.getFECHARECEPCIONLAB());
+                }else {
+                    reg1[5] = tmp.getFECHARECIBIDOGRAL();
+                    reg1[8] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHARECIBIDOGRAL(), tmp.getFECHARECEPCIONLAB());
+                }
+            }else {
+                reg1[5] = tmp.getFECHARECEPCIONGRAL();
+                reg1[8] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHARECEPCIONGRAL(), tmp.getFECHARECEPCIONLAB());
+            }
+            reg1[7] = tmp.getFECHARECEPCIONLAB();
+
+            reg1[9] = tmp.getFECHAPROCESAMIENTO();
+            reg1[10] = DateUtil.CalcularDiferenciaHorasFechas(tmp.getFECHARECEPCIONLAB(), tmp.getFECHAPROCESAMIENTO());
+            reg1[11] = tmp.getFECHAAPROBACION();
+
+            //reg1[11] = DateUtil.CalcularDiferenciaHorasFechas(fechaTomaCompuesta == null ? tmp.getFECHATOMAMX(): fechaTomaCompuesta, tmp.getFECHAAPROBACION());
+            resFinal.add(reg1);
+        }
+        return resFinal;
+    }
 }
