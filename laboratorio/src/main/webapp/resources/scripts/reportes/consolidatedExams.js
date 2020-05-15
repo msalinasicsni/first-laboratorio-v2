@@ -80,48 +80,26 @@ var consolidatedExams = function () {
                     filtro['codLabo'] = $('#codigoLab').find('option:selected').val();
                     filtro['consolidarPor'] = $('input[name="rbFechaBusqueda"]:checked', '#result_form').val();
                     var valores = $('#idDx').val();
-                    console.log(valores);
-                    var strValoresDx = '';
+                    var strValores = '';
                     var strValoresEst = '';
-                   for (var i = 0; i < valores.length; i++) {
-                       if (valores[i].indexOf('-R') > 0) {
-                           if (i == 0 || strValoresDx==='')
-                               strValoresDx = valores[i];
-                           else
-                               strValoresDx = strValoresDx + ',' + valores[i];
-                       }else {
-                           if (i == 0 || strValoresEst==='')
-                               strValoresEst = valores[i];
-                           else
-                               strValoresEst = strValoresEst + ',' + valores[i];
-                       }
+                    for (var i = 0; i < valores.length; i++) {
+                        if (valores[i].indexOf("-R") != -1) {
+                            if (strValores.length > 0)
+                                strValores = strValores + ',' + valores[i].substr(0, valores[i].indexOf("-R"));
+                            else
+                                strValores = valores[i].substr(0, valores[i].indexOf("-R"));
+                        }
+                        else {
+                            if (strValoresEst.length > 0)
+                                strValoresEst = strValoresEst + ',' + valores[i].substr(0, valores[i].indexOf("-E"));
+                            else
+                                strValoresEst = valores[i].substr(0, valores[i].indexOf("-E"));
+                        }
                     }
-                    filtro['diagnosticos'] = strValoresDx;
+                    filtro['diagnosticos'] = strValores;
                     filtro['estudios'] = strValoresEst;
-                    $(this).attr("href",parametros.excelUrl+"?filtro="+JSON.stringify(filtro));
+                    $(this).attr("href", parametros.excelUrl + "?filtro=" + JSON.stringify(filtro));
                     desbloquearUI();
-
-                    /*
-                     var strValoresEst = '';
-                     for (var i = 0; i < valores.length; i++) {
-                     if (valores[i].indexOf("-R") != -1) {
-                     if (strValores.length > 0)
-                     strValores = strValores + ',' + valores[i].substr(0, valores[i].indexOf("-R"));
-                     else
-                     strValores = +valores[i].substr(0, valores[i].indexOf("-R"));
-                     }
-                     else {
-                     if (strValoresEst.length > 0)
-                     strValoresEst = strValoresEst + ',' + valores[i].substr(0, valores[i].indexOf("-E"));
-                     else
-                     strValoresEst = +valores[i].substr(0, valores[i].indexOf("-E"));
-                     }
-                     }
-                     filtro['diagnosticos'] = strValores;
-                     filtro['estudios'] = strValoresEst;
-                     $(this).attr("href", parametros.excelUrl + "?filtro=" + JSON.stringify(filtro));
-
-                     * */
                 }
             });
         }

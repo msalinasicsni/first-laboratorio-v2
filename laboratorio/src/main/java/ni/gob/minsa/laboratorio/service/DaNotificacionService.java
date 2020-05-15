@@ -97,6 +97,20 @@ public class DaNotificacionService {
         }
     }
 
+    public void deleteNotificacion(DaNotificacion dto) throws Exception {
+        try {
+            if (dto != null) {
+                Session session = sessionFactory.getCurrentSession();
+                session.delete(dto);
+            }
+            else
+                throw new Exception("Objeto DaNotificacion es NULL");
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw ex;
+        }
+    }
+
     /******************************************/
     /*******************Otras Muestras***********************/
     /******************************************/

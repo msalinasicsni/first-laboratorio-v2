@@ -364,6 +364,7 @@ var TrasladoMx = function () {
 
             function trasladarMx() {
                 var oTT = TableTools.fnGetInstance('muestras_result');
+                if (oTT == null ) oTT = TableTools.fnGetInstance('mx_result');
                 var aSelectedTrs = oTT.fnGetSelected();
                 var len = aSelectedTrs.length;
                 var opcSi = $("#confirm_msg_opc_yes").val();
@@ -426,6 +427,12 @@ var TrasladoMx = function () {
                                                     timeout: 4000
                                                 });
                                                 table1.fnClearTable();
+                                                table2.fnClearTable();
+
+                                                if ($("#tipoTraslado").val() == "cc" && data.cantMxProc > 0 ){
+                                                    printCC(data.strMuestras);
+                                                }
+
                                                 //getMxs(false);
                                             }
                                             desbloquearUI();
@@ -543,6 +550,28 @@ var TrasladoMx = function () {
                     $('#idExamenes').html(html);
                 }
             });
+
+
+            function printCC(mx) {
+                $.ajax(
+                    {
+                        url: parametros.sPrintUrl,
+                        type: 'GET',
+                        dataType: 'text',
+                        data: {mxs: mx},
+                        contentType: 'application/json',
+                        mimeType: 'application/json',
+                        success: function (data) {
+
+                            var blob = blobData(data, 'application/pdf');
+                            showBlob(blob);
+                        },
+                        error: function (jqXHR) {
+                            desbloquearUI();
+                            validateLogin(jqXHR);
+                        }
+                    });
+            }
         }
     };
 

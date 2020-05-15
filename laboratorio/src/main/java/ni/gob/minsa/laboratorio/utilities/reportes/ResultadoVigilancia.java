@@ -9,10 +9,13 @@ import java.util.Date;
 public class ResultadoVigilancia {
 
     private String idNotificacion;
+    private String codigoTipoNoti;
     private String idTomaMx;
     private String idSolicitud;
     private String codigoMx;
     private String codUnicoMx;
+    private String codigoVIH;
+    private String expediente;
 
     private String codigoExpUnico;
     private Date fechaNacimiento;
@@ -61,6 +64,14 @@ public class ResultadoVigilancia {
 
     public void setIdNotificacion(String idNotificacion) {
         this.idNotificacion = idNotificacion;
+    }
+
+    public String getCodigoTipoNoti() {
+        return codigoTipoNoti;
+    }
+
+    public void setCodigoTipoNoti(String codigoTipoNoti) {
+        this.codigoTipoNoti = codigoTipoNoti;
     }
 
     public String getIdTomaMx() {
@@ -112,7 +123,7 @@ public class ResultadoVigilancia {
     }
 
     public String getSexo() {
-        return sexo.replaceAll("\\*","");
+        return sexo;
     }
 
     public void setSexo(String sexo) {
@@ -389,5 +400,21 @@ public class ResultadoVigilancia {
 
     public void setUrgente(String urgente) {
         this.urgente = urgente;
+    }
+
+    public String getCodigoVIH() {
+        return codigoVIH;
+    }
+
+    public void setCodigoVIH(String codigoVIH) {
+        this.codigoVIH = codigoVIH;
+    }
+
+    public String getExpediente() {
+        return expediente;
+    }
+
+    public void setExpediente(String expediente) {
+        this.expediente = expediente;
     }
 }

@@ -9,80 +9,39 @@
   <component name="ChangeListManager">
     <list id="bc47ddd1-92ba-4a03-a6c2-2457983b6864" name="no subir" comment="es por configuración de git" />
     <list default="true" id="2f7162e5-8c47-4f1d-9719-7c201a3e705d" name="subir" comment="Evitar duplicado resultado negativo por defecto para examenes de IFI virus respiratorios&#10;En reporte de vigilancia tomar resultado mx inadecuadas no procesadas(marcadas como inadecuadas en la recepcion lab)">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/cors/CORSFilter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ComunicacionResultadosService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/DatosSolicitud.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosSolicitud.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/DatosTB.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/DatosVIH.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/examen/EquiposProcesamiento.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EquiposProcesamientoController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/EquiposProcesamientoService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/examen/Examen_Equipo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelDocumentTiemposProc.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/RegistroSolicitud.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/comunicacionResultados/RespuestaHL7.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/RespuestaRegistroSolicitud.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/ResultadoHL7Services.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/HL7/SimpleMLLPBasedTCPClient.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/comunicacionResultados/SolicitudHL7.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/HL7/TestOrder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/TiemposProcesamiento.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ValorResultado.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/administracion/catalogos/processingEquipment.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/tiemposProcesamiento.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AprobacionResultadoController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AprobacionResultadoController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/AssociationSamplesRequestService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/AssociationSamplesRequestService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaIrag.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaIrag.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/tb/DaDatosTB.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosTBService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosTB.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosVIH.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vih/DaDatosVIH.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vih/DaDatosVIH.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosVIHService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosVIHService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaIragService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaIragService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaNotificacionService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaNotificacionService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/DateUtil.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/DateUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ExamenesController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ExamenesController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/FiltroMx.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/FiltroMx.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/enumeration/HealthUnitType.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/enumeration/HealthUnitType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/MinsaServices.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/MinsaServices.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/OrdenExamenMxService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/OrdenExamenMxService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReprintCodeLabController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReprintCodeLabController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ResultadoFinalService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ResultadoFinalService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadosController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadosController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SendMxReceiptController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SendMxReceiptController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/Solicitud.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/Solicitud.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/StringUtil.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/StringUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ResultadoVigilancia.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ResultadoVigilancia.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SindFebrilService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SindFebrilService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TrasladosService.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TrasladosService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/VisualizarNotificacionController.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/VisualizarNotificacionController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fragments/bodyNavigation.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fragments/bodyNavigation.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/consolidatedByExams.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/consolidatedByExams.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/consolidatedExams.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/consolidatedExams.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/editarMx/editarMxLab.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/editarMx/editarMxLab.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/expose.java" afterPath="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/expose.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/messages.properties" afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/printResults.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/printResults.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/printResults.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/printResults.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/qualityControlReport.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/qualityControlReport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/qualityControlReport.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/qualityControlReport.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/editarSolicitudesMx/proccess.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/editarSolicitudesMx/proccess.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrdersLab.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrdersLab.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDxVig.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDxVig.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/gestion/searchNoti.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/gestion/searchNoti.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/security-context.xml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/security-context.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/administracion/testsRequest.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/administracion/testsRequest.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/searchOrdersLab.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/searchOrdersLab.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/trasladoMx/trasladoMx.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/trasladoMx/trasladoMx.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/trasladoMx/trasladoMxCC.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/trasladoMx/trasladoMxCC.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="f6e4a3ff-c2f5-4208-9ea0-6bdee4e9ccc7" name="ambienteminsa" comment="- Corrección de bug&gt; traslado interno de una dx con menor prioridad a otro con mayor prioridad&#10;- Corrección de bug&gt; usuario podia trasladar (interno) muestras que no habia recibido en su area (laboratorio que procesa).&#10; -Corrección de bub&gt; en recepción masiva general estaba sustituyendo codigo_lab de muestra de traslado externo." />
@@ -113,124 +72,101 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TrasladoMxController.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java">
+      <file leaf-file-name="ReportesController.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.76" vertical-offset="10915" max-vertical-offset="12308">
-              <caret line="718" column="0" selection-start-line="718" selection-start-column="0" selection-end-line="718" selection-end-column="0" />
+            <state vertical-scroll-proportion="-7.28" vertical-offset="57312" max-vertical-offset="61472">
+              <caret line="3444" column="31" selection-start-line="3444" selection-start-column="31" selection-end-line="3444" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="messages.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
+      <file leaf-file-name="resultadoDx.jsp" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.92" vertical-offset="19959" max-vertical-offset="22253">
-              <caret line="1196" column="0" selection-start-line="1196" selection-start-column="0" selection-end-line="1196" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.8912621" vertical-offset="4403" max-vertical-offset="7276">
+              <caret line="286" column="70" selection-start-line="286" selection-start-column="70" selection-end-line="286" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="searchNoti.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/gestion/searchNoti.js">
+      <file leaf-file-name="recepcionarOrders.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrders.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.88" vertical-offset="3673" max-vertical-offset="7650">
-              <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
-              <folding>
-                <marker date="1588286170660" expanded="true" signature="11569:11639" placeholder="..." />
-                <marker date="1588286170660" expanded="true" signature="11706:11723" placeholder="..." />
-                <marker date="1588286170660" expanded="true" signature="11796:11813" placeholder="..." />
-                <marker date="1588286170660" expanded="true" signature="11888:11905" placeholder="..." />
-                <marker date="1588286170660" expanded="true" signature="11975:11992" placeholder="..." />
-                <marker date="1588286170660" expanded="true" signature="12066:12083" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="printResults.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/printResults.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-28.96" vertical-offset="1333" max-vertical-offset="3519">
-              <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+            <state vertical-scroll-proportion="-9.431373" vertical-offset="2902" max-vertical-offset="9877">
+              <caret line="199" column="64" selection-start-line="199" selection-start-column="64" selection-end-line="199" selection-end-column="64" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recepcionar-orders.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js">
+      <file leaf-file-name="positiveNegativeResults.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/positiveNegativeResults.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.92" vertical-offset="14062" max-vertical-offset="22950">
-              <caret line="855" column="34" selection-start-line="855" selection-start-column="34" selection-end-line="855" selection-end-column="34" />
-              <folding>
-                <marker date="1588286405071" expanded="true" signature="31185:31247" placeholder="..." />
-                <marker date="1588286405071" expanded="true" signature="31293:31357" placeholder="..." />
-                <marker date="1588286405071" expanded="true" signature="31434:31498" placeholder="..." />
-                <marker date="1588286405071" expanded="true" signature="31574:31638" placeholder="..." />
-                <marker date="1588286405071" expanded="true" signature="32028:32092" placeholder="..." />
-                <marker date="1588286405071" expanded="true" signature="32207:32271" placeholder="..." />
-                <marker date="1588286405071" expanded="true" signature="32338:32403" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="qualityControlReport.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/qualityControlReport.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1682" max-vertical-offset="5032">
-              <caret line="129" column="91" selection-start-line="129" selection-start-column="91" selection-end-line="129" selection-end-column="91" />
-              <folding>
-                <marker date="1588286440742" expanded="false" signature="8034:8104" placeholder="..." />
-                <marker date="1588286440742" expanded="false" signature="8146:8163" placeholder="..." />
-                <marker date="1588286440742" expanded="false" signature="8214:8231" placeholder="..." />
-                <marker date="1588286440742" expanded="false" signature="8279:8296" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="security-context.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/security-context.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.92" vertical-offset="690" max-vertical-offset="2006">
-              <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding>
-                <marker date="1588286499969" expanded="true" signature="8184:8258" placeholder="select usern..usuarios_sistema..." />
-                <marker date="1588286499969" expanded="true" signature="8322:8465" placeholder="select u.use..usuarios_sistema..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="printResults.jsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/printResults.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.431373" vertical-offset="3973" max-vertical-offset="4845">
-              <caret line="268" column="0" selection-start-line="268" selection-start-column="0" selection-end-line="268" selection-end-column="0" />
+            <state vertical-scroll-proportion="-8.019608" vertical-offset="2192" max-vertical-offset="6885">
+              <caret line="153" column="70" selection-start-line="153" selection-start-column="63" selection-end-line="153" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recepcionarOrdersLab.jsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrdersLab.jsp">
+      <file leaf-file-name="handleDatePickers.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/utilidades/handleDatePickers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.137255" vertical-offset="9207" max-vertical-offset="15589">
-              <caret line="572" column="41" selection-start-line="572" selection-start-column="41" selection-end-line="572" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1156">
+              <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qualityControlReport.jsp" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/qualityControlReport.jsp">
+      <file leaf-file-name="resultadoDx.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4841169" vertical-offset="3393" max-vertical-offset="6749">
-              <caret line="222" column="42" selection-start-line="222" selection-start-column="42" selection-end-line="222" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1368" max-vertical-offset="5729">
+              <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resultadoDxVig.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDxVig.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.346153" vertical-offset="5967" max-vertical-offset="6528">
+              <caret line="376" column="7" selection-start-line="376" selection-start-column="7" selection-end-line="376" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SeguridadService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SeguridadService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="5263" max-vertical-offset="7174">
+              <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportesExcelController.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="11713" max-vertical-offset="49810">
+              <caret line="763" column="41" selection-start-line="763" selection-start-column="30" selection-end-line="763" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportesService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.2" vertical-offset="32545" max-vertical-offset="40137">
+              <caret line="1957" column="0" selection-start-line="1957" selection-start-column="0" selection-end-line="1957" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -259,57 +195,57 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/irag/DaIrag.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/AssociationSamplesRequestService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AprobacionResultadoController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadosController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/VisualizarNotificacionController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/administracion/testsRequest.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/consolidatedExams.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDxVig.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/consolidatedByExams.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/cors/CORSFilter.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosSolicitud.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/ResultadoHL7Services.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/DateUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelDocumentTiemposProc.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fragments/bodyNavigation.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/trasladoMx/trasladoMx.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/trasladoMx/trasladoMxCC.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/expose.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/FiltroMx.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ResultadoFinalService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TrasladosService.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/Solicitud.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReprintCodeLabController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java" />
         <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SendMxReceiptController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/messages.properties" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/gestion/searchNoti.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/printResults.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/qualityControlReport.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/security-context.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/printResults.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrdersLab.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/qualityControlReport.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrdersLab.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/consolidatedExams.js" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/trasladoMx/trasladoMx.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/trasladoMx/trasladoMxCC.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/DateUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosVIHService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/searchOrdersLab.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosTBService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/tb/DaDatosTB.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vih/DaDatosVIH.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/messages.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/editarSolicitudesMx/proccess.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/editarMx/editarMxLab.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaNotificacionService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaIragService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SindFebrilService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/expose.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ResultadoVigilancia.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp" />
       </list>
     </option>
   </component>
@@ -421,8 +357,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -454,9 +388,93 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratorio" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -500,11 +518,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="ni.gob.minsa.laboratorio.utilities.excelUtils" />
       <recent name="ni.gob.minsa.laboratorio.utilities.reportes" />
-      <recent name="ni.gob.minsa.laboratorio.api" />
-      <recent name="ni.gob.minsa.laboratorio.restServices" />
+      <recent name="ni.gob.minsa.laboratorio.domain.tb" />
       <recent name="ni.gob.minsa.laboratorio.service" />
+      <recent name="ni.gob.minsa.laboratorio.utilities.excelUtils" />
+      <recent name="ni.gob.minsa.laboratorio.api" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\IdeaProyects\first-laboratorio-v2\laboratorio\src\main\java\ni\gob\minsa\laboratorio\api" />
@@ -1234,7 +1252,13 @@
       <workItem from="1588023759289" duration="15431000" />
       <workItem from="1588173352564" duration="12853000" />
       <workItem from="1588258635683" duration="11213000" />
-      <workItem from="1588285791457" duration="963000" />
+      <workItem from="1588285791457" duration="1514000" />
+      <workItem from="1588695515416" duration="7991000" />
+      <workItem from="1588715403989" duration="3574000" />
+      <workItem from="1588774930614" duration="7604000" />
+      <workItem from="1589233503328" duration="1325000" />
+      <workItem from="1589408377531" duration="1723000" />
+      <workItem from="1589571956192" duration="8441000" />
     </task>
     <task id="LOCAL-00001" summary="probando commit">
       <created>1440195752227</created>
@@ -1520,7 +1544,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2071685000" />
+    <option name="totallyTimeSpent" value="2102894000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1544,73 +1568,40 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7750557" sideWeight="0.67395943" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884398" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884398" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.325477" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4933185" sideWeight="0.73159015" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49382716" sideWeight="0.26840982" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8484849" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26779124" sideWeight="0.5005612" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24920128" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40021345" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20277481" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23482428" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7160494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46325168" sideWeight="0.74226254" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.63" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7755331" sideWeight="0.67395943" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32630098" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7755331" sideWeight="0.32604057" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8484849" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2913554" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7160494" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32659933" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23482428" sideWeight="0.49943882" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.71603566" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884398" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46689114" sideWeight="0.74226254" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4949495" sideWeight="0.8909613" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46325168" sideWeight="0.74226254" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30289534" sideWeight="0.73159015" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8305275" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.63028955" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26779124" sideWeight="0.5005612" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24920128" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20277481" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40021345" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
+    </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1728,7 +1719,7 @@
           <option name="timeStamp" value="539" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="545" />
+      <option name="time" value="557" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1736,428 +1727,403 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosVIH.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1394">
+          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadosController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2567" max-vertical-offset="17119">
-          <caret line="151" column="81" selection-start-line="151" selection-start-column="81" selection-end-line="151" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8058">
-          <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/ResultadoHL7Services.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/CallRestServices.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6166" max-vertical-offset="7106">
-          <caret line="431" column="5" selection-start-line="431" selection-start-column="5" selection-end-line="431" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/RegistroSolicitud.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="2040">
-          <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/DatosVIH.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27967098" vertical-offset="0" max-vertical-offset="1088">
-          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/DateUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3946731" vertical-offset="2666" max-vertical-offset="3893">
-          <caret line="181" column="0" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelDocumentTiemposProc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="746" max-vertical-offset="2244">
-          <caret line="92" column="16" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SeguridadService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.66039956" vertical-offset="6323" max-vertical-offset="7174">
-          <caret line="441" column="19" selection-start-line="441" selection-start-column="19" selection-end-line="441" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/constantes/CatalogConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78025854" vertical-offset="254" max-vertical-offset="1105">
-          <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/restServices/entidades/Catalogo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11985899" vertical-offset="0" max-vertical-offset="901">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-31.16" vertical-offset="2485" max-vertical-offset="5729">
-          <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/tiemposProcesamiento.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3383">
-          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fragments/bodyNavigation.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.09804" vertical-offset="3837" max-vertical-offset="4675">
-          <caret line="253" column="0" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/tiemposProcesamiento.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="6205">
-          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/ControllerELISA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/excelUtils/ExcelBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.88" vertical-offset="1905" max-vertical-offset="4998">
-          <caret line="319" column="54" selection-start-line="319" selection-start-column="54" selection-end-line="319" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/trasladoMx/trasladoMx.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9452">
-          <caret line="0" column="11" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/trasladoMx/trasladoMxCC.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3463" max-vertical-offset="6953">
-          <caret line="245" column="45" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/DatosTB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11985899" vertical-offset="0" max-vertical-offset="851">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3927" max-vertical-offset="8704">
-          <caret line="247" column="26" selection-start-line="247" selection-start-column="26" selection-end-line="247" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6285" max-vertical-offset="7276">
-          <caret line="379" column="40" selection-start-line="379" selection-start-column="40" selection-end-line="379" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4485" max-vertical-offset="9010">
-          <caret line="313" column="19" selection-start-line="313" selection-start-column="19" selection-end-line="313" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/expose.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.6" vertical-offset="4899" max-vertical-offset="5814">
-          <caret line="349" column="79" selection-start-line="349" selection-start-column="79" selection-end-line="349" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/FiltroMx.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3553">
-          <caret line="43" column="29" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/DaTomaMx.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.32" vertical-offset="3210" max-vertical-offset="4573">
-          <caret line="308" column="43" selection-start-line="308" selection-start-column="20" selection-end-line="308" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.68" vertical-offset="11563" max-vertical-offset="40103">
-          <caret line="747" column="0" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ResultadoFinalService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-22.84" vertical-offset="7946" max-vertical-offset="20808">
-          <caret line="527" column="39" selection-start-line="527" selection-start-column="39" selection-end-line="527" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.28" vertical-offset="17681" max-vertical-offset="20468">
-          <caret line="1082" column="0" selection-start-line="1082" selection-start-column="0" selection-end-line="1082" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/Solicitud.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7990599" vertical-offset="0" max-vertical-offset="851">
-          <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-          <folding>
-            <element signature="e#280#281#0" expanded="false" />
-            <element signature="e#314#315#0" expanded="false" />
-            <element signature="e#369#370#0" expanded="false" />
-            <element signature="e#415#416#0" expanded="false" />
-            <element signature="e#448#449#0" expanded="false" />
-            <element signature="e#477#478#0" expanded="false" />
-            <element signature="e#521#522#0" expanded="false" />
-            <element signature="e#557#558#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TrasladosService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6188" max-vertical-offset="7395">
-          <caret line="364" column="0" selection-start-line="364" selection-start-column="0" selection-end-line="364" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/TiemposProcesamiento.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1479">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6205" max-vertical-offset="10914">
-          <caret line="365" column="25" selection-start-line="365" selection-start-column="25" selection-end-line="365" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="12002" max-vertical-offset="13617">
-          <caret line="706" column="145" selection-start-line="706" selection-start-column="145" selection-end-line="706" selection-end-column="145" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="46342" max-vertical-offset="47940">
-          <caret line="2726" column="0" selection-start-line="2726" selection-start-column="0" selection-end-line="2726" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="58956" max-vertical-offset="62526">
-          <caret line="3468" column="21" selection-start-line="3468" selection-start-column="21" selection-end-line="3468" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="42704" max-vertical-offset="45407">
-          <caret line="2512" column="75" selection-start-line="2512" selection-start-column="75" selection-end-line="2512" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReprintCodeLabController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2073" max-vertical-offset="4012">
-          <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12937">
+          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ResultadoFinalController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4114" max-vertical-offset="11067">
-          <caret line="242" column="0" selection-start-line="242" selection-start-column="0" selection-end-line="242" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-12.88" vertical-offset="817" max-vertical-offset="10455">
+          <caret line="100" column="48" selection-start-line="100" selection-start-column="48" selection-end-line="100" selection-end-column="48" />
+          <folding>
+            <element signature="e#4128#4143#0" expanded="false" />
+            <element signature="e#4207#4227#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SendMxReceiptController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4145" max-vertical-offset="6001">
-          <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="307" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-10.84" vertical-offset="6087" max-vertical-offset="22950">
+          <caret line="374" column="531" selection-start-line="374" selection-start-column="531" selection-end-line="374" selection-end-column="531" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TrasladoMxController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/tb/DaDatosTB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.76" vertical-offset="10915" max-vertical-offset="12308">
-          <caret line="718" column="0" selection-start-line="718" selection-start-column="0" selection-end-line="718" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1581">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosTB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11957796" vertical-offset="0" max-vertical-offset="853">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosTBService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/searchOrdersLab.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4106" max-vertical-offset="6783">
+          <caret line="261" column="184" selection-start-line="261" selection-start-column="184" selection-end-line="261" selection-end-column="184" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/vih/DaDatosVIH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3485">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaDatosVIHService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="1037">
+          <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/messages.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.92" vertical-offset="19959" max-vertical-offset="22253">
-          <caret line="1196" column="0" selection-start-line="1196" selection-start-column="0" selection-end-line="1196" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="20741" max-vertical-offset="22389">
+          <caret line="1260" column="11" selection-start-line="1260" selection-start-column="11" selection-end-line="1260" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ExamenesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2532" max-vertical-offset="3604">
+          <caret line="217" column="0" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/gestion/searchNoti.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosSolicitud.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.88" vertical-offset="3673" max-vertical-offset="7650">
-          <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
-          <folding>
-            <marker date="1588286170660" expanded="true" signature="11569:11639" placeholder="..." />
-            <marker date="1588286170660" expanded="true" signature="11706:11723" placeholder="..." />
-            <marker date="1588286170660" expanded="true" signature="11796:11813" placeholder="..." />
-            <marker date="1588286170660" expanded="true" signature="11888:11905" placeholder="..." />
-            <marker date="1588286170660" expanded="true" signature="11975:11992" placeholder="..." />
-            <marker date="1588286170660" expanded="true" signature="12066:12083" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/printResults.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/laboratorio/editarSolicitudesMx/proccess.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-28.96" vertical-offset="1333" max-vertical-offset="3519">
-          <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+        <state vertical-scroll-proportion="-21.64" vertical-offset="9081" max-vertical-offset="12002">
+          <caret line="566" column="0" selection-start-line="566" selection-start-column="0" selection-end-line="566" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/laboratorio/editarMx/editarMxLab.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.764706" vertical-offset="13238" max-vertical-offset="14042">
+          <caret line="805" column="42" selection-start-line="805" selection-start-column="42" selection-end-line="805" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/DatosSolicitud.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/RespuestaRegistroSolicitud.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SolicitudService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-31.16" vertical-offset="360" max-vertical-offset="1241">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/recepcionMx/recepcionar-orders.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/EditarSolicitudesMxController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.92" vertical-offset="14062" max-vertical-offset="22950">
-          <caret line="855" column="34" selection-start-line="855" selection-start-column="34" selection-end-line="855" selection-end-column="34" />
-          <folding>
-            <marker date="1588286405071" expanded="true" signature="31185:31247" placeholder="..." />
-            <marker date="1588286405071" expanded="true" signature="31293:31357" placeholder="..." />
-            <marker date="1588286405071" expanded="true" signature="31434:31498" placeholder="..." />
-            <marker date="1588286405071" expanded="true" signature="31574:31638" placeholder="..." />
-            <marker date="1588286405071" expanded="true" signature="32028:32092" placeholder="..." />
-            <marker date="1588286405071" expanded="true" signature="32207:32271" placeholder="..." />
-            <marker date="1588286405071" expanded="true" signature="32338:32403" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="-5.28" vertical-offset="4152" max-vertical-offset="10489">
+          <caret line="287" column="62" selection-start-line="287" selection-start-column="62" selection-end-line="287" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/qualityControlReport.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/RegistroSolicitud.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1682" max-vertical-offset="5032">
-          <caret line="129" column="91" selection-start-line="129" selection-start-column="91" selection-end-line="129" selection-end-column="91" />
-          <folding>
-            <marker date="1588286440742" expanded="false" signature="8034:8104" placeholder="..." />
-            <marker date="1588286440742" expanded="false" signature="8146:8163" placeholder="..." />
-            <marker date="1588286440742" expanded="false" signature="8214:8231" placeholder="..." />
-            <marker date="1588286440742" expanded="false" signature="8279:8296" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2040">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/security-context.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaNotificacionService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.92" vertical-offset="690" max-vertical-offset="2006">
-          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <marker date="1588286499969" expanded="true" signature="8184:8258" placeholder="select usern..usuarios_sistema..." />
-            <marker date="1588286499969" expanded="true" signature="8322:8465" placeholder="select u.use..usuarios_sistema..." />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="4284">
+          <caret line="90" column="13" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/DaIragService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="539" max-vertical-offset="1479">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SindFebrilService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="237" max-vertical-offset="1156">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/TomaMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="952" max-vertical-offset="17119">
+          <caret line="56" column="46" selection-start-line="54" selection-start-column="0" selection-end-line="56" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/CrearSolicitudDx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3128" max-vertical-offset="9792">
+          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/ResultadoVigilancia.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3287" max-vertical-offset="4182">
+          <caret line="367" column="0" selection-start-line="367" selection-start-column="0" selection-end-line="367" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/Laboratorio.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17978849" vertical-offset="0" max-vertical-offset="2142">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/printResults.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.431373" vertical-offset="3973" max-vertical-offset="4845">
-          <caret line="268" column="0" selection-start-line="268" selection-start-column="0" selection-end-line="268" selection-end-column="0" />
+        <state vertical-scroll-proportion="-15.230769" vertical-offset="3973" max-vertical-offset="4845">
+          <caret line="257" column="44" selection-start-line="257" selection-start-column="44" selection-end-line="257" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrdersLab.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/RecepcionMx.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.137255" vertical-offset="9207" max-vertical-offset="15589">
-          <caret line="572" column="41" selection-start-line="572" selection-start-column="41" selection-end-line="572" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="737" max-vertical-offset="2941">
+          <caret line="85" column="17" selection-start-line="85" selection-start-column="17" selection-end-line="85" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/qualityControlReport.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/TomaMxService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4841169" vertical-offset="3393" max-vertical-offset="6749">
-          <caret line="222" column="42" selection-start-line="222" selection-start-column="42" selection-end-line="222" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="21216" max-vertical-offset="23103">
+          <caret line="1298" column="25" selection-start-line="1298" selection-start-column="25" selection-end-line="1298" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/domain/muestra/DaTomaMx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4573">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/api/expose.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9815" max-vertical-offset="12325">
+          <caret line="627" column="52" selection-start-line="627" selection-start-column="36" selection-end-line="627" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/RecepcionMxService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1377" max-vertical-offset="9010">
+          <caret line="112" column="44" selection-start-line="112" selection-start-column="23" selection-end-line="112" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/GestionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4470" max-vertical-offset="12988">
+          <caret line="326" column="24" selection-start-line="326" selection-start-column="24" selection-end-line="326" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/SearchMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3311" max-vertical-offset="19805">
+          <caret line="249" column="26" selection-start-line="249" selection-start-column="26" selection-end-line="249" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/utilities/reportes/DatosRecepcionMx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1479">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/RecepcionMxController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0" vertical-offset="47125" max-vertical-offset="49878">
+          <caret line="2775" column="0" selection-start-line="2775" selection-start-column="0" selection-end-line="2775" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/receptionReport.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.6923075" vertical-offset="5546" max-vertical-offset="6358">
+          <caret line="338" column="50" selection-start-line="338" selection-start-column="50" selection-end-line="338" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/AdmonSolicitudesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2388" max-vertical-offset="5304">
+          <caret line="181" column="72" selection-start-line="181" selection-start-column="72" selection-end-line="181" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/SeguridadService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5263" max-vertical-offset="7174">
+          <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.28" vertical-offset="57312" max-vertical-offset="61472">
+          <caret line="3444" column="31" selection-start-line="3444" selection-start-column="31" selection-end-line="3444" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/service/ReportesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.2" vertical-offset="32545" max-vertical-offset="40137">
+          <caret line="1957" column="0" selection-start-line="1957" selection-start-column="0" selection-end-line="1957" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ni/gob/minsa/laboratorio/web/controllers/ReportesExcelController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="11713" max-vertical-offset="49810">
+          <caret line="763" column="41" selection-start-line="763" selection-start-column="30" selection-end-line="763" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/receptionReport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41396934" vertical-offset="964" max-vertical-offset="13821">
+          <caret line="71" column="22" selection-start-line="66" selection-start-column="20" selection-end-line="71" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDxVig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44041452" vertical-offset="544" max-vertical-offset="3842">
+          <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDxVig.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.346153" vertical-offset="5967" max-vertical-offset="6528">
+          <caret line="376" column="7" selection-start-line="376" selection-start-column="7" selection-end-line="376" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/reportes/resultadoDx.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1368" max-vertical-offset="5729">
+          <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/utilidades/handleDatePickers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1156">
+          <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/recepcionMx/recepcionarOrders.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.431373" vertical-offset="2902" max-vertical-offset="9877">
+          <caret line="199" column="64" selection-start-line="199" selection-start-column="64" selection-end-line="199" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/positiveNegativeResults.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.019608" vertical-offset="2192" max-vertical-offset="6885">
+          <caret line="153" column="70" selection-start-line="153" selection-start-column="63" selection-end-line="153" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportes/resultadoDx.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8912621" vertical-offset="4403" max-vertical-offset="7276">
+          <caret line="286" column="70" selection-start-line="286" selection-start-column="70" selection-end-line="286" selection-end-column="70" />
           <folding />
         </state>
       </provider>

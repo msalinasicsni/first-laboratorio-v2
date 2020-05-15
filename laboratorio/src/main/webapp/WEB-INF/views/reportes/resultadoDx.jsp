@@ -268,7 +268,7 @@
                                 <label class="input">
                                     <i class="icon-prepend fa fa-pencil"></i> <i
                                         class="icon-append fa fa-calendar fa-fw"></i>
-                                    <input class="form-control date-picker"
+                                    <input class="form-control from_date"
                                            type="text" name="initDate" id="initDate"
 
                                            placeholder=" <spring:message code="lbl.init.date"/>"/>
@@ -284,7 +284,7 @@
                                 <label class="input">
                                     <i class="icon-prepend fa fa-pencil"></i> <i
                                         class="icon-append fa fa-calendar fa-fw"></i>
-                                    <input class="form-control date-picker"
+                                    <input class="form-control to_date"
                                            type="text" name="endDate" id="endDate"
 
                                            placeholder=" <spring:message code="lbl.end.date"/>"/>

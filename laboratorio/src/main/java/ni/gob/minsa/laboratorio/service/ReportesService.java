@@ -58,6 +58,7 @@ public class ReportesService {
     private static final String sqlFechasAproRut =  " and dx.fechaAprobacion between :fechaInicio and :fechaFin ";
     private static final String sqlLab = " and dx.labProcesa.codigo = :codigoLab ";
     private static final String sqlFIS = " and noti.fechaInicioSintomas between :fechaInicio and :fechaFin ";
+    private static final String sqlEstudios = " and dx.tipoEstudio.idEstudio in (%s)";
 
     @SuppressWarnings("unchecked")
     public List<RecepcionMx> getReceivedSamplesByFiltro(FiltroMx filtro) throws UnsupportedEncodingException {
@@ -600,7 +601,7 @@ public class ReportesService {
                     " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
                     " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
                     " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
-                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudDx as idSolicitud, dx.fechaAprobacion as fechaAprobacion  " +
+                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudDx as idSolicitud, dx.fechaAprobacion as fechaAprobacion, noti.codigoPacienteVIH as codigoVIH  " +
                     " from DaSolicitudDx dx inner join dx.idTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p  " +
                     " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true and dx.controlCalidad = false "+ sqlLab + sqlRutina + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut));
 
@@ -616,7 +617,7 @@ public class ReportesService {
                     " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
                     " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
                     " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
-                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudDx as idSolicitud, dx.fechaAprobacion as fechaAprobacion  " +
+                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudDx as idSolicitud, dx.fechaAprobacion as fechaAprobacion, noti.codigoPacienteVIH as codigoVIH  " +
                     " from DaSolicitudDx dx inner join dx.idTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p " +
                     " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true and dx.controlCalidad = false "+ sqlLab + sqlRutina + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
                     " and noti.idSilaisAtencion =:codSilais ");
@@ -634,7 +635,7 @@ public class ReportesService {
                     " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
                     " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
                     " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
-                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudDx as idSolicitud, dx.fechaAprobacion as fechaAprobacion  " +
+                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudDx as idSolicitud, dx.fechaAprobacion as fechaAprobacion, noti.codigoPacienteVIH as codigoVIH  " +
                     " from DaSolicitudDx dx inner join dx.idTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p " +
                     " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true and dx.controlCalidad = false "+ sqlLab + sqlRutina + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
                     " and noti.idUnidadAtencion =:codUnidad ");
@@ -1620,9 +1621,9 @@ public class ReportesService {
         if (filtro.getCodArea().equals("AREAREP|PAIS")) {
 
             if (filtro.isPorSilais()) {
-                queryNotiDx = session.createQuery(" select ent.codigo, ent.nombre, " + //TOTAL RUTINAS
+                queryNotiDx = session.createQuery(" select coalesce(ent.codSilaisAtencion, 0) , coalesce(ent.nombreSilaisAtencion, 'SIN SILAIS'), " + //TOTAL RUTINAS
                         " (select coalesce(sum(count(noti.idNotificacion)),0) from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx " +
-                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion and noti.codSilaisAtencion = ent.codigo " +
+                        " where noti.idNotificacion = mx.idNotificacion.idNotificacion and noti.codSilaisAtencion = ent.codSilaisAtencion " +
                         " and mx.idTomaMx = dx.idTomaMx.idTomaMx and noti.pasivo = false and dx.anulado = false and mx.anulada = false " +
                         sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
                         " group by noti.codSilaisAtencion) as dx, " +
@@ -1631,7 +1632,7 @@ public class ReportesService {
                         " from DaNotificacion noti, DaTomaMx mx, DaSolicitudEstudio dx" +
                         " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
                         " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
-                        " and  noti.codSilaisAtencion = ent.codigo " +
+                        " and  noti.codSilaisAtencion = ent.codSilaisAtencion " +
                         sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
                         " and noti.pasivo = false and dx.anulado = false " +
                         " and mx.anulada = false),0) as conresultado, " +
@@ -1641,12 +1642,13 @@ public class ReportesService {
                         " where noti.idNotificacion = mx.idNotificacion.idNotificacion " +
                         " and mx.idTomaMx = dx.idTomaMx.idTomaMx " +
                         sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
-                        " and  noti.codSilaisAtencion = ent.codigo " +
+                        " and  noti.codSilaisAtencion = ent.codSilaisAtencion " +
                         " and noti.pasivo = false and dx.anulado = false " +
                         " and mx.anulada = false),0) as sinresultado " +
                         " from DaNotificacion ent " + (!filtro.isNivelCentral()?", EntidadAdtvaLaboratorio entlab ":"") +
                         " where ent.pasivo = 0 " + (!filtro.isNivelCentral()?" and ent.codSilaisAtencion = entlab.entidadAdtva and entlab.laboratorio.codigo = :laboratorio ":"") +
-                        " order by ent.codigo ");
+                        " group by ent.codSilaisAtencion , ent.nombreSilaisAtencion " +
+                        " order by ent.codSilaisAtencion ");
 
                 queryIdNoti = session.createQuery(" select noti.codSilaisAtencion, dx.idSolicitudEstudio, r.valor " +
                         ", coalesce((select rr.concepto.tipo from RespuestaSolicitud rr where rr.idRespuesta = r.respuesta.idRespuesta),'NULL')"+
@@ -2100,9 +2102,9 @@ public class ReportesService {
                     " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
                     " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
                     " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
-                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudEstudio as idSolicitud, dx.fechaAprobacion as fechaAprobacion  " +
+                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudEstudio as idSolicitud, dx.fechaAprobacion as fechaAprobacion, noti.codigoPacienteVIH as codigoVIH  " +
                     " from DaSolicitudEstudio dx inner join dx.idTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p  " +
-                    " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true " + sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut));
+                    " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true " + (filtro.getEstudios()!=null? String.format(sqlEstudios, filtro.getEstudios()) : sqlEstudio) + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut));
 
         }else if (filtro.getCodArea().equals("AREAREP|SILAIS")) {
             queryNotiDx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.codigoSexo as sexo, " +
@@ -2116,9 +2118,9 @@ public class ReportesService {
                     " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
                     " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
                     " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
-                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudEstudio as idSolicitud, dx.fechaAprobacion as fechaAprobacion  " +
+                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudEstudio as idSolicitud, dx.fechaAprobacion as fechaAprobacion, noti.codigoPacienteVIH as codigoVIH  " +
                     " from DaSolicitudEstudio dx inner join dx.idTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p " +
-                    " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true " + sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true " + (filtro.getEstudios()!=null? String.format(sqlEstudios, filtro.getEstudios()) : sqlEstudio) + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
                     " and noti.idSilaisAtencion =:codSilais ");
             queryNotiDx.setParameter("codSilais", filtro.getCodSilais());
 
@@ -2134,9 +2136,9 @@ public class ReportesService {
                     " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
                     " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
                     " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
-                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudEstudio as idSolicitud, dx.fechaAprobacion as fechaAprobacion  " +
+                    " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, dx.idSolicitudEstudio as idSolicitud, dx.fechaAprobacion as fechaAprobacion, noti.codigoPacienteVIH as codigoVIH  " +
                     " from DaSolicitudEstudio dx inner join dx.idTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p " +
-                    " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true " + sqlEstudio + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
+                    " where noti.pasivo = false and dx.anulado = false and mx.anulada = false and dx.aprobada = true " + (filtro.getEstudios()!=null? String.format(sqlEstudios, filtro.getEstudios()) : sqlEstudio) + (filtro.getConsolidarPor().equalsIgnoreCase("FIS")? sqlFIS : sqlFechasAproRut) +
                     " and noti.idUnidadAtencion =:codUnidad ");
             queryNotiDx.setParameter("codUnidad", filtro.getCodUnidad());
         }

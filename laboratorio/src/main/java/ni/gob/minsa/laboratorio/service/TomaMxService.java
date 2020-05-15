@@ -7,6 +7,10 @@ import ni.gob.minsa.laboratorio.domain.persona.PersonaTmp;
 import ni.gob.minsa.laboratorio.domain.resultados.DetalleResultadoFinal;
 import ni.gob.minsa.laboratorio.domain.seguridadlocal.AutoridadLaboratorio;
 import ni.gob.minsa.laboratorio.domain.solicitante.Solicitante;
+import ni.gob.minsa.laboratorio.utilities.DateUtil;
+import ni.gob.minsa.laboratorio.utilities.StringUtil;
+import ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud;
+import ni.gob.minsa.laboratorio.utilities.reportes.ResultadoVigilancia;
 import ni.gob.minsa.laboratorio.utilities.reportes.Solicitud;
 import org.apache.commons.codec.language.Soundex;
 import org.hibernate.*;
@@ -439,6 +443,17 @@ public class TomaMxService {
         return q.list();
     }
 
+    public List<DaSolicitudEstudio> getSolicitudesEstudioByIdTomaArea(String idTomaMx, int idArea, String username){
+        String query = "select sdx from DaSolicitudEstudio sdx, AutoridadArea al where al.pasivo = false and sdx.anulado = false and sdx.idTomaMx.idTomaMx = :idTomaMx " +
+                "and sdx.tipoEstudio.area.idArea = al.area.idArea and sdx.tipoEstudio.area.idArea = :idArea and al.user.username = :username " +
+                "ORDER BY sdx.fechaHSolicitud";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idTomaMx",idTomaMx);
+        q.setParameter("idArea",idArea);
+        q.setParameter("username",username);
+        return q.list();
+    }
+
     public DaSolicitudDx getSolicitudesDxByMxDx(String idTomaMx,  Integer idDiagnostico){
         String query = "from DaSolicitudDx where anulado = false and idTomaMx.idTomaMx = :idTomaMx and idTomaMx.envio.laboratorioDestino.codigo = labProcesa.codigo " +
                 "and codDx.idDiagnostico = :idDiagnostico ORDER BY fechaHSolicitud";
@@ -797,6 +812,34 @@ public class TomaMxService {
         q.setParameter("idArea", idArea);
         return q.list();
     }
+
+    @SuppressWarnings("unchecked")
+    public List<DatosSolicitud> getSolicitudesAprobByToma_User_Area(String idToma, String userName, int idArea){
+        String query = " select sdx.idSolicitudEstudio as idSolicitud, sdx.usuarioAprobacion.completeName as usuarioAprobacion from DaSolicitudEstudio sdx, AutoridadLaboratorio al " +
+                "where al.pasivo = false and sdx.anulado = false and sdx.aprobada = true and " +
+                "sdx.idSolicitudEstudio in (select oe.solicitudEstudio.idSolicitudEstudio from OrdenExamen oe where oe.solicitudEstudio.idSolicitudEstudio = sdx.idSolicitudEstudio and oe.labProcesa.codigo = al.laboratorio.codigo) " +
+                "and al.user.username =:userName and sdx.idTomaMx.idTomaMx = :idToma and sdx.tipoEstudio.area.idArea = :idArea " +
+                "ORDER BY sdx.fechaHSolicitud";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idToma",idToma);
+        q.setParameter("userName",userName);
+        q.setParameter("idArea", idArea);
+        q.setResultTransformer(Transformers.aliasToBean(DatosSolicitud.class));
+        List<DatosSolicitud> datos = q.list();
+        query = " select sdx.idSolicitudDx as idSolicitud, sdx.usuarioAprobacion.completeName as usuarioAprobacion from DaSolicitudDx sdx, AutoridadLaboratorio al " +
+                "where al.pasivo = false and sdx.anulado = false and sdx.aprobada = true and " +
+                "(sdx.labProcesa.codigo = al.laboratorio.codigo or sdx.idSolicitudDx in (select oe.solicitudDx.idSolicitudDx from OrdenExamen oe where oe.solicitudDx.idSolicitudDx = sdx.idSolicitudDx and oe.labProcesa.codigo = al.laboratorio.codigo))" +
+                "and al.user.username =:userName and sdx.idTomaMx.idTomaMx = :idToma and sdx.codDx.area.idArea = :idArea " +
+                "ORDER BY sdx.fechaHSolicitud";
+        q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idToma",idToma);
+        q.setParameter("userName",userName);
+        q.setParameter("idArea", idArea);
+        q.setResultTransformer(Transformers.aliasToBean(DatosSolicitud.class));
+        datos.addAll(q.list());
+        return datos;
+    }
+
 
     @SuppressWarnings("unchecked")
     public List<Area> getAreaSoliDxAprobByTomaAndUser(String idToma, String userName){
@@ -1213,4 +1256,120 @@ public class TomaMxService {
         return q.list();
     }
 
+    /**
+     * M?todo para generar un string alfanum?rico de 8 caracteres, que se usar? como c?digo ?nico de muestra
+     * @return String codigoUnicoMx
+     */
+    public String generarCodigoUnicoMx(){
+        DaTomaMx validaC;
+        //Se genera el c?digo
+        String codigoUnicoMx = StringUtil.getCadenaAlfanumAleatoria(8);
+        //Se consulta BD para ver si existe toma de Mx que tenga mismo c?digo
+        validaC = this.getTomaMxByCodUnicoMx(codigoUnicoMx);
+        //si existe, de manera recursiva se solicita un nuevo c?digo
+        if (validaC!=null){
+            codigoUnicoMx = generarCodigoUnicoMx();
+        }
+        //si no existe se retorna el ?ltimo c?digo generado
+        return codigoUnicoMx;
+    }
+
+    public boolean existeTomaMx(String idNotificacion, String fechaToma, String dxs) throws Exception{
+        int totalEncontrados = 0;
+        boolean respuesta = false;
+        String[] dxArray = dxs.split(",");
+        Date fecha1 = DateUtil.StringToDate(fechaToma, "dd/MM/yyyy");
+        List<DaTomaMx> muestras = this.getTomaMxActivaByIdNoti(idNotificacion);
+        for(DaTomaMx muestra : muestras){
+            List<DaSolicitudDx> solicitudDxList = this.getSoliDxByIdMxFechaToma(muestra.getIdTomaMx(), fecha1);
+            for(String dx : dxArray) {
+                for (DaSolicitudDx solicitudDx : solicitudDxList) {
+                    if (solicitudDx.getCodDx().getIdDiagnostico().equals(Integer.valueOf(dx))) {
+                        totalEncontrados++;
+                        break;
+                    }
+                }
+            }
+            if (totalEncontrados == dxArray.length && totalEncontrados == solicitudDxList.size()) {
+                respuesta = true;
+                break;
+            }
+            totalEncontrados = 0;
+        }
+        return respuesta;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Area> getAreaSoliDxAprobByTomaAndLabProcesa(String idToma, String codigoLab){
+        String query = "select a from Area as a where a.idArea in (select sdx.codDx.area.idArea from DaSolicitudDx as sdx " +
+                "where sdx.anulado = false " +
+                "and sdx.labProcesa.codigo = :codigoLab " +
+                " and sdx.idTomaMx.idTomaMx = :idToma and sdx.aprobada = true " +
+                "group by sdx.codDx.area.idArea)";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idToma",idToma);
+        q.setParameter("codigoLab", codigoLab);
+        return q.list();
+    }
+
+    public boolean muestraTieneDxProcesadosEnLab(String idToma, String codigoLab){
+        String query = "select count(sdx.idSolicitudDx) from DaSolicitudDx as sdx "+
+                "where sdx.anulado = false " +
+                "and sdx.labProcesa.codigo = :codigoLab " +
+                " and sdx.idTomaMx.idTomaMx = :idToma and sdx.aprobada = true ";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("codigoLab", codigoLab);
+        q.setParameter("idToma", idToma);
+        Long total = (Long)q.uniqueResult();
+        return total.intValue()>0;
+    }
+
+    public ResultadoVigilancia getDatosMx(String codigomx){
+        Session session = sessionFactory.getCurrentSession();
+        Query queryMx = null;
+        queryMx = session.createQuery(" select cast(p.personaId as string) as codigoExpUnico, p.primerNombre as primerNombre, p.segundoNombre as segundoNombre, p.primerApellido as primerApellido, p.segundoApellido as segundoApellido, p.fechaNacimiento as fechaNacimiento, p.descSexo as sexo, " +
+                " p.direccionResidencia as direccionResidencia, p.telefonoResidencia as telefonoResidencia, p.telefonoMovil as telefonoMovil, p.nombreComunidadResidencia as comunidadResidencia, " +
+                " noti.idNotificacion as idNotificacion, noti.codTipoNotificacion as codigoTipoNoti, noti.codExpediente as expediente, noti.semanasEmbarazo as semanasEmbarazo, noti.fechaInicioSintomas as fechaInicioSintomas, noti.desUrgente as urgente,  noti.desEmbarazada as embarazada, " +
+                " noti.codSilaisAtencion as codigoSilaisNoti, noti.nombreSilaisAtencion as nombreSilaisNoti, " +
+                " noti.codUnidadAtencion as codigoUnidadNoti, noti.nombreUnidadAtencion as nombreUnidadNoti, " +
+                " noti.codMuniUnidadAtencion as codigoMuniNoti, noti.nombreMuniUnidadAtencion as nombreMuniNoti, " +
+                " noti.municipioResidencia as codigoMuniResid, noti.nombreMunicipioResidencia as nombreMuniResid, " +
+                " noti.codSilaisResid as codigoSilaisResid, noti.nombreSilaisResid as nombreSilaisResid, " +
+                " mx.codSilaisAtencion as codigoSilaisMx, mx.nombreSilaisAtencion as nombreSilaisMx, " +
+                " mx.codUnidadAtencion as codigoUnidadMx, mx.nombreUnidadAtencion as nombreUnidadMx, " +
+                " mx.codMuniUnidadAtencion as codigoMuniMx, mx.nombreMuniUnidadAtencion as nombreMuniMx, " +
+                " mx.idTomaMx as idTomaMx, mx.fechaHTomaMx as fechaTomaMx, mx.codigoLab as codigoMx, mx.codigoUnicoMx as codUnicoMx, mx.codTipoMx.idTipoMx as idTipoMx, mx.codTipoMx.nombre as nombreTipoMx, noti.codigoPacienteVIH as codigoVIH  " +
+                " from DaTomaMx mx inner join mx.idNotificacion noti inner join noti.persona p  " +
+                " where noti.pasivo = false and mx.anulada = false and mx.codigoLab = :codigomx or mx.codigoUnicoMx = :codigomx ");
+        queryMx.setParameter("codigomx", codigomx);
+        queryMx.setResultTransformer(Transformers.aliasToBean(ResultadoVigilancia.class));
+        return (ResultadoVigilancia)queryMx.uniqueResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<DatosSolicitud> getSolicitudesAprobByToma_Lab_Area(String idToma, String codigoLab, int idArea){
+        String query = " select sdx.idSolicitudEstudio as idSolicitud, sdx.usuarioAprobacion.completeName as usuarioAprobacion from DaSolicitudEstudio sdx " +
+                "where sdx.anulado = false and sdx.aprobada = true and " +
+                "sdx.idSolicitudEstudio in (select oe.solicitudEstudio.idSolicitudEstudio from OrdenExamen oe where oe.solicitudEstudio.idSolicitudEstudio = sdx.idSolicitudEstudio and oe.labProcesa.codigo = :codigoLab) " +
+                "and sdx.idTomaMx.idTomaMx = :idToma and sdx.tipoEstudio.area.idArea = :idArea " +
+                "ORDER BY sdx.fechaHSolicitud";
+        Query q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idToma",idToma);
+        q.setParameter("codigoLab",codigoLab);
+        q.setParameter("idArea", idArea);
+        q.setResultTransformer(Transformers.aliasToBean(DatosSolicitud.class));
+        List<DatosSolicitud> datos = q.list();
+        query = " select sdx.idSolicitudDx as idSolicitud, sdx.usuarioAprobacion.completeName as usuarioAprobacion from DaSolicitudDx sdx " +
+                "where sdx.anulado = false and sdx.aprobada = true and " +
+                "(sdx.labProcesa.codigo = :codigoLab or sdx.idSolicitudDx in (select oe.solicitudDx.idSolicitudDx from OrdenExamen oe where oe.solicitudDx.idSolicitudDx = sdx.idSolicitudDx and oe.labProcesa.codigo = :codigoLab))" +
+                "and sdx.idTomaMx.idTomaMx = :idToma and sdx.codDx.area.idArea = :idArea " +
+                "ORDER BY sdx.fechaHSolicitud";
+        q = sessionFactory.getCurrentSession().createQuery(query);
+        q.setParameter("idToma",idToma);
+        q.setParameter("codigoLab",codigoLab);
+        q.setParameter("idArea", idArea);
+        q.setResultTransformer(Transformers.aliasToBean(DatosSolicitud.class));
+        datos.addAll(q.list());
+        return datos;
+    }
 }

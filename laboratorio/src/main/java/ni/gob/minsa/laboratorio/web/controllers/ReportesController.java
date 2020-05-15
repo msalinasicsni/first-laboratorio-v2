@@ -416,7 +416,7 @@ public class ReportesController {
                         else if (recepcion.getTomaMx().getIdNotificacion().getSolicitante()!=null) {
                             nombrePersona = recepcion.getTomaMx().getIdNotificacion().getSolicitante().getNombre();
                         }
-                        content[0] = recepcion.getTomaMx().getCodigoLab() != null ? recepcion.getTomaMx().getCodigoLab() : "";
+                        content[0] = recepcion.getTomaMx().getCodigoLab() != null ? recepcion.getTomaMx().getCodigoLab() : recepcion.getTomaMx().getCodigoUnicoMx();
                         content[1] = recepcion.getTomaMx().getCodTipoMx() != null ? recepcion.getTomaMx().getCodTipoMx().getNombre() : "";
                         content[2] = recepcion.getFechaHoraRecepcion() != null ? DateUtil.DateToString(recepcion.getFechaHoraRecepcion(), "dd/MM/yyyy hh:mm:ss a") : "";
                         content[3] = recepcion.getCalidadMx() != null ? catalogosService.buscarValorCatalogo( calidades, recepcion.getCalidadMx()) : "";
