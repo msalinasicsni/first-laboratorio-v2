@@ -51,6 +51,9 @@ public class PersonaTmp implements java.io.Serializable {
     private String direccionResidencia;
     private String telefonoResidencia;
     private String telefonoMovil;
+    private Long idOcupacion;
+    private String codigoOcupacion;
+    private String nombreOcupacion;
     private Timestamp fechaRegistro;
     private String usuarioRegistro;
     private int pasivo;

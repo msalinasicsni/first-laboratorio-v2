@@ -131,7 +131,7 @@ public class RecepcionMxService {
             String query = "select a.fechaHoraRecepcion as fechaHoraRecepcion, a.fechaRecibido as fechaRecibido, a.horaRecibido as horaRecibido, " +
                     //"coalesce((select c.valor from CalidadMx c where c.codigo = a.calidadMx.codigo ), null) as calidadMx   " +
                     //"coalesce((select c.valor from CalidadMx c where c.codigo = a.calidadMx ), null) as calidadMx   " +
-                    "a.calidadMx as calidadMx   " +
+                    "a.calidadMx as calidadMx, a.desCalidadMx as  desCalidadMx  " +
                     "from RecepcionMx as a inner join a.tomaMx as t where (t.codigoUnicoMx= :codigoUnicoMx or t.codigoLab = :codigoUnicoMx) " +
                     "and a.labRecepcion.codigo = :codLaboratorio";
 

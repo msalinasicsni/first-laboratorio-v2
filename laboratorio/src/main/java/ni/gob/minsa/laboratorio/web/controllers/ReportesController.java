@@ -3411,7 +3411,7 @@ public class ReportesController {
         usuario = seguridadService.getUsuario(seguridadService.obtenerNombreUsuario());
         List<EntidadesAdtvas> entidades = new ArrayList<EntidadesAdtvas>();
         //ABRIL2019
-        List<Catalogo> areas = CallRestServices.getCatalogos(CatalogConstants.AreaRep);
+        List<Catalogo> areas = CallRestServices.getCatalogos(CatalogConstants.AreaRep, CatalogConstants.NIVELES_REP_DX.split(","));
         laboratorio = seguridadService.getLaboratorioUsuario(usuario.getUsername());
         List<Laboratorio> laboratorios = null;
         if (usuario.getNivelCentral()!=null && usuario.getNivelCentral()) {

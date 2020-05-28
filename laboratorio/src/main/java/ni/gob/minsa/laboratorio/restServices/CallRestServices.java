@@ -50,6 +50,45 @@ public class CallRestServices {
         }else return new ArrayList<Catalogo>();
     }
 
+    public static List<Catalogo> getCatalogos(String catalogoSup, String[] opciones) throws Exception {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(MinsaServices.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MinsaServices servicios = retrofit.create(MinsaServices.class);
+
+        Call<ResponseBody> call = servicios.catalogos(catalogoSup);
+        Type founderListType = new TypeToken<ArrayList<Catalogo>>(){}.getType();
+
+        Response<ResponseBody> response = call.execute();
+        if (response!=null && response.body()!=null) {
+            String strResponse = response.body().string();
+            JsonObject jsonpObject = new Gson().fromJson(strResponse, JsonObject.class);
+            String data = null;
+            if (jsonpObject.get("data") != null) {
+                data = jsonpObject.get("data").toString();
+            }
+            List<Catalogo> subGrupo = new ArrayList<Catalogo>();
+            List<Catalogo> catalogos = new Gson().fromJson(data, founderListType);
+            if (catalogos != null) {
+                for (final String opcion : opciones) {
+                    //Del subconjunto por dx y examen, se filtran todos los registros por mes y SILAIS
+                    Predicate<Catalogo> filtroSubGrupo = new Predicate<Catalogo>() {
+                        @Override
+                        public boolean apply(Catalogo unid) {
+                            return unid.getCodigo().equalsIgnoreCase(opcion);
+                        }
+                    };
+                    //se aplica filtro por mes y SILAIS
+                    Collection<Catalogo> catalogosPorSubGrupo= FilterLists.filter(catalogos, filtroSubGrupo);
+                    subGrupo.addAll(catalogosPorSubGrupo);
+                }
+            }
+            return subGrupo;
+        }else return new ArrayList<Catalogo>();
+    }
+
     public static Catalogo getCatalogo(String catalogo) throws Exception {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(MinsaServices.API_URL)

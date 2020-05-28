@@ -40,8 +40,8 @@ public class DaDatosVIHService {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select vi.idNotificacion.codigoPacienteVIH as codigoVIH, vi.idNotificacion.codExpediente as expediente, " +
                 " vi.resA1 as resA1, vi.resA2 as resA2, vi.fechaDxVIH as fechaDxVIH, vi.embarazo as embarazo, vi.estadoPx as estadoPx, vi.infOport as infOport, " +
-                "vi.estaTx as estaTx, vi.fechaTAR as fechaTAR, vi.exposicionPeri as exposicionPeri, vi.cesarea as cesarea," +
-                "coalesce((select c.nombre from Ocupacion c where c.codigo = vi.idNotificacion.persona.ocupacion), null) as ocupacion " +
+                "vi.estaTx as estaTx, vi.fechaTAR as fechaTAR, vi.exposicionPeri as exposicionPeri, vi.cesarea as cesarea " +
+                //"coalesce((select c.nombre from Ocupacion c where c.codigo = vi.idNotificacion.persona.ocupacion), null) as ocupacion " + //NO SE TIENE ESTE CAMPO MAYO2020
                 "FROM DaDatosVIH vi where vi.idNotificacion.idNotificacion = '" + idNotificacion + "'");
         query.setResultTransformer(Transformers.aliasToBean(DatosVIH.class));
         return (DatosVIH) query.uniqueResult();

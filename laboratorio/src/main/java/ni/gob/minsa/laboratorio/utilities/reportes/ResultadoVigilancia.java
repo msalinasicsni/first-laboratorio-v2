@@ -28,6 +28,7 @@ public class ResultadoVigilancia {
     private String telefonoResidencia;
     private String telefonoMovil;
     private String comunidadResidencia;
+    private String identificacion;
 
     private Integer idTipoMx;
     private String nombreTipoMx;
@@ -51,7 +52,7 @@ public class ResultadoVigilancia {
 
     private Long codigoSilaisResid;
     private String nombreSilaisResid;
-    private Long codigoMuniResid;
+    private String codigoMuniResid;
     private String nombreMuniResid;
 
     private String embarazada;
@@ -362,11 +363,11 @@ public class ResultadoVigilancia {
         this.nombreSilaisResid = nombreSilaisResid;
     }
 
-    public Long getCodigoMuniResid() {
+    public String getCodigoMuniResid() {
         return codigoMuniResid;
     }
 
-    public void setCodigoMuniResid(Long codigoMuniResid) {
+    public void setCodigoMuniResid(String codigoMuniResid) {
         this.codigoMuniResid = codigoMuniResid;
     }
 
@@ -416,5 +417,13 @@ public class ResultadoVigilancia {
 
     public void setExpediente(String expediente) {
         this.expediente = expediente;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 }

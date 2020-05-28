@@ -56,4 +56,6 @@ public class CatalogConstants {
     public static final String Semanas					= "SEMANASEPI";
     public static final String CausaRechazoMxRecepGeneral = "|GRAL|";
     public static final String CausaRechazoMxRecepLab = "|LAB|";
+    public static final String NIVELES_REP_VIGILANCIA = "AREAREP|PAIS,AREAREP|SILAIS,AREAREP|UNI";
+    public static final String NIVELES_REP_DX = "AREAREP|PAIS,AREAREP|SILAIS,AREAREP|MUNI,AREAREP|UNI";
 }

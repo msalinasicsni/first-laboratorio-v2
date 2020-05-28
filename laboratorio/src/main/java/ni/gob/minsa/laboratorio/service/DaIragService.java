@@ -63,8 +63,8 @@ public class DaIragService {
                 " vi.codCondEgreso as codCondEgreso, " +
                 //"coalesce((select c.valor from ClasificacionFinal c where c.codigo = vi.codClasFCaso), null) as codClasFCaso, " +
                 " vi.codClasFCaso as codClasFCaso, " +
-                //"coalesce((select c.nombreCie10 from Cie10 c where c.codigoCie10 = vi.diagnostico.codigoCie10), null) as diagnostico, " +
-                " vi.diagnostico.nombreCie10 as diagnostico, " +
+                "coalesce((select c.nombreCie10 from Cie10 c where c.codigoCie10 = vi.diagnostico.codigoCie10), null) as diagnostico, " +
+                //" vi.diagnostico.nombreCie10 as diagnostico, " +
                 " vi.fechaConsulta as fechaConsulta, vi.fechaPrimeraConsulta as  fechaPrimeraConsulta, vi.fechaEgreso as fechaEgreso, vi.uci as uci, vi.nombreMadreTutor as nombreMadreTutor, " +
                 " vi.noDiasHospitalizado as noDiasHospitalizado, vi.ventilacionAsistida as ventilacionAsistida, vi.diagnostico1Egreso as diagnostico1Egreso, vi.diagnostico2Egreso as diagnostico2Egreso, " +
                 " vi.condiciones as condiciones " +

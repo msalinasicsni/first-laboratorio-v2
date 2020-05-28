@@ -22,6 +22,7 @@ public class DatosRecepcionMx {
     private String condicionMx;
     private Date fechaRecibido;
     private String horaRecibido;
+    private String desCalidadMx;
 
     public String getIdRecepcion() {
         return idRecepcion;
@@ -133,5 +134,13 @@ public class DatosRecepcionMx {
 
     public void setHoraRecibido(String horaRecibido) {
         this.horaRecibido = horaRecibido;
+    }
+
+    public String getDesCalidadMx() {
+        return desCalidadMx;
+    }
+
+    public void setDesCalidadMx(String desCalidadMx) {
+        this.desCalidadMx = desCalidadMx;
     }
 }

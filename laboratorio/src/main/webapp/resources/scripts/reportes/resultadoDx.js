@@ -174,10 +174,14 @@ var resultReport = function () {
                     //filtro['subunidades'] = $('#ckUS').is(':checked');
                     filtro['fechaInicio'] = $('#initDate').val();
                     filtro['fechaFin'] = $('#endDate').val();
-                    filtro['codSilais'] = $('#codSilais').find('option:selected').val();
-                    filtro['codUnidadSalud'] = $('#codUnidadAtencion').find('option:selected').val();
+                    filtro['codSilais'] = $('#codSilaisAtencion').find('option:selected').val();
+                    var valUni =$('#codUnidadAtencion').find('option:selected').val();
+                    var elemValUni = valUni.split(",");
+                    filtro['codUnidadSalud'] = elemValUni[1];//código
                     //filtro['codDepartamento'] = $('#codDepartamento').find('option:selected').val();
-                    filtro['codMunicipio'] = $('#codMunicipio').find('option:selected').val();
+                    var valMuni =$('#codMunicipio').find('option:selected').val();
+                    var elemValMuni = valMuni.split(",");
+                    filtro['codMunicipio'] = elemValMuni[0];
                     filtro['codArea'] = $('#codArea').find('option:selected').val();
                     //filtro['tipoNotificacion'] = $('#codTipoNoti').find('option:selected').val();
                     filtro['porSilais'] = "true"; //$('input[name="rbNivelPais"]:checked', '#result_form').val();
