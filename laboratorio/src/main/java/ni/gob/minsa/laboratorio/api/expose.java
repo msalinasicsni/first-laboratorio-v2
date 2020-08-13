@@ -344,56 +344,7 @@ public class expose {
         logger.info("Obteniendo los dx TB y VIH por persona en JSON");
         List<ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud> datosSolicitudes = solicitudService.getSolicitudesVIHTB(true, true, idPersona);
         for(ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud ds: datosSolicitudes){
-            List<ResultadoSolicitud> detRes = resultadoFinalService.getDetResActivosBySolicitudV2(ds.getIdSolicitud());
-            if (ds.getAprobada()!= null){
-                if (ds.getAprobada().equals(true)) {
-                    ds.setEstadoSolicitud(messageSource.getMessage("lbl.approval.result", null, null));
-                } else {
-                    if (!detRes.isEmpty()) {
-                        ds.setEstadoSolicitud(messageSource.getMessage("lbl.result.pending.approval", null, null));
-                    } else {
-                        ds.setEstadoSolicitud(messageSource.getMessage("lbl.without.result", null, null));
-                    }
-                }
-            }else{
-                if (!detRes.isEmpty()) {
-                    ds.setEstadoSolicitud(messageSource.getMessage("lbl.result.pending.approval", null, null));
-                } else {
-                    ds.setEstadoSolicitud(messageSource.getMessage("lbl.without.result", null, null));
-                }
-            }
-            String resultados="";
-            for(ResultadoSolicitud res: detRes){
-                if (res.getRespuesta()!=null) {
-                    //resultados+=(resultados.isEmpty()?res.getRespuesta().getNombre():", "+res.getRespuesta().getNombre());
-                    if (res.getTipo().equals("TPDATO|LIST")) {
-                        Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
-                        resultados+=cat_lista.getEtiqueta();
-                    }else if (res.getTipo().equals("TPDATO|LOG")) {
-                        String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
-                        resultados+=valorBoleano;
-                    } else if (res.getValor().toLowerCase().contains("inadecuad")) {
-                        resultados+=res.getValor();
-                    } else {
-                        resultados+=(resultados.isEmpty()?res.getRespuesta():", "+res.getRespuesta());
-                        resultados+=": "+res.getValor();
-                    }
-                }else if (res.getRespuestaExamen()!=null){
-                    //resultados+=(resultados.isEmpty()?res.getRespuestaExamen().getNombre():", "+res.getRespuestaExamen().getNombre());
-                    if (res.getTipoExamen().equals("TPDATO|LIST")) {
-                        Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
-                        resultados+=cat_lista.getEtiqueta();
-                    } else if (res.getTipoExamen().equals("TPDATO|LOG")) {
-                        String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
-                        resultados+=valorBoleano;
-                    }else {
-                        resultados+=(resultados.isEmpty()?res.getRespuestaExamen():", "+res.getRespuestaExamen());
-                        resultados+=": "+res.getValor();
-                    }
-                }
-            }
-            //TODO
-            //ds.setResultado(resultados);
+            completarDatosSolicitud(ds);
         }
         return datosSolicitudes;
     }
@@ -406,57 +357,8 @@ public class expose {
                                             @PathVariable(value = "tipoNoti") String tipoNoti) throws Exception {
         logger.info("Obteniendo los dx TB y VIH por persona en JSON");
         List<ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud> datosSolicitudes = solicitudService.getSolicitudesByIdPersonTipoNoti(idPersona, tipoNoti);
-        for(ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud ds: datosSolicitudes){
-            List<ResultadoSolicitud> detRes = resultadoFinalService.getDetResActivosBySolicitudV2(ds.getIdSolicitud());
-            if (ds.getAprobada()!= null){
-                if (ds.getAprobada().equals(true)) {
-                    ds.setEstadoSolicitud(messageSource.getMessage("lbl.approval.result", null, null));
-                } else {
-                    if (!detRes.isEmpty()) {
-                        ds.setEstadoSolicitud(messageSource.getMessage("lbl.result.pending.approval", null, null));
-                    } else {
-                        ds.setEstadoSolicitud(messageSource.getMessage("lbl.without.result", null, null));
-                    }
-                }
-            }else{
-                if (!detRes.isEmpty()) {
-                    ds.setEstadoSolicitud(messageSource.getMessage("lbl.result.pending.approval", null, null));
-                } else {
-                    ds.setEstadoSolicitud(messageSource.getMessage("lbl.without.result", null, null));
-                }
-            }
-            String resultados="";
-            for(ResultadoSolicitud res: detRes){
-                if (res.getRespuesta()!=null) {
-                    //resultados+=(resultados.isEmpty()?res.getRespuesta().getNombre():", "+res.getRespuesta().getNombre());
-                    if (res.getTipo().equals("TPDATO|LIST")) {
-                        Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
-                        resultados+=cat_lista.getEtiqueta();
-                    }else if (res.getTipo().equals("TPDATO|LOG")) {
-                        String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
-                        resultados+=valorBoleano;
-                    } else if (res.getValor().toLowerCase().contains("inadecuad")) {
-                        resultados+=res.getValor();
-                    } else {
-                        resultados+=(resultados.isEmpty()?res.getRespuesta():", "+res.getRespuesta());
-                        resultados+=": "+res.getValor();
-                    }
-                }else if (res.getRespuestaExamen()!=null){
-                    //resultados+=(resultados.isEmpty()?res.getRespuestaExamen().getNombre():", "+res.getRespuestaExamen().getNombre());
-                    if (res.getTipoExamen().equals("TPDATO|LIST")) {
-                        Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
-                        resultados+=cat_lista.getEtiqueta();
-                    } else if (res.getTipoExamen().equals("TPDATO|LOG")) {
-                        String valorBoleano = (Boolean.valueOf(res.getValor())?"lbl.yes":"lbl.no");
-                        resultados+=valorBoleano;
-                    } else {
-                        resultados+=(resultados.isEmpty()?res.getRespuestaExamen():", "+res.getRespuestaExamen());
-                        resultados+=": "+res.getValor();
-                    }
-                }
-            }
-            //TODO
-            //ds.setResultado(resultados);
+        for(ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud ds: datosSolicitudes) {
+            completarDatosSolicitud(ds);
         }
         return datosSolicitudes;
     }
@@ -467,10 +369,45 @@ public class expose {
     ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud getDxIdSolicitud(@PathVariable(value = "idSolicitud") String idSolicitud) throws Exception {
         logger.info("Obteniendo dx por idSolicitud en JSON");
         ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud ds = solicitudService.getSolicitudesByIdSolicitud(idSolicitud);
+        completarDatosSolicitud(ds);
+        return ds;
+    }
+
+    private void completarDatosSolicitud(ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud ds){
         List<ResultadoSolicitud> detRes = resultadoFinalService.getDetResActivosBySolicitudV2(ds.getIdSolicitud());
-        if (ds.getAprobada() != null) {
+        ds.setResultado(new ArrayList<ValorResultado>());//por defecto vacio, solo se pondra resultado si esta aprobado
+        if (ds.getAprobada()!= null){
             if (ds.getAprobada().equals(true)) {
                 ds.setEstadoSolicitud(messageSource.getMessage("lbl.approval.result", null, null));
+                for (ResultadoSolicitud res : detRes) {
+                    ValorResultado resultado = new ValorResultado();
+                    if (res.getRespuesta() != null) {
+                        resultado.setVariable(res.getRespuesta().trim());
+                        if (res.getTipo().equals("TPDATO|LIST")) {
+                            Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
+                            resultado.setValor(cat_lista.getEtiqueta());
+                        } else if (res.getTipo().equals("TPDATO|LOG")) {
+                            String valorBoleano = (Boolean.valueOf(res.getValor()) ? "lbl.yes" : "lbl.no");
+                            resultado.setValor(valorBoleano);
+                        } else if (res.getValor().toLowerCase().contains("inadecuad")) {
+                            resultado.setValor(res.getValor());
+                        } else {
+                            resultado.setValor(res.getValor());
+                        }
+                    } else if (res.getRespuestaExamen() != null) {
+                        resultado.setVariable(res.getRespuestaExamen().trim());
+                        if (res.getTipoExamen().equals("TPDATO|LIST")) {
+                            Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
+                            resultado.setValor(cat_lista.getEtiqueta());
+                        } else if (res.getTipoExamen().equals("TPDATO|LOG")) {
+                            String valorBoleano = (Boolean.valueOf(res.getValor()) ? "lbl.yes" : "lbl.no");
+                            resultado.setValor(valorBoleano);
+                        } else {
+                            resultado.setValor(res.getValor());
+                        }
+                    }
+                    ds.getResultado().add(resultado);
+                }
             } else {
                 if (!detRes.isEmpty()) {
                     ds.setEstadoSolicitud(messageSource.getMessage("lbl.result.pending.approval", null, null));
@@ -478,47 +415,13 @@ public class expose {
                     ds.setEstadoSolicitud(messageSource.getMessage("lbl.without.result", null, null));
                 }
             }
-        } else {
+        }else{
             if (!detRes.isEmpty()) {
                 ds.setEstadoSolicitud(messageSource.getMessage("lbl.result.pending.approval", null, null));
             } else {
                 ds.setEstadoSolicitud(messageSource.getMessage("lbl.without.result", null, null));
             }
         }
-        String resultados = "";
-        for (ResultadoSolicitud res : detRes) {
-            if (res.getRespuesta() != null) {
-                //resultados+=(resultados.isEmpty()?res.getRespuesta().getNombre():", "+res.getRespuesta().getNombre());
-                if (res.getTipo().equals("TPDATO|LIST")) {
-                    Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
-                    resultados += cat_lista.getEtiqueta();
-                } else if (res.getTipo().equals("TPDATO|LOG")) {
-                    String valorBoleano = (Boolean.valueOf(res.getValor()) ? "lbl.yes" : "lbl.no");
-                    resultados += valorBoleano;
-                } else if (res.getValor().toLowerCase().contains("inadecuad")) {
-                    resultados += res.getValor();
-                } else {
-                    resultados += (resultados.isEmpty() ? res.getRespuesta() : ", " + res.getRespuesta());
-                    resultados += ": " + res.getValor();
-                }
-            } else if (res.getRespuestaExamen() != null) {
-                //resultados+=(resultados.isEmpty()?res.getRespuestaExamen().getNombre():", "+res.getRespuestaExamen().getNombre());
-                if (res.getTipoExamen().equals("TPDATO|LIST")) {
-                    Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(res.getValor());
-                    resultados += cat_lista.getEtiqueta();
-                } else if (res.getTipoExamen().equals("TPDATO|LOG")) {
-                    String valorBoleano = (Boolean.valueOf(res.getValor()) ? "lbl.yes" : "lbl.no");
-                    resultados += valorBoleano;
-                } else {
-                    resultados += (resultados.isEmpty() ? res.getRespuestaExamen() : ", " + res.getRespuestaExamen());
-                    resultados += ": " + res.getValor();
-                }
-            }
-        }
-        //TODO
-        //ds.setResultado(resultados);
-
-        return ds;
     }
 
     @RequestMapping(value = "getResultadosPDF/{codigomx}/{username}", method = RequestMethod.GET)
@@ -633,61 +536,63 @@ public class expose {
                                         GeneralUtils.drawTEXT(messageSource.getMessage("lbl.sample.inadequate2", null, null), y, 100, stream, 10, PDType1Font.HELVETICA);
                                     } else {
                                         for (ni.gob.minsa.laboratorio.utilities.reportes.DatosSolicitud dx : listDx) {
-                                            aprobadoPor = dx.getUsuarioAprobacion();
-                                            y = y - 20;
-                                            List<DatosOrdenExamen> examenes = ordenExamenMxService.getOrdenesExamenByIdSolicitudV2(dx.getIdSolicitud());
-                                            for (DatosOrdenExamen examen : examenes) {
-                                                //salto de página
-                                                if ((y - 15) < 180) {
-                                                    stream.close();
-                                                    page = GeneralUtils.addNewPage(doc);
-                                                    stream = new PDPageContentStream(doc, page);
-                                                    //dibujar encabezado y pie de pagina
-                                                    GeneralUtils.drawHeaderAndFooter(stream, doc, 750, 590, 80, 600, 70);
-                                                    pageNumber = String.valueOf(doc.getNumberOfPages());
-                                                    GeneralUtils.drawTEXT(pageNumber, 15, 550, stream, 10, PDType1Font.HELVETICA_BOLD);
-                                                    drawInfoLab(stream, page, labProcesa);
-                                                    y = 640;
-                                                    //nombre del reporte
-                                                    xCenter = GeneralUtils.centerTextPositionX(page, PDType1Font.HELVETICA_BOLD_OBLIQUE, 12, nombreDireccion);
-                                                    GeneralUtils.drawTEXT(nombreDireccion, y, xCenter, stream, 12, PDType1Font.HELVETICA_BOLD_OBLIQUE);
-                                                    y = y - 15;
-                                                    xCenter = GeneralUtils.centerTextPositionX(page, PDType1Font.HELVETICA_BOLD_OBLIQUE, 11, messageSource.getMessage("lbl.lab.result", null, null).toUpperCase());
-                                                    GeneralUtils.drawTEXT(messageSource.getMessage("lbl.lab.result", null, null).toUpperCase(), y, xCenter, stream, 11, PDType1Font.HELVETICA_BOLD_OBLIQUE);
-                                                    y = y - 15;
-                                                    xCenter = GeneralUtils.centerTextPositionX(page, PDType1Font.HELVETICA_BOLD_OBLIQUE, 11, area.getNombre().toUpperCase());
-                                                    GeneralUtils.drawTEXT(area.getNombre().toUpperCase(), y, xCenter, stream, 11, PDType1Font.HELVETICA_BOLD_OBLIQUE);
-                                                    y = y - 30;
+                                            if (!dx.getNombre().toLowerCase().contains("covid19")) {//Datos de Covid19, solo en sistema Laboratorio. Andrea 22/07/2020
+                                                aprobadoPor = dx.getUsuarioAprobacion();
+                                                y = y - 20;
+                                                List<DatosOrdenExamen> examenes = ordenExamenMxService.getOrdenesExamenByIdSolicitudV2(dx.getIdSolicitud());
+                                                for (DatosOrdenExamen examen : examenes) {
+                                                    //salto de página
+                                                    if ((y - 15) < 180) {
+                                                        stream.close();
+                                                        page = GeneralUtils.addNewPage(doc);
+                                                        stream = new PDPageContentStream(doc, page);
+                                                        //dibujar encabezado y pie de pagina
+                                                        GeneralUtils.drawHeaderAndFooter(stream, doc, 750, 590, 80, 600, 70);
+                                                        pageNumber = String.valueOf(doc.getNumberOfPages());
+                                                        GeneralUtils.drawTEXT(pageNumber, 15, 550, stream, 10, PDType1Font.HELVETICA_BOLD);
+                                                        drawInfoLab(stream, page, labProcesa);
+                                                        y = 640;
+                                                        //nombre del reporte
+                                                        xCenter = GeneralUtils.centerTextPositionX(page, PDType1Font.HELVETICA_BOLD_OBLIQUE, 12, nombreDireccion);
+                                                        GeneralUtils.drawTEXT(nombreDireccion, y, xCenter, stream, 12, PDType1Font.HELVETICA_BOLD_OBLIQUE);
+                                                        y = y - 15;
+                                                        xCenter = GeneralUtils.centerTextPositionX(page, PDType1Font.HELVETICA_BOLD_OBLIQUE, 11, messageSource.getMessage("lbl.lab.result", null, null).toUpperCase());
+                                                        GeneralUtils.drawTEXT(messageSource.getMessage("lbl.lab.result", null, null).toUpperCase(), y, xCenter, stream, 11, PDType1Font.HELVETICA_BOLD_OBLIQUE);
+                                                        y = y - 15;
+                                                        xCenter = GeneralUtils.centerTextPositionX(page, PDType1Font.HELVETICA_BOLD_OBLIQUE, 11, area.getNombre().toUpperCase());
+                                                        GeneralUtils.drawTEXT(area.getNombre().toUpperCase(), y, xCenter, stream, 11, PDType1Font.HELVETICA_BOLD_OBLIQUE);
+                                                        y = y - 30;
 
-                                                }
-                                                List<DetalleResultado> resultados = resultadosService.getDetallesResultadoActivosByExamen(examen.getIdOrdenExamen());
-                                                if (resultados.size() > 0) {
-                                                    yPosicionExamen = y;
-                                                    //GeneralUtils.drawTEXT(examen.getCodExamen().getNombre(), y, 100, stream, 10, PDType1Font.HELVETICA);
-                                                    y = y - 15;
-                                                }
-
-                                                String fechaProcesamiento = "";
-                                                for (DetalleResultado resultado : resultados) {
-                                                    String detalleResultado = "";
-                                                    if (resultado.getRespuesta().getConcepto().getTipo().equals("TPDATO|LIST")) {
-                                                        Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(resultado.getValor());
-                                                        detalleResultado = cat_lista.getValor();
-                                                    } else if (resultado.getRespuesta().getConcepto().getTipo().equals("TPDATO|LOG")) {
-                                                        detalleResultado = (Boolean.valueOf(resultado.getValor()) ? "lbl.yes" : "lbl.no");
-                                                    } else {
-                                                        detalleResultado = resultado.getValor();
                                                     }
-                                                    procesadoPor = resultado.getUsuarioRegistro().getCompleteName();
-                                                    fechaProcesamiento = DateUtil.DateToString(resultado.getFechahProcesa(), "dd/MM/yyyy");
-                                                    GeneralUtils.drawTEXT(resultado.getRespuesta().getNombre() + ": " + detalleResultado, y, 150, stream, 12, PDType1Font.HELVETICA_BOLD);
-                                                    y = y - 15;
+                                                    List<DetalleResultado> resultados = resultadosService.getDetallesResultadoActivosByExamen(examen.getIdOrdenExamen());
+                                                    if (resultados.size() > 0) {
+                                                        yPosicionExamen = y;
+                                                        //GeneralUtils.drawTEXT(examen.getCodExamen().getNombre(), y, 100, stream, 10, PDType1Font.HELVETICA);
+                                                        y = y - 15;
+                                                    }
+
+                                                    String fechaProcesamiento = "";
+                                                    for (DetalleResultado resultado : resultados) {
+                                                        String detalleResultado = "";
+                                                        if (resultado.getRespuesta().getConcepto().getTipo().equals("TPDATO|LIST")) {
+                                                            Catalogo_Lista cat_lista = resultadoFinalService.getCatalogoLista(resultado.getValor());
+                                                            detalleResultado = cat_lista.getValor();
+                                                        } else if (resultado.getRespuesta().getConcepto().getTipo().equals("TPDATO|LOG")) {
+                                                            detalleResultado = (Boolean.valueOf(resultado.getValor()) ? "lbl.yes" : "lbl.no");
+                                                        } else {
+                                                            detalleResultado = resultado.getValor();
+                                                        }
+                                                        procesadoPor = resultado.getUsuarioRegistro().getCompleteName();
+                                                        fechaProcesamiento = DateUtil.DateToString(resultado.getFechahProcesa(), "dd/MM/yyyy");
+                                                        GeneralUtils.drawTEXT(resultado.getRespuesta().getNombre() + ": " + detalleResultado, y, 150, stream, 12, PDType1Font.HELVETICA_BOLD);
+                                                        y = y - 15;
+                                                    }
+                                                    if (resultados.size() > 0) {
+                                                        GeneralUtils.drawTEXT(examen.getExamen() + " - " + messageSource.getMessage("lbl.processing.date", null, null) + ": " + fechaProcesamiento, yPosicionExamen, 100, stream, 10, PDType1Font.HELVETICA);
+                                                        //y = y - 15;
+                                                    }
                                                 }
-                                                if (resultados.size() > 0) {
-                                                    GeneralUtils.drawTEXT(examen.getExamen() + " - " + messageSource.getMessage("lbl.processing.date", null, null) + ": " + fechaProcesamiento, yPosicionExamen, 100, stream, 10, PDType1Font.HELVETICA);
-                                                    //y = y - 15;
-                                                }
-                                            }
+                                            }//FinCovid19
                                         }
                                     }
                                     //fecha impresi?n
